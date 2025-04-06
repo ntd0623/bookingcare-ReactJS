@@ -1,0 +1,81 @@
+.login-background {
+    background: linear-gradient(to top, #c9c9ff 50%, #9090fa 90%) no-repeat;
+    height: 100vh;
+    .login-container {
+        background-color: #fff;
+        width: 400px;
+        height: 100%;
+        border-radius: 10px;
+        position: absolute;
+        inset: 0;
+        height: 400px;
+        margin: auto;       
+        .login-content {
+        padding: 10px;
+            .text-login {
+                text-align: center;
+                font-weight: 600;
+                font-size: 24px;
+                padding-top: 10px;
+            }
+            .login-input {
+                margin: 20px 0 0 0;
+                .custom-input-password {
+                    position: relative;
+                    i {
+                        position: absolute;
+                        right: 15px;
+                        top: 8px;
+                        font-size: 14px;
+                    }
+                }
+            }
+            .btn-login {
+                width: 100%;
+                margin: 10px 0;
+                height: 30px;
+                border-radius: 15px;
+                outline: none;
+                border: none;
+                font-size: 15px;
+                color: #fff;
+            }
+            .forgot-password {
+                display: block;
+                font-size: 12px;
+                text-decoration: none;
+                font-weight: bold;
+                margin-top:10px;
+                margin-bottom: 0px;
+                text-align: end;
+            }
+            .sign-up {
+                display: block;
+                text-align: center; 
+                a {
+                    text-decoration: none;
+                }
+            }
+            .text-center {
+                display: block;
+                text-align: center;
+                margin: 10px 0;
+            }
+            .social-login {
+                display: flex;
+                justify-content: center;
+                margin-top: 5px;
+                gap: 15px;
+                i {
+                    font-size: 35px;
+                }
+                .google {
+                    color: #f44141;
+                }
+                .facebook {
+                    color: #1877F2;
+                }
+            }
+        }
+    }
+}
