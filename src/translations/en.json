@@ -1,4 +1,30 @@
 {
+    "home-header" : {
+        "specialist": "Specialist",
+        "selecteddoctor": "Find a doctor by specialty",
+        "healthcarefacility":"Healthcare Facility",
+        "selectedhopistal":"Selected Hospital",
+        "doctor":"Doctor",
+        "choosedoctor":" Select a top doctor",
+        "healthcheckuppackage":"Health Check-up Package",
+        "generalhealthcheckup":"General Health Check-up",
+        "support":"Support"
+    },
+    "banner": {
+        "healthcareplatform":"Healthcare platform",
+        "comprehensivehealthcare":"Comprehensive healthcare",
+        "search-clinic": "Clinic Search"
+    },
+    "check-up-package":{
+        "telemedicine":"Telemedicine",
+        "specialist-consultation":"Specialist Consultation",
+        "general-check-up": "General\nCheck-up",
+        "medical-test": "Medical\nTest",
+        "mental-health": "Mental\nHealth",
+        "dental-check-up": "Dental\nCheck-up",
+        "surgery-package": "Surgery\nPackage",
+        "healthcare-product": "Healthcare Product"
+    },
     "common": {
         "add": "Add",
         "edit": "Edit",
@@ -19,6 +45,7 @@
         "sum": "Sum",
         "date-range-invalid": "Date range invalid"
     },
+
     "login": {
         "login": "Login",
         "username": "Username",
