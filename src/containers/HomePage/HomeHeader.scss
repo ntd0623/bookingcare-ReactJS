@@ -1,8 +1,278 @@
 .home-header-container {
-    height: 60px;
-    border: 1px solid red;
-    width: 100%;
-    .home-header-content {
+  height: 70px;
+  width: 100%;
+  padding: 0 20px;
+  background-color: #edfffa;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 
+  .home-header-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+    .left-content {
+      width: 25%;
+      display: flex;
+      align-items: center;
+      justify-content: right;
+      // gap            : 10px;
+      padding: 10px 40px;
+
+      .logo {
+        // background     : url(../../assets/images/bookingcare-2020.svg) center center no-repeat;
+        width: 160px;
+        height: 40px;
+        // background-size: contain;
+      }
+
+      button {
+        margin-left: 15px;
+        border: none;
+        background: none;
+
+        svg {
+          width: 36px;
+          height: 36px;
+        }
+      }
     }
+
+    .center-content {
+      width: 50%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+
+      .content-child {
+        display: inline-block;
+        padding: 5px 10px;
+        font-size: 11px;
+        color: #000;
+
+        b {
+          font-size: 13px;
+          color: #000;
+        }
+      }
+    }
+
+    .right-content {
+      width: 25%;
+
+      .support {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 5px 10px;
+
+        i {
+          color: #45c3d2;
+          font-size: 14px;
+          margin: 0 7px;
+        }
+      }
+      .language-Vie {
+        margin-left: 15px;
+        cursor: pointer;
+        opacity: 0.2;
+        transition: all 0.2s ease-in-out;
+        &.active {
+          //   background-color: #f8d7e9;
+          color: #dc3545;
+          font-weight: 600;
+          opacity: 1;
+        }
+        &:hover {
+          opacity: 1;
+        }
+      }
+      .language-En {
+        margin: 0 10px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        opacity: 0.2;
+        &.active {
+          //   background-color: #dbeafe;
+          color: #0d6efd;
+          font-weight: 600;
+          opacity: 1;
+        }
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.home-header-banner {
+  height: 540px;
+  background: url(../../assets/images/bookingcare-cover-4.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 0px;
+
+  .home-header-banner-content-top {
+    // text-align: center;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    height: 50%;
+    background-image: linear-gradient(
+      rgba(0, 0, 0, 0.25),
+      rgba(255, 255, 255, 0.1)
+    );
+    padding: 45px 0;
+
+    .title {
+      color: #333;
+      text-shadow: 1px 1px 1px #333;
+      margin-bottom: 5px;
+
+      h1 {
+        font-size: 32px;
+        color: #fff;
+      }
+    }
+
+    .search {
+      width: 40%;
+      margin: 10px auto;
+      margin-top: 35px;
+
+      .search-content {
+        text-align: center;
+        align-items: center;
+        position: relative;
+
+        input {
+          background: #f7d800;
+          color: #fff;
+          outline: none;
+          border-radius: 25px;
+          border: 1px solid transparent;
+          line-height: 50px;
+          height: 50px;
+          padding-left: 50px;
+          padding-right: 25px;
+          width: 456px;
+        }
+
+        i {
+          width: 50px;
+          height: 50px;
+          line-height: 50px;
+          position: absolute;
+          top: 0;
+          color: #333;
+          text-align: center;
+          font-weight: bold;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  .home-header-banner-content-down {
+    // padding-top: 15px;
+    // padding-top: 30px;
+    // padding-bottom: 20px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: -50px;
+    .option {
+      display: flex;
+      justify-content: center;
+      align-self: flex-end;
+      font-size: 16px;
+      font-weight: bold;
+      width: 100%;
+      background-image: linear-gradient(
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 1)
+      );
+
+      .option-child {
+        width: 120px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 0 20px;
+        transition: color 0.2s ease-in-out;
+        &:hover {
+          color: #45c3d2;
+        }
+        .icon {
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          margin: 2px auto;
+          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+          background: url(../../assets/images/133537-khamchuyenkhoa.png);
+          background-size: 32px;
+          background-repeat: no-repeat;
+          background-position: center;
+          cursor: pointer;
+
+          & {
+            background-color: #fff;
+          }
+        }
+
+        &:nth-child(1) .icon {
+          background-image: url("../../assets/images/133537-khamchuyenkhoa.png");
+        }
+
+        &:nth-child(2) .icon {
+          background-image: url("../../assets/images/133657-khamtuxa.png");
+        }
+
+        &:nth-child(3) .icon {
+          background-image: url("../../assets/images/133744-khamtongquat.png");
+        }
+
+        &:nth-child(4) .icon {
+          background-image: url("../../assets/images/133744-dichvuxetnghiem.png");
+        }
+
+        &:nth-child(5) .icon {
+          background-image: url("../../assets/images/133744-suckhoetinhthan.png");
+        }
+
+        &:nth-child(6) .icon {
+          background-image: url("../../assets/images/133537-khamchuyenkhoa.png");
+        }
+
+        &:nth-child(7) .icon {
+          background-image: url("../../assets/images/134356-goi-phau-thuat.png");
+        }
+
+        &:nth-child(8) .icon {
+          background-image: url("../../assets/images/133744-khamtainha.png");
+        }
+        .content {
+          display: block;
+          box-shadow: none;
+          text-align: center;
+          width: 130px;
+          white-space: pre-line;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }
