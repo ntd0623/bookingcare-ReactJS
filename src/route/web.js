@@ -1,6 +1,6 @@
 import express from "express";
-import homeController from "../controller/homeController";
-import userController from "../controller/userController";
+const homeController = require("../controller/homeController");
+const userController = require("../controller/userController");
 let router = express.Router();
 let initWebRoutes = (app) => {
   router.get("/", homeController.getHomePage);
@@ -26,6 +26,8 @@ let initWebRoutes = (app) => {
 
   // Delete user
   router.delete("/api/delete-user", userController.handleDeleteUser);
+
+  router.get("/api/allcodes", userController.getAllCodes);
 
   return app.use("/", router);
 };

@@ -1,6 +1,5 @@
-import { raw } from "body-parser";
-import db from "../models/index";
-import bcrypt from "bcryptjs";
+const db = require("../models/index");
+const bcrypt = require("bcryptjs");
 
 const salt = bcrypt.genSaltSync(10);
 let hashUserPassWord = (password) => {
@@ -188,10 +187,34 @@ let updateUser = async (data) => {
   });
 };
 
+let getAllCodeService = (typeInput) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let res = {};
+      let allcode = await db.Allcodes.findAll({
+        where: { type: typeInput },
+      });
+
+      res.errCode = 0;
+      res.data = allcode;
+
+      resolve(res);
+    } catch (e) {
+      console.error("Error in getAllCodeService: ", e);
+      reject({
+        errCode: -1,
+        errMessage: "Error from server",
+      });
+    }
+  });
+};
+
 module.exports = {
   handleUserLogin: handleUserLogin,
   getAllUsers: getAllUsers,
   createNewUser: createNewUser,
   deleteUser: deleteUser,
   updateUser: updateUser,
+  getAllCodeService: getAllCodeService,
+  hashUserPassWord,
 };

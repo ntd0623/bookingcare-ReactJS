@@ -1,4 +1,4 @@
-import userService from "../services/userService";
+const userService = require("../services/userService");
 
 // Handle Login
 let handleLogin = async (req, res) => {
@@ -59,10 +59,15 @@ let handleEditUser = async (req, res) => {
   return res.status(200).json(message);
 };
 
+let getAllCodes = async (req, res) => {
+  let data = await userService.getAllCodeService(req.query.type);
+  return res.status(200).json(data);
+};
 module.exports = {
   handleLogin: handleLogin,
   handleGetAllUsers: handleGetAllUsers,
   handleCreateUser: handleCreateUser,
   handleEditUser: handleEditUser,
   handleDeleteUser: handleDeleteUser,
+  getAllCodes: getAllCodes,
 };
