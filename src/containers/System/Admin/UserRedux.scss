@@ -1,0 +1,75 @@
+.user-redux-container {
+  //   .loading-overlay {
+  //     display: flex;
+  //     justify-content: center;
+  //     align-items: center;
+  //     padding: 1rem;
+  //   }
+
+  //   .spinner {
+  //     width: 50px;
+  //     padding: 8px;
+  //     aspect-ratio: 1;
+  //     border-radius: 50%;
+  //     background: #25b09b;
+  //     --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+  //     -webkit-mask: var(--_m);
+  //     mask: var(--_m);
+  //     -webkit-mask-composite: source-out;
+  //     mask-composite: subtract;
+  //     animation: s3 1s infinite linear;
+  //   }
+  //   @keyframes s3 {
+  //     to {
+  //       transform: rotate(1turn);
+  //     }
+  //   }
+
+  /* HTML: <div class="loader"></div> */
+  /* HTML: <div class="loader"></div> */
+  .load {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 253, 253, 0.01);
+    backdrop-filter: blur(0.5px);
+    mix-blend-mode: multiply;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+
+    .loader {
+      --r1: 154%;
+      --r2: 68.5%;
+      width: 60px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(
+          var(--r1) var(--r2) at top,
+          #0000 79.5%,
+          #269af2 80%
+        ),
+        radial-gradient(var(--r1) var(--r2) at bottom, #269af2 79.5%, #0000 80%),
+        radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%),
+        #ccc;
+      background-size: 50.5% 220%;
+      background-position: -100% 0%, 0% 0%, 100% 0%;
+      background-repeat: no-repeat;
+      animation: l9 2s infinite linear;
+    }
+    @keyframes l9 {
+      33% {
+        background-position: 0% 33%, 100% 33%, 200% 33%;
+      }
+      66% {
+        background-position: -100% 66%, 0% 66%, 100% 66%;
+      }
+      100% {
+        background-position: 0% 100%, 100% 100%, 200% 100%;
+      }
+    }
+  }
+}
