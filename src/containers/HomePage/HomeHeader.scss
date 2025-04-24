@@ -182,9 +182,6 @@
   }
 
   .home-header-banner-content-down {
-    // padding-top: 15px;
-    // padding-top: 30px;
-    // padding-bottom: 20px;
     padding: 0;
     display: flex;
     justify-content: center;
@@ -197,6 +194,7 @@
       align-self: flex-end;
       font-size: 16px;
       font-weight: bold;
+      padding-bottom: 10px;
       width: 100%;
       background-image: linear-gradient(
         rgba(255, 255, 255, 0.1),
