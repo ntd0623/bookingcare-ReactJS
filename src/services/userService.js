@@ -110,8 +110,9 @@ let createNewUser = (data) => {
           lastName: data.lastName,
           address: data.address,
           phoneNumber: data.phoneNumber,
-          gender: data.gender === "1" ? true : false,
+          gender: data.gender,
           roleID: data.roleID,
+          positionID: data.positionID,
         });
         resolve({
           errCode: 0,
@@ -152,7 +153,7 @@ let deleteUser = (userId) => {
 let updateUser = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!data.id) {
+      if (!data.id || !data.gender || !data.positionID || !data.roleID) {
         console.log("Check data: ", data);
         resolve({
           errCode: 2,
@@ -166,6 +167,10 @@ let updateUser = async (data) => {
             firstName: data.firstName,
             lastName: data.lastName,
             address: data.address,
+            phoneNumber: data.phoneNumber,
+            gender: data.gender,
+            roleID: data.roleID,
+            positionID: data.positionID,
           },
           {
             where: { id: data.id },
