@@ -113,6 +113,7 @@ let createNewUser = (data) => {
           gender: data.gender,
           roleID: data.roleID,
           positionID: data.positionID,
+          image: data.avatar,
         });
         resolve({
           errCode: 0,
@@ -171,6 +172,7 @@ let updateUser = async (data) => {
             gender: data.gender,
             roleID: data.roleID,
             positionID: data.positionID,
+            image: data.avatar,
           },
           {
             where: { id: data.id },
