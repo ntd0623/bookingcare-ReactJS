@@ -6,17 +6,16 @@
   }
 
   .add-user {
-    .btn-add-user {
+    button {
       border: none;
       border-radius: 5px;
       padding: 7px 10px;
       background-color: #28a745;
       transition: background-color 0.3s ease, transform 0.2s ease-out;
-
-      &:hover {
-        background-color: #218838;
-        transform: scale(1.03);
-      }
+    }
+    &:hover {
+      background-color: #218838;
+      transform: scale(1.2);
     }
 
     i {
@@ -82,63 +81,6 @@
         }
 
         color: #dc3545;
-      }
-    }
-  }
-}
-
-.modal-user-container {
-  .modal-content {
-    .modal-header {
-      text-align: center;
-
-      button {
-        background: transparent !important;
-        border: none;
-        color: #fff;
-        font-size: 20px;
-        padding: 0;
-        cursor: pointer;
-
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-    }
-  }
-
-  .modal-user-body {
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-
-    .input-container {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 15px;
-      width: calc(50% - 10px);
-
-      label {
-        margin-bottom: 5px;
-        font-weight: 500;
-      }
-
-      input {
-        border-radius: 3px;
-        height: 30px;
-        border: 1px solid #ccc;
-        padding: 0 10px;
-        width: 100%;
-
-        &:focus {
-          outline: none;
-          border-color: #007bff;
-        }
-      }
-      &:last-child {
-        width: 100%;
-        margin-right: 0;
       }
     }
   }

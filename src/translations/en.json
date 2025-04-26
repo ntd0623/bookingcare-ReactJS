@@ -58,7 +58,9 @@
         "upLoad": "Up load a file",
         "drag": "or drag and drop",
         "detail": "PNG, JPG, GIF up to 10MB",
-        "chooseGender": "Choose Gender"
+        "chooseGender": "Choose Gender",
+        "update":"Save Changes"
+
 
 
 

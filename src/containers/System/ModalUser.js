@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { emitter } from "../../utils/emitter";
+
 class ModalUser extends Component {
   constructor(props) {
     super(props);
@@ -27,16 +27,12 @@ class ModalUser extends Component {
       });
     });
   };
-  // Toggle method to handle the closing/opening of the modal
-  toggle = () => {
-    this.props.toggleFromParent();
-  };
 
   handleOnChangeInput = (e, id) => {
-    let coppyState = { ...this.state };
-    coppyState[id] = e.target.value;
+    let copyState = { ...this.state };
+    copyState[id] = e.target.value;
     this.setState({
-      ...coppyState,
+      ...copyState,
     });
   };
 
@@ -46,7 +42,7 @@ class ModalUser extends Component {
     for (let i = 0; i < arrInput.length; i++) {
       if (!this.state[arrInput[i]]) {
         isValidate = false;
-        alert("Missing Paramter: " + arrInput[i]);
+        alert("Missing Parameter: " + arrInput[i]);
         break;
       }
     }
@@ -56,85 +52,103 @@ class ModalUser extends Component {
   handleAddNewUser = () => {
     let isValidate = this.checkValidateInput();
     if (isValidate) {
-      // Call API
       this.props.createNewUser(this.state);
     }
   };
 
   render() {
+    const { isOpen, toggleFromParent } = this.props;
     return (
-      <div>
-        <Modal
-          isOpen={this.props.isOpen}
-          toggle={this.toggle}
-          size="lg"
-          centered
-          className="modal-user-container"
-        >
-          <ModalHeader toggle={this.toggle}>Add New User</ModalHeader>
-          <ModalBody>
-            <div className="modal-user-body">
-              <div className="input-container">
-                <label>Email</label>
-                <input
-                  type="text"
-                  // value={this.state.email}
-                  onChange={(e) => this.handleOnChangeInput(e, "email")}
-                  value={this.state.email}
-                />
+      <>
+        {!isOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-semibold text-gray-800">
+                  Thêm người dùng mới
+                </h2>
+                <button
+                  onClick={toggleFromParent}
+                  className="text-gray-500 hover:text-gray-700 text-xl"
+                >
+                  &times;
+                </button>
               </div>
-              <div className="input-container">
-                <label>Password</label>
-                <input
-                  type="password"
-                  // value={this.state.password}
-                  onChange={(e) => this.handleOnChangeInput(e, "password")}
-                  value={this.state.password}
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    value={this.state.email}
+                    onChange={(e) => this.handleOnChangeInput(e, "email")}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Mật khẩu
+                  </label>
+                  <input
+                    type="password"
+                    value={this.state.password}
+                    onChange={(e) => this.handleOnChangeInput(e, "password")}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Tên
+                  </label>
+                  <input
+                    type="text"
+                    value={this.state.firstName}
+                    onChange={(e) => this.handleOnChangeInput(e, "firstName")}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Họ
+                  </label>
+                  <input
+                    type="text"
+                    value={this.state.lastName}
+                    onChange={(e) => this.handleOnChangeInput(e, "firstName")}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Địa chỉ
+                  </label>
+                  <input
+                    type="text"
+                    value={this.state.address}
+                    onChange={(e) => this.handleOnChangeInput(e, "address")}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
               </div>
-              <div className="input-container">
-                <label>First Name</label>
-                <input
-                  type="text"
-                  // value={this.state.firstName}
-                  onChange={(e) => this.handleOnChangeInput(e, "firstName")}
-                  value={this.state.firstName}
-                />
-              </div>
-              <div className="input-container">
-                <label>Last Name</label>
-                <input
-                  type="text"
-                  // value={this.state.lastName}
-                  onChange={(e) => this.handleOnChangeInput(e, "lastName")}
-                  value={this.state.lastName}
-                />
-              </div>
-              <div className="input-container">
-                <label>Address</label>
-                <input
-                  type="text"
-                  // value={this.state.address}
-                  onChange={(e) => this.handleOnChangeInput(e, "address")}
-                  value={this.state.address}
-                />
+              <div className="flex justify-end gap-4 mt-6">
+                <button
+                  onClick={this.handleAddNewUser}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
+                >
+                  Thêm mới
+                </button>
+                <button
+                  onClick={toggleFromParent}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-200"
+                >
+                  Đóng
+                </button>
               </div>
             </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="primary"
-              className="px-3"
-              onClick={() => this.handleAddNewUser()}
-            >
-              Add New
-            </Button>
-            <Button color="secondary" className="px-3" onClick={this.toggle}>
-              Close
-            </Button>
-          </ModalFooter>
-        </Modal>
-      </div>
+          </div>
+        )}
+      </>
     );
   }
 }

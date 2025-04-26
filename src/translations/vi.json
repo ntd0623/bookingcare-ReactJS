@@ -58,6 +58,7 @@
         "upLoad": "Chọn tệp để tải lên",
         "drag": "hoặc kéo và thả",
         "detail": "Hỗ trợ định dạng PNG, JPG, GIF dung lượng tối đa 10MB",
-        "chooseGender": "Chọn giới tính"
+        "chooseGender": "Chọn giới tính",
+        "update":"Lưu thay đổi"
     }
 }
