@@ -11,7 +11,7 @@ module.exports = {
         firstName: "DoHocIT",
         lastName: "Thanhh Đô",
         address: "Bình Định",
-        gender: true,
+        gender: "F",
         phoneNumber: "0981321319",
         image: "",
         roleID: "R1",

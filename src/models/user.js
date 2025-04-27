@@ -8,7 +8,22 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // Liên kết tới bảng Allcodes
+      User.belongsTo(models.Allcodes, {
+        foreignKey: "positionID",
+        targetKey: "key",
+        as: "positionData",
+      });
+      User.belongsTo(models.Allcodes, {
+        foreignKey: "gender",
+        targetKey: "key",
+        as: "genderData",
+      });
+      User.belongsTo(models.Allcodes, {
+        foreignKey: "roleID",
+        targetKey: "key",
+        as: "roleData",
+      });
     }
   }
   User.init(
@@ -29,5 +44,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
     }
   );
+
   return User;
 };

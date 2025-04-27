@@ -8,7 +8,22 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // Liên kết tới User
+      Allcodes.hasMany(models.User, {
+        foreignKey: "positionID",
+        sourceKey: "key",
+        as: "userPosition",
+      });
+      Allcodes.hasMany(models.User, {
+        foreignKey: "gender",
+        sourceKey: "key",
+        as: "userGender",
+      });
+      Allcodes.hasMany(models.User, {
+        foreignKey: "roleID",
+        sourceKey: "key",
+        as: "userRole",
+      });
     }
   }
   Allcodes.init(
