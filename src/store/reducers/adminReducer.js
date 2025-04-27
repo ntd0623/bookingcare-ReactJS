@@ -9,6 +9,7 @@ const initialState = {
   roles: [],
   positions: [],
   users: [],
+  dataDoctor: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -20,7 +21,6 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
     case actionTypes.FETCH_GENDER_SUCCESS:
-      console.log("Fetch gender success: ", action);
       state.isLoadingGender = false;
       state.genders = action.data;
       return {
@@ -41,7 +41,6 @@ const adminReducer = (state = initialState, action) => {
       };
     case actionTypes.FETCH_POSITION_SUCCESS:
       state.isLoadingPosition = false;
-      console.log("Fetch position success: ", action);
       state.positions = action.data;
       return {
         ...state,
@@ -61,8 +60,6 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
     case actionTypes.FETCH_ROLE_SUCCESS:
-      console.log("Fetch role success: ", action);
-
       state.isLoadingRole = false;
       state.roles = action.data;
       return {
@@ -76,7 +73,6 @@ const adminReducer = (state = initialState, action) => {
       };
 
     case actionTypes.FETCH_ALL_USER_SUCCESS:
-      console.log("Fetch user success: ", action);
       state.users = action.users;
       state.isLoadingUser = false;
       return {
@@ -89,6 +85,16 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
 
+    case actionTypes.GET_TOP_DOCTOR_SUCCESS:
+      return {
+        ...state,
+        dataDoctor: action.data,
+      };
+    case actionTypes.GET_TOP_DOCTOR_FAILED:
+      state.dataDoctor = [];
+      return {
+        ...state,
+      };
     default:
       return state;
   }

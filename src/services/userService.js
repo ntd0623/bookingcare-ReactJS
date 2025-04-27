@@ -27,6 +27,10 @@ const updateUser = (user) => {
 const getAllCodeService = (data) => {
   return axios.get(`/api/allcodes?type=${data}`);
 };
+
+const getTopDoctorHome = (limit) => {
+  return axios.get(`/api/get-top-doctor-home?limit=${limit}`);
+};
 export {
   handleLoginAPI,
   getAllUsers,
@@ -34,4 +38,5 @@ export {
   deleteUser,
   updateUser,
   getAllCodeService,
+  getTopDoctorHome,
 };

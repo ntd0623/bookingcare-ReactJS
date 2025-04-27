@@ -9,6 +9,9 @@ class CommonUtils {
       reader.onerror = (error) => reject(error);
     });
   }
+  static convertBase64(buffer) {
+    return new Buffer(buffer, "base64").toString("binary");
+  }
 }
 
 export default CommonUtils;

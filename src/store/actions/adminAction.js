@@ -5,6 +5,7 @@ import {
   getAllUsers,
   deleteUser,
   updateUser,
+  getTopDoctorHome,
 } from "../../services/userService";
 import { act } from "react";
 import { toast } from "react-hot-toast";
@@ -116,6 +117,8 @@ export const fetchAllUserStart = () => {
   return async (dispatch, getState) => {
     try {
       let response = await getAllUsers("ALL");
+      let doctor = await getTopDoctorHome(5);
+      console.log("check doctor home: ", doctor);
       if (response && response.errCode === 0) {
         dispatch(fetchAllUserSuccess(response.users.reverse()));
       } else {
@@ -192,4 +195,30 @@ export const updateUserSuccess = () => ({
 
 export const updateUserFailed = () => ({
   type: actionTypes.UPDATE_USER_FAILED,
+});
+
+export const getTopDoctor = () => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getTopDoctorHome("10");
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(getTopDoctorSuccess(response.data));
+      } else {
+        dispatch(getTopDoctorFailed());
+      }
+    } catch (e) {
+      dispatch(getTopDoctorFailed());
+      console.log("get top doctor: ", e);
+    }
+  };
+};
+
+export const getTopDoctorSuccess = (data) => ({
+  type: actionTypes.GET_TOP_DOCTOR_SUCCESS,
+  data,
+});
+
+export const getTopDoctorFailed = () => ({
+  type: actionTypes.GET_TOP_DOCTOR_FAILED,
 });

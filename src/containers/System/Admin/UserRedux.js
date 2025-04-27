@@ -77,9 +77,9 @@ class UserRedux extends Component {
         lastName: "",
         phone: "",
         address: "",
-        gender: "",
-        position: "",
-        role: "",
+        gender: "M",
+        position: "P0",
+        role: "R0",
         avatar: "",
         previewImgURL: "",
         error: {},
@@ -93,7 +93,6 @@ class UserRedux extends Component {
     if (files) {
       const objectUrl = URL.createObjectURL(files);
       let base64 = await CommonUtils.getBase64(files);
-      console.log("getBase64: ", base64);
       this.setState({
         previewImgURL: objectUrl,
         avatar: base64,
@@ -108,15 +107,13 @@ class UserRedux extends Component {
   };
 
   handleOnChangeInput = (event, id) => {
-    let coppyState = { ...this.state };
-    coppyState[id] = event.target.value;
-    this.setState({
-      ...coppyState,
+    this.setState((prevState) => ({
+      [id]: event.target.value,
       error: {
-        ...coppyState.error,
+        ...prevState.error,
         [id]: "",
       },
-    });
+    }));
   };
 
   checkValidateInput = () => {
@@ -151,6 +148,24 @@ class UserRedux extends Component {
     let isValid = this.checkValidateInput();
     if (!isValid) return;
     let { action } = this.state;
+    // Kiểm tra nếu các trường bắt buộc (gender, position, role) chưa được chọn
+    if (!this.state.gender || !this.state.position || !this.state.role) {
+      alert("Please select gender, position, and role.");
+      return; // Nếu không chọn, không gửi dữ liệu
+    }
+
+    // Kiểm tra các trường khác như email, password, firstName, lastName...
+    if (
+      !this.state.firstName ||
+      !this.state.lastName ||
+      !this.state.email ||
+      !this.state.password ||
+      !this.state.phone ||
+      !this.state.address
+    ) {
+      alert("Please fill in all the required fields.");
+      return;
+    }
     if (action === CRUD_ACTIONS.ADD) {
       this.props.handleCreateNewUser({
         email: this.state.email,
@@ -193,7 +208,6 @@ class UserRedux extends Component {
     if (user.image) {
       imageBase64 = new Buffer(user.image, "base64").toString("binary");
     }
-    console.log("Check base64: ", imageBase64);
     this.setState({
       email: user.email,
       password: "123456",
@@ -470,8 +484,6 @@ class UserRedux extends Component {
                         </p>
                       )}
                     </div>
-
-                    {/* Country and City */}
 
                     <div className="sm:col-span-3">
                       <label className="block text-lg font-medium text-gray-700">

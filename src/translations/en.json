@@ -16,6 +16,11 @@
         "comprehensivehealthcare":"Comprehensive healthcare",
         "search-clinic": "Clinic Search"
     },
+    "homePage":{
+        "outStandingDoctor": "OutStanding Of The Past Week",
+        "seeMore": "See More"
+
+    },
     "check-up-package":{
         "telemedicine":"Telemedicine",
         "specialist-consultation":"Specialist Consultation",

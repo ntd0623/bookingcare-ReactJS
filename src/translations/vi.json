@@ -16,6 +16,10 @@
         "comprehensivehealthcare":"Chăm sóc sức khỏe toàn diện",
         "search-clinic": "Tìm kiếm phòng khám"
     },
+    "homePage":{
+        "outStandingDoctor": "Bác Sĩ Nổi Bật Tuần Qua",
+        "seeMore": "Xem Thêm"
+    },
     "check-up-package":{
         "telemedicine":"Khám\ntừ xa",
         "specialist-consultation":"Khám\nChuyên khoa",
