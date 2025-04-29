@@ -63,6 +63,7 @@ let getAllCodes = async (req, res) => {
   let data = await userService.getAllCodeService(req.query.type);
   return res.status(200).json(data);
 };
+
 module.exports = {
   handleLogin: handleLogin,
   handleGetAllUsers: handleGetAllUsers,

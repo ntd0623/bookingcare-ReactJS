@@ -18,6 +18,38 @@ let getTopDoctorHome = async (req, res) => {
     });
   }
 };
+
+let getAllDoctor = async (req, res) => {
+  try {
+    let doctors = await doctorService.getAllDoctorService();
+    return res.status(200).json({
+      errCode: 0,
+      data: doctors,
+    });
+  } catch (e) {
+    console.log("Error: ", e);
+    return res.status(200).json({
+      errCode: -1,
+      message: "Error from service",
+    });
+  }
+};
+
+let handleCreateInfoDoctor = async (req, res) => {
+  try {
+    let doctor = await doctorService.createInfoDoctor(req.body);
+    return res.status(200).json(doctor);
+  } catch (e) {
+    console.log("Error: ", e);
+    return res.status(200).json({
+      errCode: -1,
+      message: "Error from service",
+    });
+  }
+};
+
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
+  getAllDoctor: getAllDoctor,
+  handleCreateInfoDoctor: handleCreateInfoDoctor,
 };

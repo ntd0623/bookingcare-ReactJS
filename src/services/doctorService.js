@@ -34,6 +34,69 @@ let getTopDoctorHome = (limit) => {
   });
 };
 
+let getAllDoctorService = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let doctors = await db.User.findAll({
+        where: { roleID: "R2" },
+        attributes: {
+          exclude: ["password", "image"],
+        },
+        include: [
+          {
+            model: db.Allcodes,
+            as: "roleData",
+            attributes: ["value_VI", "value_EN"],
+          },
+          {
+            model: db.Allcodes,
+            as: "positionData",
+            attributes: ["value_VI", "value_EN"],
+          },
+          {
+            model: db.Allcodes,
+            as: "genderData",
+            attributes: ["value_VI", "value_EN"],
+          },
+        ],
+      });
+      resolve(doctors);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+let createInfoDoctor = (dataInput) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!dataInput.contentHTML || !dataInput.contentMarkdown) {
+        resolve({
+          errCode: 1,
+          message: "Missing parameter !",
+        });
+      } else {
+        await db.Markdown.create({
+          contentHTML: dataInput.contentHTML,
+          contentMarkdown: dataInput.contentMarkdown,
+          description: dataInput.description,
+          doctorID: dataInput.doctorID,
+          specialtyID: dataInput.specialtyID,
+          clinicID: dataInput.clinicID,
+        });
+        resolve({
+          errCode: 0,
+          message: "Create info doctor success",
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
+  getAllDoctorService: getAllDoctorService,
+  createInfoDoctor: createInfoDoctor,
 };
