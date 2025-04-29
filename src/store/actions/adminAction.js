@@ -6,6 +6,8 @@ import {
   deleteUser,
   updateUser,
   getTopDoctorHome,
+  getAllDoctor,
+  createDoctorInfo,
 } from "../../services/userService";
 import { act } from "react";
 import { toast } from "react-hot-toast";
@@ -221,4 +223,55 @@ export const getTopDoctorSuccess = (data) => ({
 
 export const getTopDoctorFailed = () => ({
   type: actionTypes.GET_TOP_DOCTOR_FAILED,
+});
+
+export const getAllDoctors = () => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getAllDoctor();
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(getAllDoctosSuccess(response.data));
+      } else {
+        dispatch(getAllDoctorsFailed());
+      }
+    } catch (e) {
+      dispatch(getAllDoctorsFailed());
+      console.log("get all doctor: ", e);
+    }
+  };
+};
+
+export const getAllDoctosSuccess = (data) => ({
+  type: actionTypes.GET_ALL_DOCTORS_SUCCESS,
+  data,
+});
+
+export const getAllDoctorsFailed = () => ({
+  type: actionTypes.GET_TOP_DOCTOR_FAILED,
+});
+
+export const createInfoDoctor = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await createDoctorInfo(data);
+      if (response && response.errCode === 0) {
+        toast.success("Tạo thông tin bác sĩ thành công!");
+        dispatch(createInfoDoctorSuccess());
+      } else {
+        dispatch(createInfoDoctorFailed());
+      }
+    } catch (e) {
+      dispatch(createInfoDoctorFailed());
+      console.log("create doctor info: ", e);
+    }
+  };
+};
+
+export const createInfoDoctorSuccess = () => ({
+  type: actionTypes.CREATE_DOCTOR_INFO_SUCCESS,
+});
+
+export const createInfoDoctorFailed = () => ({
+  type: actionTypes.CREATE_DOCTOR_INFO_FAILED,
 });

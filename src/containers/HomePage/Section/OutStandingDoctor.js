@@ -25,8 +25,7 @@ class OutStandingDoctor extends Component {
   };
   render() {
     let { dataDoctor } = this.state;
-    let language = localStorage.getItem("language");
-    console.log("Check language: ", language);
+    let { language } = this.props;
     return (
       <div className="section-common section-outstanding-doctor">
         <div className="section-container">
@@ -87,6 +86,7 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
     dataDoctor: state.admin.dataDoctor,
+    language: state.app.language,
   };
 };
 

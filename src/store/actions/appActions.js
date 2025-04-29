@@ -9,7 +9,16 @@ export const setContentOfConfirmModal = (contentOfConfirmModal) => ({
   contentOfConfirmModal: contentOfConfirmModal,
 });
 
-export const changeLanguage = (language) => ({
-  type: actionTypes.CHANGE_LANGUAGE,
-  language,
-});
+export const changeLanguage = (language, fromStorageEvent = false) => {
+  if (!fromStorageEvent) {
+    localStorage.setItem("language", language);
+  }
+
+  const event = new Event("languageChange");
+  window.dispatchEvent(event);
+
+  return {
+    type: actionTypes.CHANGE_LANGUAGE,
+    language,
+  };
+};

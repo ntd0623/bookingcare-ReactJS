@@ -32,7 +32,6 @@ const appReducer = (state = initialState, action) => {
         },
       };
     case actionTypes.CHANGE_LANGUAGE:
-      localStorage.setItem("language", action.language);
       return {
         ...state,
         language: action.language,
