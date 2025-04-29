@@ -1,83 +1,79 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Slider from "react-slick";
+import * as action from "../../../store/actions";
+import CommonUtils from "../../../utils/CommonUtils";
+import { data } from "autoprefixer";
+import { FormattedMessage } from "react-intl";
 class OutStandingDoctor extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataDoctor: [],
+    };
+  }
+  componentDidMount() {
+    this.props.getTopDoctor();
+  }
+
+  componentDidUpdate = (preProps, preState) => {
+    if (preProps.dataDoctor !== this.props.dataDoctor) {
+      this.setState({
+        dataDoctor: this.props.dataDoctor,
+      });
+    }
+  };
   render() {
+    let { dataDoctor } = this.state;
+    let { language } = this.props;
     return (
       <div className="section-common section-outstanding-doctor">
         <div className="section-container">
           <div className="section-header">
-            <h2>Bác sĩ nổi bật tuần qua</h2>
-            <button>Xem Thêm</button>
+            <h2>
+              <FormattedMessage id="homePage.outStandingDoctor"></FormattedMessage>
+            </h2>
+            <button>
+              <FormattedMessage id="homePage.seeMore"></FormattedMessage>
+            </button>
           </div>
           <div className="section-body">
             <Slider {...this.props.settings}>
-              <div className="section-content">
-                <div className="customize-border">
-                  <div className="bg">
-                    <div className="img section-outstanding-doctor "></div>
-                  </div>
-                  <div className="position text-center">
-                    <div>Giáo Sư tiến sĩ</div>
-                    <div>Tai Mũi họng</div>
-                  </div>
-                </div>
-              </div>
-              <div className="section-content">
-                <div className="customize-border">
-                  <div className="bg">
-                    <div className="img section-outstanding-doctor "></div>
-                  </div>
-                  <div className="position text-center">
-                    <div>Giáo Sư tiến sĩ</div>
-                    <div>Tai Mũi họng</div>
-                  </div>
-                </div>
-              </div>
-              <div className="section-content">
-                <div className="customize-border">
-                  <div className="bg">
-                    <div className="img section-outstanding-doctor "></div>
-                  </div>
-                  <div className="position text-center">
-                    <div>Giáo Sư tiến sĩ</div>
-                    <div>Tai Mũi họng</div>
-                  </div>
-                </div>
-              </div>
-              <div className="section-content">
-                <div className="customize-border">
-                  <div className="bg">
-                    <div className="img section-outstanding-doctor "></div>
-                  </div>
-                  <div className="position text-center">
-                    <div>Giáo Sư tiến sĩ</div>
-                    <div>Tai Mũi họng</div>
-                  </div>
-                </div>
-              </div>
-              <div className="section-content">
-                <div className="customize-border">
-                  <div className="bg">
-                    <div className="img section-outstanding-doctor "></div>
-                  </div>
-                  <div className="position text-center">
-                    <div>Giáo Sư tiến sĩ</div>
-                    <div>Tai Mũi họng</div>
-                  </div>
-                </div>
-              </div>
-              <div className="section-content">
-                <div className="customize-border">
-                  <div className="bg">
-                    <div className="img section-outstanding-doctor "></div>
-                  </div>
-                  <div className="position text-center">
-                    <div>Giáo Sư tiến sĩ</div>
-                    <div>Tai Mũi họng</div>
-                  </div>
-                </div>
-              </div>
+              {dataDoctor &&
+                dataDoctor.length > 0 &&
+                dataDoctor.map((item, index) => {
+                  return (
+                    <div className="section-content">
+                      <div className="customize-border">
+                        <div className="bg">
+                          <div
+                            style={{
+                              backgroundImage: `url(${CommonUtils.convertBase64(
+                                item.image
+                              )})`,
+                            }}
+                            className="img section-outstanding-doctor "
+                          ></div>
+                        </div>
+                        <div className="position text-center">
+                          <div>
+                            {item.positionData ? (
+                              language === "en" ? (
+                                item.positionData.value_EN
+                              ) : (
+                                item.positionData.value_VI
+                              )
+                            ) : (
+                              <span>Không có thông tin vị trí</span>
+                            )}
+                            , {item.firstName} {item.lastName}
+                          </div>
+                          <div>Tai Mũi họng</div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
             </Slider>
           </div>
         </div>
@@ -89,11 +85,15 @@ class OutStandingDoctor extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    dataDoctor: state.admin.dataDoctor,
+    language: state.app.language,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    getTopDoctor: () => dispatch(action.getTopDoctor()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor);

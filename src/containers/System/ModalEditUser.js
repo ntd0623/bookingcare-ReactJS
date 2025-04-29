@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import _ from "lodash";
 class ModalEditUser extends Component {
   constructor(props) {
@@ -71,79 +70,75 @@ class ModalEditUser extends Component {
 
   render() {
     return (
-      <div>
-        <Modal
-          isOpen={this.props.isOpen}
-          toggle={this.toggle}
-          size="lg"
-          centered
-          className="modal-user-container"
-        >
-          <ModalHeader toggle={this.toggle}>Edit User</ModalHeader>
-          <ModalBody>
-            <div className="modal-user-body">
-              <div className="input-container">
-                <label>Email</label>
-                <input
-                  type="text"
-                  // value={this.state.email}
-                  onChange={(e) => this.handleOnChangeInput(e, "email")}
-                  value={this.state.email}
-                  disabled
-                />
-              </div>
-              <div className="input-container">
-                <label>Password</label>
-                <input
-                  type="password"
-                  // value={this.state.password}
-                  onChange={(e) => this.handleOnChangeInput(e, "password")}
-                  value={this.state.password}
-                  disabled
-                />
-              </div>
-              <div className="input-container">
-                <label>First Name</label>
-                <input
-                  type="text"
-                  // value={this.state.firstName}
-                  onChange={(e) => this.handleOnChangeInput(e, "firstName")}
-                  value={this.state.firstName}
-                />
-              </div>
-              <div className="input-container">
-                <label>Last Name</label>
-                <input
-                  type="text"
-                  // value={this.state.lastName}
-                  onChange={(e) => this.handleOnChangeInput(e, "lastName")}
-                  value={this.state.lastName}
-                />
-              </div>
-              <div className="input-container">
-                <label>Address</label>
-                <input
-                  type="text"
-                  // value={this.state.address}
-                  onChange={(e) => this.handleOnChangeInput(e, "address")}
-                  value={this.state.address}
-                />
-              </div>
+      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+        <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl p-6 animate-slide-down">
+          <h2 className="text-xl font-semibold text-center mb-6">
+            Add New User
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-col">
+              <label className="mb-1 font-medium">Email</label>
+              <input
+                type="text"
+                value={this.state.email}
+                onChange={(e) => this.handleOnChangeInput(e, "email")}
+                className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
             </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="primary"
-              className="px-3"
-              onClick={() => this.handleSaveUser()}
+            <div className="flex flex-col">
+              <label className="mb-1 font-medium">Password</label>
+              <input
+                type="password"
+                value={this.state.password}
+                onChange={(e) => this.handleOnChangeInput(e, "password")}
+                className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="mb-1 font-medium">First Name</label>
+              <input
+                type="text"
+                value={this.state.firstName}
+                onChange={(e) => this.handleOnChangeInput(e, "firstName")}
+                className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="mb-1 font-medium">Last Name</label>
+              <input
+                type="text"
+                value={this.state.lastName}
+                onChange={(e) => this.handleOnChangeInput(e, "lastName")}
+                className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+            <div className="md:col-span-2 flex flex-col">
+              <label className="mb-1 font-medium">Address</label>
+              <input
+                type="text"
+                value={this.state.address}
+                onChange={(e) => this.handleOnChangeInput(e, "address")}
+                className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-4 mt-6">
+            <button
+              onClick={this.handleAddNewUser}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
-              Save Changes
-            </Button>
-            <Button color="secondary" className="px-3" onClick={this.toggle}>
+              Add New
+            </button>
+            <button
+              onClick={this.toggle}
+              className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+            >
               Close
-            </Button>
-          </ModalFooter>
-        </Modal>
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

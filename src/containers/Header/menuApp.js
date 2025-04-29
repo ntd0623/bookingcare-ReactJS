@@ -9,7 +9,7 @@ export const adminMenu = [
       },
       {
         name: "menu.admin.doctor-manage",
-        link: "/system/user-manage",
+        link: "/system/doctor-manage",
 
         // // subMenus: [
         // //   {

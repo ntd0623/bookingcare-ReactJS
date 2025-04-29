@@ -16,6 +16,10 @@
         "comprehensivehealthcare":"Chăm sóc sức khỏe toàn diện",
         "search-clinic": "Tìm kiếm phòng khám"
     },
+    "homePage":{
+        "outStandingDoctor": "Bác Sĩ Nổi Bật Tuần Qua",
+        "seeMore": "Xem Thêm"
+    },
     "check-up-package":{
         "telemedicine":"Khám\ntừ xa",
         "specialist-consultation":"Khám\nChuyên khoa",
@@ -58,6 +62,7 @@
         "upLoad": "Chọn tệp để tải lên",
         "drag": "hoặc kéo và thả",
         "detail": "Hỗ trợ định dạng PNG, JPG, GIF dung lượng tối đa 10MB",
-        "chooseGender": "Chọn giới tính"
+        "chooseGender": "Chọn giới tính",
+        "update":"Lưu thay đổi"
     }
 }

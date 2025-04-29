@@ -11,7 +11,15 @@ import IntlProviderWrapper from "./hoc/IntlProviderWrapper";
 
 import { Provider } from "react-redux";
 import reduxStore, { persistor } from "./redux";
+import * as actions from "./store/actions";
 
+window.addEventListener("storage", (event) => {
+  if (event.key === "language") {
+    const newLanguage = event.newValue;
+    // Dispatch action để cập nhật ngôn ngữ trên tất cả các tab
+    reduxStore.dispatch(actions.changeLanguage(newLanguage, true));
+  }
+});
 const renderApp = () => {
   ReactDOM.render(
     <Provider store={reduxStore}>

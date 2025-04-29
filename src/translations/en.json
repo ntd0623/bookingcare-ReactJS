@@ -16,6 +16,11 @@
         "comprehensivehealthcare":"Comprehensive healthcare",
         "search-clinic": "Clinic Search"
     },
+    "homePage":{
+        "outStandingDoctor": "OutStanding Of The Past Week",
+        "seeMore": "See More"
+
+    },
     "check-up-package":{
         "telemedicine":"Telemedicine",
         "specialist-consultation":"Specialist Consultation",
@@ -58,7 +63,9 @@
         "upLoad": "Up load a file",
         "drag": "or drag and drop",
         "detail": "PNG, JPG, GIF up to 10MB",
-        "chooseGender": "Choose Gender"
+        "chooseGender": "Choose Gender",
+        "update":"Save Changes"
+
 
 
 
