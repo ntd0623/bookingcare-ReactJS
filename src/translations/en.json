@@ -71,5 +71,12 @@
 
 
 
+    },
+    "manage-doctor": {
+        "choose-doctor": "Choose doctor",
+        "doctor-infor": "Doctor Profile",
+        "doctor-intro": "Personal Introduction",
+        "save": "Save",
+        "update": "Save Changes"
     }
 }

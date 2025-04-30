@@ -11,6 +11,8 @@ const initialState = {
   users: [],
   dataDoctor: [],
   doctors: [],
+  doctor: null,
+  content: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -107,6 +109,29 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         doctors: [],
+      };
+
+    case actionTypes.GET_DETAIL_INFO_DOCTOR_SUCCESS:
+      return {
+        ...state,
+        doctor: action.data,
+      };
+    case actionTypes.GET_DETAIL_INFO_DOCTOR_FAILED:
+      return {
+        ...state,
+        doctor: null,
+      };
+
+    case actionTypes.GET_CONTENT_MARKDOWN_SUCCESS:
+      return {
+        ...state,
+        content: action.data,
+      };
+
+    case actionTypes.GET_CONTENT_MARKDOWN_FAILED:
+      return {
+        ...state,
+        content: [],
       };
     default:
       return state;

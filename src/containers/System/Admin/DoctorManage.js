@@ -3,10 +3,12 @@ import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { LANGUAGES } from "../../../utils/constant";
 import * as actions from "../../../store/actions";
+import { CRUD_ACTIONS, CommonUtils } from "../../../utils";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import "./DoctorManage.scss";
+import _ from "lodash";
 import Select from "react-select";
 const mdParser = new MarkdownIt();
 
@@ -14,11 +16,13 @@ class DoctorManage extends Component {
   constructor(prop) {
     super(prop);
     this.state = {
+      contentId: "",
       contentMarkdown: "",
       contentHTML: "",
       selectedDoctor: "",
       description: "",
       doctors: [],
+      action: "",
     };
   }
 
@@ -31,16 +35,61 @@ class DoctorManage extends Component {
 
   handleSaveContentMarkdown = () => {
     console.log("Check state: ", this.state);
-    this.props.createInfoDoctor({
-      contentHTML: this.state.contentHTML,
-      contentMarkdown: this.state.contentMarkdown,
-      description: this.state.description,
-      doctorID: this.state.selectedDoctor.value,
-    });
+    if (this.state.action === CRUD_ACTIONS.ADD) {
+      this.props.createInfoDoctor({
+        contentHTML: this.state.contentHTML,
+        contentMarkdown: this.state.contentMarkdown,
+        description: this.state.description,
+        doctorID: this.state.selectedDoctor.value,
+      });
+      this.setState({
+        contentId: "",
+        contentMarkdown: "",
+        contentHTML: "",
+        selectedDoctor: "",
+        description: "",
+        action: "ADD",
+      });
+    } else {
+      this.props.handleUpdateContentMarkdown({
+        id: this.state.contentId,
+        contentHTML: this.state.contentHTML,
+        contentMarkdown: this.state.contentMarkdown,
+        description: this.state.description,
+        doctorID: this.state.doctorID,
+      });
+      this.setState({
+        contentId: "",
+        contentMarkdown: "",
+        contentHTML: "",
+        selectedDoctor: "",
+        description: "",
+        action: "ADD",
+      });
+    }
   };
 
-  handleChange = (selectedDoctor) => {
+  handleChangeSelected = async (selectedDoctor) => {
     this.setState({ selectedDoctor });
+    console.log("Check selected doctor: ", selectedDoctor);
+    let content = await this.props.getContentMarkdown(selectedDoctor.value);
+    console.log("Check content: ", content);
+    if (content && content.data) {
+      this.setState({
+        action: CRUD_ACTIONS.UPDATE,
+        contentMarkdown: content.data.contentMarkdown,
+        contentHTML: content.data.contentHTML,
+        description: content.data.description,
+        contentId: content.data.id,
+      });
+    } else {
+      this.setState({
+        action: CRUD_ACTIONS.ADD,
+        contentMarkdown: "",
+        contentHTML: "",
+        description: "",
+      });
+    }
   };
 
   handleOnChangeDescription = (e) => {
@@ -50,6 +99,14 @@ class DoctorManage extends Component {
   };
   componentDidMount = async () => {
     this.props.getAllDoctors();
+    this.setState({
+      action: CRUD_ACTIONS.ADD,
+      selectedDoctor: "",
+      contentMarkdown: "",
+      contentHTML: "",
+      description: "",
+      contentId: "",
+    });
   };
 
   buidListDoctors = (listDoctors) => {
@@ -82,17 +139,19 @@ class DoctorManage extends Component {
 
   render() {
     const { selectedDoctor } = this.state;
-    console.log("check selectedDoctors: ", selectedDoctor);
+    console.log("Check state: ", this.state);
     return (
       <div className="doctor-manage-container">
-        <div className="doctor-manage-title">Hello Thanh Đô</div>
+        <div className="doctor-manage-title">
+          <FormattedMessage id="manage-doctor.doctor-infor"></FormattedMessage>
+        </div>
         <div className="more-info grid grid-cols-2 gap-4">
           <div className="content-left mb-4 p-4">
             <label
               for="message"
               class="block text-xl font-medium text-gray-700 mb-4"
             >
-              Chọn bác sĩ
+              <FormattedMessage id="manage-doctor.choose-doctor"></FormattedMessage>
             </label>
             <Select
               classNames={{
@@ -110,7 +169,7 @@ class DoctorManage extends Component {
                   }`,
               }}
               value={selectedDoctor}
-              onChange={this.handleChange}
+              onChange={this.handleChangeSelected}
               options={this.state.doctors}
             />
           </div>
@@ -119,7 +178,7 @@ class DoctorManage extends Component {
               for="message"
               class="block text-xl font-medium text-gray-700 mb-4"
             >
-              Thông tin giới thiệu
+              <FormattedMessage id="manage-doctor.doctor-intro"></FormattedMessage>
             </label>
             <textarea
               value={this.state.description}
@@ -134,14 +193,23 @@ class DoctorManage extends Component {
             style={{ height: "500px" }}
             renderHTML={(text) => mdParser.render(text)}
             onChange={this.handleEditorChange}
+            value={this.state.contentMarkdown}
           />
         </div>
         <div className="button">
           <button
             onClick={() => this.handleSaveContentMarkdown()}
-            className="save-info"
+            className={
+              this.state.action === CRUD_ACTIONS.ADD
+                ? "save-info bg-blue-500 hover:bg-blue-600"
+                : "save-info bg-yellow-500 hover:bg-yellow-600"
+            }
           >
-            Lưu thông tin
+            {this.state.action === CRUD_ACTIONS.ADD ? (
+              <FormattedMessage id="manage-doctor.save"></FormattedMessage>
+            ) : (
+              <FormattedMessage id="manage-doctor.update"></FormattedMessage>
+            )}
           </button>
         </div>
       </div>
@@ -161,6 +229,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllDoctors: () => dispatch(actions.getAllDoctors()),
     createInfoDoctor: (data) => dispatch(actions.createInfoDoctor(data)),
+    getContentMarkdown: (id) => dispatch(actions.getContentMarkdown(id)),
+    handleUpdateContentMarkdown: (data) =>
+      dispatch(actions.handleUpdateContentMarkdown(data)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorManage);

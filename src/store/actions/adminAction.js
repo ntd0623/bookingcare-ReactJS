@@ -8,6 +8,9 @@ import {
   getTopDoctorHome,
   getAllDoctor,
   createDoctorInfo,
+  getDetailInfoDoctor,
+  getContentMarkdownByDoctorId,
+  updateContentMarkdown,
 } from "../../services/userService";
 import { act } from "react";
 import { toast } from "react-hot-toast";
@@ -274,4 +277,80 @@ export const createInfoDoctorSuccess = () => ({
 
 export const createInfoDoctorFailed = () => ({
   type: actionTypes.CREATE_DOCTOR_INFO_FAILED,
+});
+
+export const getDetailInfoDoctorById = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getDetailInfoDoctor(id);
+      if (response && response.errCode === 0) {
+        dispatch(getDetailInfoDoctorSuccess(response.data));
+      } else {
+        dispatch(getDetailInfoDoctorFailed());
+      }
+    } catch (e) {
+      dispatch(getDetailInfoDoctorFailed());
+      console.log("get doctor info: ", e);
+    }
+  };
+};
+export const getDetailInfoDoctorSuccess = (doctor) => ({
+  type: actionTypes.GET_DETAIL_INFO_DOCTOR_SUCCESS,
+  data: doctor,
+});
+
+export const getDetailInfoDoctorFailed = () => ({
+  type: actionTypes.GET_DETAIL_INFO_DOCTOR_FAILED,
+});
+
+export const getContentMarkdown = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getContentMarkdownByDoctorId(id);
+      if (response && response.errCode === 0) {
+        dispatch(getContentMarkdownSuccess(response.data));
+        return response;
+      } else {
+        dispatch(getContentMarkdownFailed());
+      }
+    } catch (e) {
+      dispatch(getContentMarkdownFailed());
+      console.log("get doctor info: ", e);
+    }
+  };
+};
+
+export const getContentMarkdownSuccess = (data) => ({
+  type: actionTypes.GET_CONTENT_MARKDOWN_SUCCESS,
+  data: data,
+});
+
+export const getContentMarkdownFailed = () => ({
+  type: actionTypes.GET_CONTENT_MARKDOWN_FAILED,
+});
+
+export const handleUpdateContentMarkdown = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await updateContentMarkdown(data);
+      if (response && response.errCode === 0) {
+        toast.success("Cập nhập thông tin bác sĩ thành công ");
+        dispatch(updateContentMarkdownSuccess());
+        return response;
+      } else {
+        dispatch(updateContentMarkdownFailed());
+      }
+    } catch (e) {
+      dispatch(updateContentMarkdownFailed());
+      console.log("get doctor info: ", e);
+    }
+  };
+};
+
+export const updateContentMarkdownSuccess = () => ({
+  type: actionTypes.UPDATE_CONTENT_MARKDOWN_SUCCESS,
+});
+
+export const updateContentMarkdownFailed = () => ({
+  type: actionTypes.UPDATE_CONTENT_MARKDOWN_FAILED,
 });

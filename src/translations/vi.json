@@ -64,5 +64,12 @@
         "detail": "Hỗ trợ định dạng PNG, JPG, GIF dung lượng tối đa 10MB",
         "chooseGender": "Chọn giới tính",
         "update":"Lưu thay đổi"
+    },
+    "manage-doctor": {
+        "choose-doctor": "Chọn bác sĩ",
+        "doctor-infor": "Thông tin bác sĩ",
+        "doctor-intro": "Thông tin giới thiệu",
+        "save": "Lưu thông tin",
+        "update": "Cập nhập"
     }
 }
