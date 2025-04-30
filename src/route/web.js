@@ -39,7 +39,14 @@ let initWebRoutes = (app) => {
     doctorController.handleCreateInfoDoctor
   );
 
-  router.get("/api/get-detail-doctor", doctorController.getDetailDoctor)
+  router.get("/api/get-detail-doctor", doctorController.getDetailDoctor);
+
+  router.get(
+    "/api/get-content-markdown",
+    doctorController.getContentMarkdownByDoctorID
+  );
+
+  router.put("/api/update-content-markdown",doctorController.updateContentMarkdown)
 
   return app.use("/", router);
 };

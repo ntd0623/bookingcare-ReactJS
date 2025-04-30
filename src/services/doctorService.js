@@ -108,7 +108,7 @@ let getInfoDoctor = (id) => {
         let info = await db.User.findOne({
           where: { id: id },
           attributes: {
-            exclude: ["password", "image"],
+            exclude: ["password"],
           },
           include: [
             {
@@ -132,6 +132,9 @@ let getInfoDoctor = (id) => {
             },
           ],
         });
+        if (info && info.image) {
+          info.image = new Buffer(info.image, "base64").toString("binary");
+        }
         resolve({
           errCode: 0,
           data: info,
@@ -145,9 +148,70 @@ let getInfoDoctor = (id) => {
     }
   });
 };
+
+let getContentMarkdown = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!doctorId) {
+        reject({
+          errCode: 2,
+          message: "doctor is not exists !",
+        });
+      } else {
+        let content = await db.Markdown.findOne({
+          where: { doctorID: doctorId },
+        });
+        resolve({
+          errCode: 0,
+          data: content,
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+let handleUpdateContentMarkdown = (dataInput) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!dataInput.id) {
+        reject({
+          errCode: -2,
+          message: "id is not exists !",
+        });
+      } else {
+        let content = db.Markdown.findOne({
+          where: { id: dataInput.id },
+        });
+        if (content) {
+          await db.Markdown.update(
+            {
+              contentHTML: dataInput.contentHTML,
+              contentMarkdown: dataInput.contentMarkdown,
+              description: dataInput.description,
+              doctorID: dataInput.doctorID,
+            },
+            {
+              where: { id: dataInput.id },
+            }
+          );
+        }
+        resolve({
+          errCode: 0,
+          message: "update content markdown is success",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctorService: getAllDoctorService,
   createInfoDoctor: createInfoDoctor,
   getInfoDoctor: getInfoDoctor,
+  getContentMarkdown: getContentMarkdown,
+  handleUpdateContentMarkdown: handleUpdateContentMarkdown,
 };

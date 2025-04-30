@@ -56,7 +56,33 @@ let getDetailDoctor = async (req, res) => {
     console.log("Error: ", e);
     return res.status(200).json({
       errCode: -1,
-      message: "Error from serve !",
+      message: "Error from server !",
+    });
+  }
+};
+
+let getContentMarkdownByDoctorID = async (req, res) => {
+  try {
+    let content = await doctorService.getContentMarkdown(req.query.id);
+    return res.status(200).json(content);
+  } catch (e) {
+    console.log("Error: ", e);
+    return res.status(200).json({
+      errCode: -1,
+      message: "Error from server !",
+    });
+  }
+};
+
+let updateContentMarkdown = async (req, res) => {
+  try {
+    let content = await doctorService.handleUpdateContentMarkdown(req.body);
+    return res.status(200).json(content);
+  } catch (e) {
+    console.log("Error: ", e);
+    return res.status(200).json({
+      errCode: -1,
+      message: "Error from server !",
     });
   }
 };
@@ -66,4 +92,6 @@ module.exports = {
   getAllDoctor: getAllDoctor,
   handleCreateInfoDoctor: handleCreateInfoDoctor,
   getDetailDoctor: getDetailDoctor,
+  getContentMarkdownByDoctorID: getContentMarkdownByDoctorID,
+  updateContentMarkdown: updateContentMarkdown,
 };
