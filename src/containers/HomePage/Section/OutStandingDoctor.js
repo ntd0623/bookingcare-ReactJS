@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import Slider from "react-slick";
 import * as action from "../../../store/actions";
 import CommonUtils from "../../../utils/CommonUtils";
-import { data } from "autoprefixer";
 import { FormattedMessage } from "react-intl";
+import { withRouter } from "react-router-dom";
 class OutStandingDoctor extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +23,12 @@ class OutStandingDoctor extends Component {
       });
     }
   };
+
+  handleDetailDoctor = (doctor) => {
+    console.log("Doctor: ", doctor);
+    this.props.history.push(`/detail-doctor/${doctor.id}`);
+  };
+
   render() {
     let { dataDoctor } = this.state;
     let { language } = this.props;
@@ -43,7 +49,10 @@ class OutStandingDoctor extends Component {
                 dataDoctor.length > 0 &&
                 dataDoctor.map((item, index) => {
                   return (
-                    <div className="section-content">
+                    <div
+                      className="section-content"
+                      onClick={() => this.handleDetailDoctor(item)}
+                    >
                       <div className="customize-border">
                         <div className="bg">
                           <div
@@ -96,4 +105,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor)
+);

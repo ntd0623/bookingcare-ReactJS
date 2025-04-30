@@ -12,9 +12,14 @@ import logo from "../../assets/images/bookingcare-2020.svg";
 import InputSearch from "../../hoc/InputSearch";
 import { LANGUAGES } from "../../utils/constant";
 import { changeLanguage } from "../../store/actions";
+import { withRouter } from "react-router-dom";
+
 class HomeHeader extends Component {
   changeLanguage = (language) => {
     this.props.changeLanguage(language);
+  };
+  returnToHome = () => {
+    this.props.history.push("/home");
   };
   render() {
     let language = this.props.language;
@@ -35,7 +40,7 @@ class HomeHeader extends Component {
                 </svg>
               </button>
               <div className="logo">
-                <img src={logo} />
+                <img src={logo} onClick={() => this.returnToHome()} />
               </div>
             </div>
             <div className="center-content">
@@ -112,78 +117,80 @@ class HomeHeader extends Component {
             </div>
           </div>
         </div>
-        <div className="home-header-banner">
-          <div className="home-header-banner-content-top">
-            <div className="title">
-              <h1>
-                <FormattedMessage id="banner.healthcareplatform" />
-                <br />
-                <FormattedMessage id="banner.comprehensivehealthcare" />
-              </h1>
-            </div>
-            <div className="search">
-              <div className="search-content">
-                <i>
-                  <FontAwesomeIcon icon={faMagnifyingGlass}></FontAwesomeIcon>
-                </i>
+        {this.props.isShowBanner && (
+          <div className="home-header-banner">
+            <div className="home-header-banner-content-top">
+              <div className="title">
+                <h1>
+                  <FormattedMessage id="banner.healthcareplatform" />
+                  <br />
+                  <FormattedMessage id="banner.comprehensivehealthcare" />
+                </h1>
+              </div>
+              <div className="search">
+                <div className="search-content">
+                  <i>
+                    <FontAwesomeIcon icon={faMagnifyingGlass}></FontAwesomeIcon>
+                  </i>
 
-                <InputSearch />
+                  <InputSearch />
+                </div>
+              </div>
+            </div>
+            <div className="home-header-banner-content-down">
+              <div className="option">
+                <div className="option-child">
+                  <div className="icon"></div>
+                  <span className="content">
+                    <FormattedMessage id="check-up-package.specialist-consultation" />
+                  </span>
+                </div>
+                <div className="option-child">
+                  <div className="icon"></div>
+                  <span className="content">
+                    <FormattedMessage id="check-up-package.telemedicine" />
+                  </span>
+                </div>
+                <div className="option-child">
+                  <div className="icon"></div>
+                  <span className="content">
+                    <FormattedMessage id="check-up-package.general-check-up" />
+                  </span>
+                </div>
+                <div className="option-child">
+                  <div className="icon"></div>
+                  <span className="content">
+                    <FormattedMessage id="check-up-package.medical-test" />
+                  </span>
+                </div>
+                <div className="option-child">
+                  <div className="icon"></div>
+                  <span className="content">
+                    <FormattedMessage id="check-up-package.mental-health" />
+                  </span>
+                </div>
+                <div className="option-child">
+                  <div className="icon"></div>
+                  <span className="content">
+                    <FormattedMessage id="check-up-package.dental-check-up" />
+                  </span>
+                </div>
+                <div className="option-child">
+                  <div className="icon"></div>
+                  <span className="content">
+                    <FormattedMessage id="check-up-package.surgery-package" />
+                  </span>
+                </div>
+                <div className="option-child">
+                  <div className="icon"></div>
+                  <span className="content">
+                    <FormattedMessage id="check-up-package.healthcare-product" />
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-          <div className="home-header-banner-content-down">
-            <div className="option">
-              <div className="option-child">
-                <div className="icon"></div>
-                <span className="content">
-                  <FormattedMessage id="check-up-package.specialist-consultation" />
-                </span>
-              </div>
-              <div className="option-child">
-                <div className="icon"></div>
-                <span className="content">
-                  <FormattedMessage id="check-up-package.telemedicine" />
-                </span>
-              </div>
-              <div className="option-child">
-                <div className="icon"></div>
-                <span className="content">
-                  <FormattedMessage id="check-up-package.general-check-up" />
-                </span>
-              </div>
-              <div className="option-child">
-                <div className="icon"></div>
-                <span className="content">
-                  <FormattedMessage id="check-up-package.medical-test" />
-                </span>
-              </div>
-              <div className="option-child">
-                <div className="icon"></div>
-                <span className="content">
-                  <FormattedMessage id="check-up-package.mental-health" />
-                </span>
-              </div>
-              <div className="option-child">
-                <div className="icon"></div>
-                <span className="content">
-                  <FormattedMessage id="check-up-package.dental-check-up" />
-                </span>
-              </div>
-              <div className="option-child">
-                <div className="icon"></div>
-                <span className="content">
-                  <FormattedMessage id="check-up-package.surgery-package" />
-                </span>
-              </div>
-              <div className="option-child">
-                <div className="icon"></div>
-                <span className="content">
-                  <FormattedMessage id="check-up-package.healthcare-product" />
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        )}
       </React.Fragment>
     );
   }
@@ -203,4 +210,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(HomeHeader)
+);

@@ -39,6 +39,17 @@ const getAllDoctor = () => {
 const createDoctorInfo = (data) => {
   return axios.post(`/api/create-info-doctor`, data);
 };
+
+const getDetailInfoDoctor = (data) => {
+  return axios.get(`/api/get-detail-doctor?id=${data}`);
+};
+const getContentMarkdownByDoctorId = (doctorId) => {
+  return axios.get(`/api/get-content-markdown?id=${doctorId}`);
+};
+
+const updateContentMarkdown = (data) => {
+  return axios.put("/api/update-content-markdown", data);
+};
 export {
   handleLoginAPI,
   getAllUsers,
@@ -49,4 +60,7 @@ export {
   getTopDoctorHome,
   getAllDoctor,
   createDoctorInfo,
+  getDetailInfoDoctor,
+  getContentMarkdownByDoctorId,
+  updateContentMarkdown,
 };
