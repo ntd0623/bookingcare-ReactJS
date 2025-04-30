@@ -39,6 +39,8 @@ let initWebRoutes = (app) => {
     doctorController.handleCreateInfoDoctor
   );
 
+  router.get("/api/get-detail-doctor", doctorController.getDetailDoctor)
+
   return app.use("/", router);
 };
 module.exports = initWebRoutes;

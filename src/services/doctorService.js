@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const db = require("../models/index");
 let getTopDoctorHome = (limit) => {
   return new Promise(async (resolve, reject) => {
@@ -95,8 +96,58 @@ let createInfoDoctor = (dataInput) => {
   });
 };
 
+let getInfoDoctor = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!id) {
+        reject({
+          errCode: 2,
+          message: "ID doctor is not exists !",
+        });
+      } else {
+        let info = await db.User.findOne({
+          where: { id: id },
+          attributes: {
+            exclude: ["password", "image"],
+          },
+          include: [
+            {
+              model: db.Markdown,
+              attributes: ["contentHTML", "contentMarkdown", "description"],
+            },
+            {
+              model: db.Allcodes,
+              as: "roleData",
+              attributes: ["value_VI", "value_EN"],
+            },
+            {
+              model: db.Allcodes,
+              as: "positionData",
+              attributes: ["value_VI", "value_EN"],
+            },
+            {
+              model: db.Allcodes,
+              as: "genderData",
+              attributes: ["value_VI", "value_EN"],
+            },
+          ],
+        });
+        resolve({
+          errCode: 0,
+          data: info,
+        });
+      }
+    } catch (e) {
+      reject({
+        errCode: 1,
+        message: "get detail doctor failed !",
+      });
+    }
+  });
+};
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctorService: getAllDoctorService,
   createInfoDoctor: createInfoDoctor,
+  getInfoDoctor: getInfoDoctor,
 };

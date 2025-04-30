@@ -48,8 +48,22 @@ let handleCreateInfoDoctor = async (req, res) => {
   }
 };
 
+let getDetailDoctor = async (req, res) => {
+  try {
+    let infoDoctor = await doctorService.getInfoDoctor(req.query.id);
+    return res.status(200).json(infoDoctor);
+  } catch (e) {
+    console.log("Error: ", e);
+    return res.status(200).json({
+      errCode: -1,
+      message: "Error from serve !",
+    });
+  }
+};
+
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctor: getAllDoctor,
   handleCreateInfoDoctor: handleCreateInfoDoctor,
+  getDetailDoctor: getDetailDoctor,
 };
