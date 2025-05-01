@@ -42,6 +42,9 @@
             "specialty-manage": "Quản lý chuyên khoa",
             "handbook": "Cẩm nang",
             "handbook-manage": "Quản lý cẩm nang"
+        },
+        "doctor": {
+            "manage-schedule": "Quản lý lịch khám bệnh"
         }
     },
     "manage-user": {
@@ -71,5 +74,11 @@
         "doctor-intro": "Thông tin giới thiệu",
         "save": "Lưu thông tin",
         "update": "Cập nhập"
+    },
+    "manage-schedule": {
+        "title": "Quản Lý Lịch Khám Bệnh",
+        "choose-doctor": "Chọn bác sĩ",
+        "choose-date": "Chọn ngày khám",
+        "choose-time": "Chọn khung giờ khám"
     }
 }

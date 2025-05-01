@@ -354,3 +354,29 @@ export const updateContentMarkdownSuccess = () => ({
 export const updateContentMarkdownFailed = () => ({
   type: actionTypes.UPDATE_CONTENT_MARKDOWN_FAILED,
 });
+
+export const getScheduleTimes = () => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getAllCodeService("TIME");
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(getScheduleTimesSuccess(response.data));
+      } else {
+        dispatch(getScheduleTimesFailed());
+      }
+    } catch (e) {
+      dispatch(getScheduleTimesFailed());
+      console.log("get schedule times: ", e);
+    }
+  };
+};
+
+export const getScheduleTimesSuccess = (data) => ({
+  type: actionTypes.GET_SCHEDULE_TIMES_SUCCESS,
+  data,
+});
+
+export const getScheduleTimesFailed = () => ({
+  type: actionTypes.GET_SCHEDULE_TIMES_FAILED,
+});

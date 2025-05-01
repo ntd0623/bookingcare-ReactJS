@@ -13,6 +13,7 @@ const initialState = {
   doctors: [],
   doctor: null,
   content: [],
+  scheduleTimes: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -132,6 +133,17 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         content: [],
+      };
+
+    case actionTypes.GET_SCHEDULE_TIMES_SUCCESS:
+      return {
+        ...state,
+        scheduleTimes: action.data,
+      };
+    case actionTypes.GET_SCHEDULE_TIMES_FAILED:
+      return {
+        ...state,
+        scheduleTimes: [],
       };
     default:
       return state;
