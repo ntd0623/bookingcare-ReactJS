@@ -43,6 +43,9 @@
             "specialty-manage": "Manage Specialty",
             "handbook": "HandBook",
             "handbook-manage": "Manage HandBook"
+        },
+        "doctor": {
+            "manage-schedule": "Manage Schedule"
         }
     },
     "manage-user": {
@@ -78,5 +81,11 @@
         "doctor-intro": "Personal Introduction",
         "save": "Save",
         "update": "Save Changes"
+    },
+    "manage-schedule": {
+        "title": " Managing Medical Appointments",
+        "choose-doctor": "Select Doctor",
+        "choose-date": "Date",
+        "choose-time": "Appointment Time"
     }
 }

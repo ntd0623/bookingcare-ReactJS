@@ -10,21 +10,10 @@ export const adminMenu = [
       {
         name: "menu.admin.doctor-manage",
         link: "/system/doctor-manage",
-
-        // // subMenus: [
-        // //   {
-        // //     name: "menu.system.system-administrator.user-manage",
-        // //     link: "/system/user-manage",
-        // //   },
-        // //   {
-        // //     name: "menu.system.system-administrator.user-redux",
-        // //     link: "/system/user-redux",
-        // //   },
-        // ],
       },
       {
-        name: "menu.admin.admin-manage",
-        link: "/system/admin-manage",
+        name: "menu.doctor.manage-schedule",
+        link: "/doctor/manage-schedule",
       },
     ],
   },
@@ -55,6 +44,19 @@ export const adminMenu = [
       {
         name: "menu.admin.handbook-manage",
         link: "/system/handbook-manage",
+      },
+    ],
+  },
+];
+
+export const doctorMenu = [
+  {
+    //Quản lý người dùng
+    name: "menu.admin.user-manage",
+    menus: [
+      {
+        name: "menu.doctor.manage-schedule",
+        link: "/doctor/manage-schedule",
       },
     ],
   },

@@ -11,6 +11,8 @@ import {
   getDetailInfoDoctor,
   getContentMarkdownByDoctorId,
   updateContentMarkdown,
+  createSchedules,
+  getScheduleByDate,
 } from "../../services/userService";
 import { act } from "react";
 import { toast } from "react-hot-toast";
@@ -353,4 +355,82 @@ export const updateContentMarkdownSuccess = () => ({
 
 export const updateContentMarkdownFailed = () => ({
   type: actionTypes.UPDATE_CONTENT_MARKDOWN_FAILED,
+});
+
+export const getScheduleTimes = () => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getAllCodeService("TIME");
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(getScheduleTimesSuccess(response.data));
+      } else {
+        dispatch(getScheduleTimesFailed());
+      }
+    } catch (e) {
+      dispatch(getScheduleTimesFailed());
+      console.log("get schedule times: ", e);
+    }
+  };
+};
+
+export const getScheduleTimesSuccess = (data) => ({
+  type: actionTypes.GET_SCHEDULE_TIMES_SUCCESS,
+  data,
+});
+
+export const getScheduleTimesFailed = () => ({
+  type: actionTypes.GET_SCHEDULE_TIMES_FAILED,
+});
+
+export const handleCreateSchedules = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await createSchedules(data);
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        toast.success("Add schedule is success");
+        dispatch(handleCreateSchedulesSuccess());
+      } else {
+        dispatch(handleCreateSchedulesFailed());
+      }
+    } catch (e) {
+      dispatch(handleCreateSchedulesFailed());
+      console.log("get schedule times: ", e);
+    }
+  };
+};
+
+export const handleCreateSchedulesSuccess = () => ({
+  type: actionTypes.CREATE_SCHEDULES_SUCCESS,
+});
+
+export const handleCreateSchedulesFailed = () => ({
+  type: actionTypes.CREATE_SCHEDULES_FAILED,
+});
+
+export const handleGetScheduleByDate = (doctorID, date) => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getScheduleByDate(doctorID, date);
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(hanleGetScheduleByDateSuccess(response.data));
+      } else {
+        dispatch(hanleGetScheduleByDateFailed());
+      }
+    } catch (e) {
+      dispatch(hanleGetScheduleByDateFailed());
+      console.log("get schedules: ", e);
+    }
+  };
+};
+
+export const hanleGetScheduleByDateSuccess = (data) => ({
+  type: actionTypes.GET_SCHEDULE_BY_DATE_SUCCESS,
+  data: data,
+});
+
+export const hanleGetScheduleByDateFailed = () => ({
+  type: actionTypes.GET_SCHEDULE_BY_DATE_FAILED,
 });

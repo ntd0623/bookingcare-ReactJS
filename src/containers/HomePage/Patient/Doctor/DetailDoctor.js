@@ -4,6 +4,7 @@ import HomeHeader from "../../HomeHeader";
 import "./DetailDoctor.scss";
 import * as actions from "../../../../store/actions";
 import { LANGUAGES } from "../../../../utils/constant";
+import DoctorsApointmentSchedule from "./Doctor'sApoitmentSchedule";
 
 class DetailDoctor extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class DetailDoctor extends Component {
     this.state = {
       doctor: null,
       label: "",
+      schedulesDoctor: [],
     };
   }
   componentDidMount() {
@@ -21,6 +23,7 @@ class DetailDoctor extends Component {
     ) {
       let id = this.props.match.params.id;
       this.props.getDetailInfoDoctorById(id);
+      this.props.handleGetScheduleByDate(id);
     }
   }
 
@@ -45,10 +48,13 @@ class DetailDoctor extends Component {
         label: label,
       });
     }
+    if (prevProp.schedulesDoctor !== this.props.schedulesDoctor) {
+      let schedulesDoctor = this.props.schedulesDoctor;
+      this.setState({ schedulesDoctor: schedulesDoctor });
+    }
   };
   render() {
-    let { doctor, label } = this.state;
-    console.log("Check doctor: ", doctor);
+    let { doctor, label, schedulesDoctor } = this.state;
     return (
       <React.Fragment>
         <HomeHeader isShowBanner={false} />
@@ -63,13 +69,21 @@ class DetailDoctor extends Component {
             ></div>
             <div className="content-right">
               <div className="title">{label}</div>
-              <div className="content">{doctor?.Markdown.description}</div>
+              <div className="content">
+                {doctor?.Markdown?.description || "No description available"}
+              </div>
             </div>
           </div>
-          <div className="detail-doctor-schedule"></div>
+          <div className="detail-doctor-schedule">
+            <DoctorsApointmentSchedule schedulesDoctor={schedulesDoctor} />
+          </div>
           <div className="detail-doctor-info">
             <div
-              dangerouslySetInnerHTML={{ __html: doctor?.Markdown.contentHTML }}
+              dangerouslySetInnerHTML={{
+                __html:
+                  doctor?.Markdown?.contentHTML ||
+                  "<p>No content available</p>",
+              }}
             ></div>
           </div>
           <div className="detail-doctor-comment"></div>
@@ -83,6 +97,7 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     doctor: state.admin.doctor,
+    schedulesDoctor: state.admin.schedulesDoctor,
   };
 };
 
@@ -90,6 +105,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getDetailInfoDoctorById: (id) =>
       dispatch(actions.getDetailInfoDoctorById(id)),
+    handleGetScheduleByDate: (doctorID) =>
+      dispatch(actions.handleGetScheduleByDate(doctorID)),
   };
 };
 
