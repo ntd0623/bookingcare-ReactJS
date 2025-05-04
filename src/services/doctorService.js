@@ -1,5 +1,7 @@
 const { where } = require("sequelize");
 const db = require("../models/index");
+const { raw } = require("body-parser");
+import _ from "lodash";
 let getTopDoctorHome = (limit) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -193,7 +195,7 @@ let handleUpdateContentMarkdown = (dataInput) => {
               doctorID: dataInput.doctorID,
             },
             {
-              where: { id: dataInput.id },
+              where: { id: dataInputn.id },
             }
           );
         }
@@ -207,6 +209,80 @@ let handleUpdateContentMarkdown = (dataInput) => {
     }
   });
 };
+
+let handleCreateSchedules = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!data) {
+        reject({
+          errCode: 2,
+          message: "schedules is not exists !",
+        });
+      } else {
+        let existingTime = await db.Schedule.findAll({
+          where: { doctorID: data[0].doctorID, date: data[0].date },
+          attributes: ["maxNumber", "date", "timeType", "doctorID"],
+          raw: true,
+        });
+        if (existingTime && existingTime.length > 0) {
+          existingTime = existingTime.map((item) => {
+            item.date = new Date(item.date).getTime();
+            return item;
+          });
+        }
+        let toCreate = _.differenceWith(data, existingTime, (a, b) => {
+          return a.timeType === b.timeType && a.date === b.date;
+        });
+        let schedules = await db.Schedule.bulkCreate(toCreate);
+        if (schedules) {
+          console.log("Check schedules: ", schedules);
+          resolve({
+            errCode: 0,
+            message: "Create schedule is success",
+          });
+        }
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+let handleGetScheduleByDate = (doctorID) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!doctorID) {
+        reject({
+          errCode: -2,
+          message: "Missing parameter !",
+        });
+      } else {
+        let schedule = await db.Schedule.findAll({
+          where: { doctorID: doctorID },
+          include: [
+            {
+              model: db.Allcodes,
+              as: "timeTypeData",
+              attributes: ["value_VI", "value_EN"],
+            },
+          ],
+          raw: true,
+          nest: true,
+        });
+        if (schedule && schedule.length > 0) {
+          console.log("Check schedules: ", schedule);
+          resolve({
+            errCode: 0,
+            data: schedule,
+          });
+        }
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctorService: getAllDoctorService,
@@ -214,4 +290,6 @@ module.exports = {
   getInfoDoctor: getInfoDoctor,
   getContentMarkdown: getContentMarkdown,
   handleUpdateContentMarkdown: handleUpdateContentMarkdown,
+  handleCreateSchedules: handleCreateSchedules,
+  handleGetScheduleByDate: handleGetScheduleByDate,
 };

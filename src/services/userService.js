@@ -155,7 +155,6 @@ let updateUser = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
       if (!data.id || !data.gender || !data.positionID || !data.roleID) {
-        console.log("Check data: ", data);
         resolve({
           errCode: 2,
           errMessage: "Missing parameter !",

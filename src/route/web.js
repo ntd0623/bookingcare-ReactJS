@@ -46,8 +46,14 @@ let initWebRoutes = (app) => {
     doctorController.getContentMarkdownByDoctorID
   );
 
-  router.put("/api/update-content-markdown",doctorController.updateContentMarkdown)
+  router.put(
+    "/api/update-content-markdown",
+    doctorController.updateContentMarkdown
+  );
 
+  router.post("/api/bulk-create-schedules", doctorController.createSchedules);
+
+  router.get("/api/get-schedule-by-date", doctorController.getScheduleByDate);
   return app.use("/", router);
 };
 module.exports = initWebRoutes;

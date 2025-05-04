@@ -87,6 +87,35 @@ let updateContentMarkdown = async (req, res) => {
   }
 };
 
+let createSchedules = async (req, res) => {
+  {
+    try {
+      let schedules = await doctorService.handleCreateSchedules(req.body);
+      return res.status(200).json(schedules);
+    } catch (e) {
+      console.log("Error: ", e);
+      return res.status(200).json({
+        errCode: -1,
+        message: "Error from server !",
+      });
+    }
+  }
+};
+
+let getScheduleByDate = async (req, res) => {
+  try {
+    console.log("Check doctor ID: ", req.query.id);
+    let schedule = await doctorService.handleGetScheduleByDate(req.query.id);
+    return res.status(200).json(schedule);
+  } catch (e) {
+    console.log("Error: ", e);
+    return res.status(200).json({
+      errCode: -1,
+      message: "Error from server !",
+    });
+  }
+};
+
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctor: getAllDoctor,
@@ -94,4 +123,6 @@ module.exports = {
   getDetailDoctor: getDetailDoctor,
   getContentMarkdownByDoctorID: getContentMarkdownByDoctorID,
   updateContentMarkdown: updateContentMarkdown,
+  createSchedules: createSchedules,
+  getScheduleByDate: getScheduleByDate,
 };

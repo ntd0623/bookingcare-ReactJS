@@ -24,6 +24,11 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: "key",
         as: "userRole",
       });
+      Allcodes.hasMany(models.Schedule, {
+        foreignKey: "timeType",
+        sourceKey: "key",
+        as: "timeTypeData",
+      });
     }
   }
   Allcodes.init(
