@@ -50,6 +50,13 @@ const getContentMarkdownByDoctorId = (doctorId) => {
 const updateContentMarkdown = (data) => {
   return axios.put("/api/update-content-markdown", data);
 };
+const createSchedules = (data) => {
+  return axios.post(`/api/bulk-create-schedules`, data);
+};
+
+const getScheduleByDate = (doctorID, date) => {
+  return axios.get(`api/get-schedule-by-date?id=${doctorID}`);
+};
 export {
   handleLoginAPI,
   getAllUsers,
@@ -63,4 +70,6 @@ export {
   getDetailInfoDoctor,
   getContentMarkdownByDoctorId,
   updateContentMarkdown,
+  createSchedules,
+  getScheduleByDate,
 };
