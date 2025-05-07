@@ -73,7 +73,18 @@ let getAllDoctorService = () => {
 let createInfoDoctor = (dataInput) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!dataInput.contentHTML || !dataInput.contentMarkdown) {
+      console.log("Check dataInput creaate: ", dataInput);
+      if (
+        !dataInput.id ||
+        !dataInput.contentMarkdown ||
+        !dataInput.contentHTML ||
+        !dataInput.priceID ||
+        !dataInput.provinceID ||
+        !dataInput.paymentID ||
+        !dataInput.nameClinic ||
+        !dataInput.addressClinic ||
+        !dataInput.doctorID
+      ) {
         resolve({
           errCode: 1,
           message: "Missing parameter !",
@@ -87,6 +98,34 @@ let createInfoDoctor = (dataInput) => {
           specialtyID: dataInput.specialtyID,
           clinicID: dataInput.clinicID,
         });
+        let infoDoctor = await db.Doctor_Info.findOne({
+          where: { doctorID: dataInput.doctorID },
+        });
+        if (!infoDoctor) {
+          await db.Doctor_Info.create({
+            doctorID: dataInput.doctorID,
+            priceID: dataInput.priceID,
+            provinceID: dataInput.provinceID,
+            paymentID: dataInput.paymentID,
+            addressClinic: dataInput.addressClinic,
+            nameClinic: dataInput.nameClinic,
+            note: dataInput.note,
+          });
+        } else {
+          await db.Doctor_Info.update(
+            {
+              priceID: dataInput.priceID,
+              provinceID: dataInput.provinceID,
+              paymentID: dataInput.paymentID,
+              addressClinic: dataInput.addressClinic,
+              nameClinic: dataInput.nameClinic,
+              note: dataInput.note,
+            },
+            {
+              where: { doctorID: dataInput.doctorID },
+            }
+          );
+        }
         resolve({
           errCode: 0,
           message: "Create info doctor success",
@@ -177,10 +216,22 @@ let getContentMarkdown = (doctorId) => {
 let handleUpdateContentMarkdown = (dataInput) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!dataInput.id) {
+      console.log("Check dataInput Update: ", dataInput);
+
+      if (
+        !dataInput.id ||
+        !dataInput.contentMarkdown ||
+        !dataInput.contentHTML ||
+        !dataInput.priceID ||
+        !dataInput.provinceID ||
+        !dataInput.paymentID ||
+        !dataInput.nameClinic ||
+        !dataInput.addressClinic ||
+        !dataInput.doctorID
+      ) {
         reject({
-          errCode: -2,
-          message: "id is not exists !",
+          errCode: -1,
+          message: "Missing parameter !",
         });
       } else {
         let content = db.Markdown.findOne({
@@ -195,7 +246,35 @@ let handleUpdateContentMarkdown = (dataInput) => {
               doctorID: dataInput.doctorID,
             },
             {
-              where: { id: dataInputn.id },
+              where: { id: dataInput.id },
+            }
+          );
+        }
+        let infoDoctor = await db.Doctor_Info.findOne({
+          where: { doctorID: dataInput.doctorID },
+        });
+        if (!infoDoctor) {
+          await db.Doctor_Info.create({
+            doctorID: dataInput.doctorID,
+            priceID: dataInput.priceID,
+            provinceID: dataInput.provinceID,
+            paymentID: dataInput.paymentID,
+            addressClinic: dataInput.addressClinic,
+            nameClinic: dataInput.nameClinic,
+            note: dataInput.note,
+          });
+        } else {
+          await db.Doctor_Info.update(
+            {
+              priceID: dataInput.priceID,
+              provinceID: dataInput.provinceID,
+              paymentID: dataInput.paymentID,
+              addressClinic: dataInput.addressClinic,
+              nameClinic: dataInput.nameClinic,
+              note: dataInput.note,
+            },
+            {
+              where: { doctorID: dataInput.doctorID },
             }
           );
         }
