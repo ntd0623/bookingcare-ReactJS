@@ -434,3 +434,81 @@ export const hanleGetScheduleByDateSuccess = (data) => ({
 export const hanleGetScheduleByDateFailed = () => ({
   type: actionTypes.GET_SCHEDULE_BY_DATE_FAILED,
 });
+
+export const getPriceMedicalExamination = () => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getAllCodeService("PRICE");
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(getPriceMedicalExaminationSuccess(response.data));
+      } else {
+        dispatch(getPriceMedicalExaminationFailed());
+      }
+    } catch (e) {
+      dispatch(getPriceMedicalExaminationFailed());
+      console.log("get medical examination: ", e);
+    }
+  };
+};
+
+export const getPriceMedicalExaminationSuccess = (prices) => ({
+  type: actionTypes.GET_PRICE_MEDICAL_EXAMINATION_SUCCESS,
+  data: prices,
+});
+
+export const getPriceMedicalExaminationFailed = () => ({
+  type: actionTypes.GET_PRICE_MEDICAL_EXAMINATION_FAILED,
+});
+
+export const getPaymentMedthod = () => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getAllCodeService("PAYMENT");
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(getPaymentMedthodSuccess(response.data));
+      } else {
+        dispatch(getPaymentMedthodFailed());
+      }
+    } catch (e) {
+      dispatch(getPaymentMedthodFailed());
+      console.log("get payment medthod: ", e);
+    }
+  };
+};
+
+export const getPaymentMedthodSuccess = (data) => ({
+  type: actionTypes.GET_PAYMENT_METHOD_SUCCESS,
+  data: data,
+});
+
+export const getPaymentMedthodFailed = () => ({
+  type: actionTypes.GET_PAYMENT_METHOD_FAILED,
+});
+
+export const getProvince = () => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getAllCodeService("PROVINCE");
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(getProvinceSuccess(response.data));
+      } else {
+        dispatch(getProvinceFailed());
+      }
+    } catch (e) {
+      dispatch(getPaymentMedthodFailed());
+      console.log("get province: ", e);
+    }
+  };
+};
+
+export const getProvinceSuccess = (data) => ({
+  type: actionTypes.GET_PROVINCE_SUCCESS,
+  data,
+});
+
+export const getProvinceFailed = () => ({
+  type: actionTypes.GET_PROVINCE_FAILED,
+});

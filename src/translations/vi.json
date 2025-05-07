@@ -73,7 +73,13 @@
         "doctor-infor": "Thông tin bác sĩ",
         "doctor-intro": "Thông tin giới thiệu",
         "save": "Lưu thông tin",
-        "update": "Cập nhập"
+        "update": "Cập nhập",
+        "province": "Tỉnh Thành",
+        "payment":"Phương thức thanh toán",
+        "price": "Giá",
+        "nameClinic": "Tên Phòng Khám",
+        "addressClinic": "Địa chỉ phòng khám",
+        "note": "Ghi Chú"
     },
     "manage-schedule": {
         "title": "Quản Lý Lịch Khám Bệnh",
