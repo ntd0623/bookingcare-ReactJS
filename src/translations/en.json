@@ -80,7 +80,13 @@
         "doctor-infor": "Doctor Profile",
         "doctor-intro": "Personal Introduction",
         "save": "Save",
-        "update": "Save Changes"
+        "update": "Save Changes",
+        "province": "Province",
+        "payment":"Payment Method",
+        "price": "Price",
+        "nameClinic": "Name Clinic",
+        "addressClinic": "Address Clinic",
+        "note": "Note"
     },
     "manage-schedule": {
         "title": " Managing Medical Appointments",

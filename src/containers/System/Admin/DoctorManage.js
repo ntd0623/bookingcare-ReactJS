@@ -10,6 +10,7 @@ import "react-markdown-editor-lite/lib/index.css";
 import "./DoctorManage.scss";
 import _ from "lodash";
 import Select from "react-select";
+import { act } from "react";
 const mdParser = new MarkdownIt();
 
 class DoctorManage extends Component {
@@ -22,7 +23,17 @@ class DoctorManage extends Component {
       selectedDoctor: "",
       description: "",
       doctors: [],
-      action: "",
+      action: "ADD",
+
+      prices: [],
+      selectedPrice: "",
+      paymentMethods: [],
+      selectedPayment: "",
+      provinces: [],
+      selectedProvince: "",
+      nameClinic: "",
+      addressClinic: "",
+      note: "",
     };
   }
 
@@ -34,13 +45,19 @@ class DoctorManage extends Component {
   };
 
   handleSaveContentMarkdown = () => {
-    console.log("Check state: ", this.state);
     if (this.state.action === CRUD_ACTIONS.ADD) {
       this.props.createInfoDoctor({
         contentHTML: this.state.contentHTML,
         contentMarkdown: this.state.contentMarkdown,
         description: this.state.description,
         doctorID: this.state.selectedDoctor.value,
+        // Doctor-Info
+        priceID: this.state.selectedPrice.value,
+        provinceID: this.state.selectedProvince.value,
+        paymentID: this.state.selectedPayment.value,
+        addressClinic: this.state.addressClinic,
+        nameClinic: this.state.nameClinic,
+        note: this.state.note,
       });
       this.setState({
         contentId: "",
@@ -49,6 +66,12 @@ class DoctorManage extends Component {
         selectedDoctor: "",
         description: "",
         action: "ADD",
+        selectedPrice: "",
+        selectedPayment: "",
+        selectedProvince: "",
+        nameClinic: "",
+        addressClinic: "",
+        note: "",
       });
     } else {
       this.props.handleUpdateContentMarkdown({
@@ -56,7 +79,15 @@ class DoctorManage extends Component {
         contentHTML: this.state.contentHTML,
         contentMarkdown: this.state.contentMarkdown,
         description: this.state.description,
-        doctorID: this.state.doctorID,
+        doctorID: this.state.selectedDoctor.value,
+
+        // Doctor-Info
+        priceID: this.state.selectedPrice.value,
+        provinceID: this.state.selectedProvince.value,
+        paymentID: this.state.selectedPayment.value,
+        addressClinic: this.state.addressClinic,
+        nameClinic: this.state.nameClinic,
+        note: this.state.note,
       });
       this.setState({
         contentId: "",
@@ -65,18 +96,22 @@ class DoctorManage extends Component {
         selectedDoctor: "",
         description: "",
         action: "ADD",
+        selectedPrice: "",
+        selectedPayment: "",
+        selectedProvince: "",
+        nameClinic: "",
+        addressClinic: "",
+        note: "",
       });
     }
   };
 
   handleChangeSelected = async (selectedDoctor) => {
     this.setState({ selectedDoctor });
-    console.log("Check selected doctor: ", selectedDoctor);
     let content = await this.props.getContentMarkdown(selectedDoctor.value);
-    console.log("Check content: ", content);
     if (content && content.data) {
       this.setState({
-        action: CRUD_ACTIONS.UPDATE,
+        action: CRUD_ACTIONS.EDIT,
         contentMarkdown: content.data.contentMarkdown,
         contentHTML: content.data.contentHTML,
         description: content.data.description,
@@ -92,13 +127,28 @@ class DoctorManage extends Component {
     }
   };
 
-  handleOnChangeDescription = (e) => {
+  handleChangeSelectedInput = async (selectedInput, name) => {
+    let stateName = name.name;
+    let coppyState = { ...this.state };
+    coppyState[stateName] = selectedInput;
     this.setState({
-      description: e.target.value,
+      ...coppyState,
+    });
+  };
+
+  handleOnChangeDescription = (e, name) => {
+    let stateName = name;
+    let coppyState = { ...this.state };
+    coppyState[stateName] = e.target.value;
+    this.setState({
+      ...coppyState,
     });
   };
   componentDidMount = async () => {
     this.props.getAllDoctors();
+    this.props.getPriceMedicalExamination();
+    this.props.getPaymentMedthod();
+    this.props.getProvince();
     this.setState({
       action: CRUD_ACTIONS.ADD,
       selectedDoctor: "",
@@ -109,20 +159,42 @@ class DoctorManage extends Component {
     });
   };
 
-  buidListDoctors = (listDoctors) => {
-    let listDoctorArr = [];
+  buildChangeLanguage = (listItem, type) => {
+    let lisItemArr = [];
     let { language } = this.props;
-    if (listDoctors && listDoctors.length > 0) {
-      listDoctors.map((item, index) => {
-        let obj = {};
-        let labelVI = `${item.firstName} ${item.lastName}`;
-        let labelEN = `${item.lastName} ${item.firstName}`;
-        obj.label = language === LANGUAGES.VI ? labelVI : labelEN;
-        obj.value = item.id;
-        listDoctorArr.push(obj);
-      });
+    if (listItem && listItem.length > 0) {
+      if (type === "USERS") {
+        listItem.map((item, index) => {
+          let obj = {};
+          let labelVI = `${item.firstName} ${item.lastName}`;
+          let labelEN = `${item.lastName} ${item.firstName}`;
+          obj.label = language === LANGUAGES.VI ? labelVI : labelEN;
+          obj.value = item.id;
+          lisItemArr.push(obj);
+        });
+      }
+      if (type === "PRICE") {
+        listItem.map((item, index) => {
+          let obj = {};
+          let labelVI = `${item.value_VI} VNĐ`;
+          let labelEN = `${item.value_EN} USD`;
+          obj.label = language === LANGUAGES.VI ? labelVI : labelEN;
+          obj.value = item.key;
+          lisItemArr.push(obj);
+        });
+      }
+      if (type === "PROVINCE" || type === "PAYMENT") {
+        listItem.map((item, index) => {
+          let obj = {};
+          let labelVI = `${item.value_VI}`;
+          let labelEN = `${item.value_EN}`;
+          obj.label = language === LANGUAGES.VI ? labelVI : labelEN;
+          obj.value = item.key;
+          lisItemArr.push(obj);
+        });
+      }
     }
-    return listDoctorArr;
+    return lisItemArr;
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -130,15 +202,51 @@ class DoctorManage extends Component {
       prevProps.doctors !== this.props.doctors ||
       prevProps.language !== this.props.language
     ) {
-      let doctorOptions = this.buidListDoctors(this.props.doctors);
+      let doctorOptions = this.buildChangeLanguage(this.props.doctors, "USERS");
       this.setState({
         doctors: doctorOptions,
+      });
+    }
+    if (
+      prevProps.prices !== this.props.prices ||
+      prevProps.language !== this.props.language
+    ) {
+      let prices = this.buildChangeLanguage(this.props.prices, "PRICE");
+      this.setState({
+        prices: prices,
+      });
+    }
+
+    if (
+      prevProps.paymentMethods !== this.props.paymentMethods ||
+      prevProps.language !== this.props.language
+    ) {
+      let paymentMethods = this.buildChangeLanguage(
+        this.props.paymentMethods,
+        "PAYMENT"
+      );
+      this.setState({
+        paymentMethods: paymentMethods,
+      });
+    }
+
+    if (
+      prevProps.provinces !== this.props.provinces ||
+      prevProps.language !== this.props.language
+    ) {
+      let provinces = this.buildChangeLanguage(
+        this.props.provinces,
+        "PROVINCE"
+      );
+      this.setState({
+        provinces: provinces,
       });
     }
   };
 
   render() {
-    const { selectedDoctor } = this.state;
+    let { selectedDoctor, selectedPrice, selectedPayment, selectedProvince } =
+      this.state;
     console.log("Check state: ", this.state);
     return (
       <div className="doctor-manage-container">
@@ -168,6 +276,9 @@ class DoctorManage extends Component {
                       : ""
                   }`,
               }}
+              placeholder={
+                <FormattedMessage id="manage-doctor.choose-doctor"></FormattedMessage>
+              }
               value={selectedDoctor}
               onChange={this.handleChangeSelected}
               options={this.state.doctors}
@@ -182,10 +293,158 @@ class DoctorManage extends Component {
             </label>
             <textarea
               value={this.state.description}
-              onChange={(e) => this.handleOnChangeDescription(e)}
+              onChange={(e) => this.handleOnChangeDescription(e, "description")}
               class="w-full h-32 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
               placeholder="Nhập nội dung tại đây..."
             ></textarea>
+          </div>
+        </div>
+        {/* More INFO */}
+        <div class="more-info grid grid-cols-3 gap-4">
+          {/* Price */}
+          <div className="content-left mb-4 p-4">
+            <label
+              for="message"
+              class="block text-xl font-medium text-gray-700 mb-4"
+            >
+              <FormattedMessage id="manage-doctor.price"></FormattedMessage>
+            </label>
+            <Select
+              classNames={{
+                control: () =>
+                  "border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500",
+                input: () => "text-base",
+                menu: () => "mt-1 border border-gray-200 rounded-lg shadow-md",
+                option: ({ isFocused, isSelected }) =>
+                  `px-4 py-2 cursor-pointer ${
+                    isSelected
+                      ? "bg-blue-500 text-white"
+                      : isFocused
+                      ? "bg-blue-100"
+                      : ""
+                  }`,
+              }}
+              placeholder={
+                <FormattedMessage id="manage-doctor.price"></FormattedMessage>
+              }
+              value={selectedPrice}
+              onChange={this.handleChangeSelectedInput}
+              name="selectedPrice"
+              options={this.state.prices}
+            />
+          </div>
+          {/* Method Payment */}
+          <div className="content-left mb-4 p-4">
+            <label
+              for="message"
+              class="block text-xl font-medium text-gray-700 mb-4"
+            >
+              <FormattedMessage id="manage-doctor.payment"></FormattedMessage>
+            </label>
+            <Select
+              classNames={{
+                control: () =>
+                  "border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500",
+                input: () => "text-base",
+                menu: () => "mt-1 border border-gray-200 rounded-lg shadow-md",
+                option: ({ isFocused, isSelected }) =>
+                  `px-4 py-2 cursor-pointer ${
+                    isSelected
+                      ? "bg-blue-500 text-white"
+                      : isFocused
+                      ? "bg-blue-100"
+                      : ""
+                  }`,
+              }}
+              placeholder={
+                <FormattedMessage id="manage-doctor.payment"></FormattedMessage>
+              }
+              value={selectedPayment}
+              onChange={this.handleChangeSelectedInput}
+              name="selectedPayment"
+              options={this.state.paymentMethods}
+            />
+          </div>
+          {/* Province */}
+          <div className="content-left mb-4 p-4">
+            <label
+              for="message"
+              class="block text-xl font-medium text-gray-700 mb-4"
+            >
+              <FormattedMessage id="manage-doctor.province"></FormattedMessage>
+            </label>
+            <Select
+              classNames={{
+                control: () =>
+                  "border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500",
+                input: () => "text-base",
+                menu: () => "mt-1 border border-gray-200 rounded-lg shadow-md",
+                option: ({ isFocused, isSelected }) =>
+                  `px-4 py-2 cursor-pointer ${
+                    isSelected
+                      ? "bg-blue-500 text-white"
+                      : isFocused
+                      ? "bg-blue-100"
+                      : ""
+                  }`,
+              }}
+              placeholder={
+                <FormattedMessage id="manage-doctor.province"></FormattedMessage>
+              }
+              value={selectedProvince}
+              onChange={this.handleChangeSelectedInput}
+              options={this.state.provinces}
+              name="selectedProvince"
+            />
+          </div>
+          {/* Name Clinic */}
+          <div className="content-left mb-4 p-4">
+            <label
+              for="nameClinic"
+              className="block text-xl font-medium text-gray-700 mb-4"
+            >
+              <FormattedMessage id="manage-doctor.nameClinic"></FormattedMessage>
+            </label>
+            <input
+              type="text"
+              className="w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 p-2 text-base"
+              value={this.state.nameClinic}
+              onChange={(e) => this.handleOnChangeDescription(e, "nameClinic")}
+            />
+          </div>
+
+          {/* Address Clinic */}
+          <div className="content-left mb-4 p-4">
+            <label
+              for="addressClinic"
+              className="block text-xl font-medium text-gray-700 mb-4"
+            >
+              <FormattedMessage id="manage-doctor.addressClinic"></FormattedMessage>
+            </label>
+            <input
+              type="text"
+              className="w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 p-2 text-base"
+              value={this.state.addressClinic}
+              onChange={(e) =>
+                this.handleOnChangeDescription(e, "addressClinic")
+              }
+            />
+          </div>
+
+          {/* Note */}
+          <div className="content-left mb-4 p-4">
+            <label
+              for="note"
+              className="block text-xl font-medium text-gray-700 mb-4"
+            >
+              <FormattedMessage id="manage-doctor.note"></FormattedMessage>
+            </label>
+            <input
+              type="text"
+              className="w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 p-2 text-base"
+              value={this.state.note}
+              onChange={(e) => this.handleOnChangeDescription(e, "note")}
+            />
           </div>
         </div>
         <div className="doctor-manage-editor">
@@ -222,6 +481,9 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     users: state.admin.users,
     doctors: state.admin.doctors,
+    prices: state.admin.prices,
+    paymentMethods: state.admin.paymentMethods,
+    provinces: state.admin.provinces,
   };
 };
 
@@ -232,6 +494,10 @@ const mapDispatchToProps = (dispatch) => {
     getContentMarkdown: (id) => dispatch(actions.getContentMarkdown(id)),
     handleUpdateContentMarkdown: (data) =>
       dispatch(actions.handleUpdateContentMarkdown(data)),
+    getPriceMedicalExamination: () =>
+      dispatch(actions.getPriceMedicalExamination()),
+    getPaymentMedthod: () => dispatch(actions.getPaymentMedthod()),
+    getProvince: () => dispatch(actions.getProvince()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorManage);

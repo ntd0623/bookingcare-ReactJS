@@ -15,6 +15,9 @@ const initialState = {
   content: [],
   scheduleTimes: [],
   schedulesDoctor: [],
+  prices: [],
+  paymentMethods: [],
+  provinces: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -157,6 +160,40 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         schedulesDoctor: [],
+      };
+
+    case actionTypes.GET_PRICE_MEDICAL_EXAMINATION_SUCCESS:
+      return {
+        ...state,
+        prices: action.data,
+      };
+    case actionTypes.GET_PRICE_MEDICAL_EXAMINATION_FAILED:
+      return {
+        ...state,
+        prices: [],
+      };
+
+    case actionTypes.GET_PAYMENT_METHOD_SUCCESS:
+      return {
+        ...state,
+        paymentMethods: action.data,
+      };
+    case actionTypes.GET_PAYMENT_METHOD_FAILED:
+      return {
+        ...state,
+        paymentMethods: [],
+      };
+
+    case actionTypes.GET_PROVINCE_SUCCESS:
+      return {
+        ...state,
+        provinces: action.data,
+      };
+
+    case actionTypes.GET_PROVINCE_FAILED:
+      return {
+        ...state,
+        provinces: [],
       };
     default:
       return state;
