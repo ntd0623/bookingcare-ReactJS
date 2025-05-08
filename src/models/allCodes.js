@@ -29,6 +29,24 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: "key",
         as: "timeTypeData",
       });
+
+      Allcodes.hasMany(models.Doctor_Info, {
+        foreignKey: "priceID",
+        sourceKey: "key",
+        as: "priceData",
+      });
+
+      Allcodes.hasMany(models.Doctor_Info, {
+        foreignKey: "paymentID",
+        sourceKey: "key",
+        as: "paymentData",
+      });
+
+      Allcodes.hasMany(models.Doctor_Info, {
+        foreignKey: "provinceID",
+        sourceKey: "key",
+        as: "provinceData",
+      });
     }
   }
   Allcodes.init(

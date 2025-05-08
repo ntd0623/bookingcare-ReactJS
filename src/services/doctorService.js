@@ -171,6 +171,29 @@ let getInfoDoctor = (id) => {
               as: "genderData",
               attributes: ["value_VI", "value_EN"],
             },
+            {
+              model: db.Doctor_Info,
+              attributes: {
+                exclude: ["id", "doctorID", "count", "updatedAt", "createdAt"],
+              },
+              include: [
+                {
+                  model: db.Allcodes,
+                  as: "priceData",
+                  attributes: ["key","value_VI", "value_EN"],
+                },
+                {
+                  model: db.Allcodes,
+                  as: "paymentData",
+                  attributes: ["key","value_VI", "value_EN"],
+                },
+                {
+                  model: db.Allcodes,
+                  as: "provinceData",
+                  attributes: ["key","value_VI", "value_EN"],
+                },
+              ],
+            },
           ],
         });
         if (info && info.image) {
