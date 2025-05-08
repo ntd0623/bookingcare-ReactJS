@@ -287,6 +287,7 @@ export const getDetailInfoDoctorById = (id) => {
       let response = await getDetailInfoDoctor(id);
       if (response && response.errCode === 0) {
         dispatch(getDetailInfoDoctorSuccess(response.data));
+        return response.data;
       } else {
         dispatch(getDetailInfoDoctorFailed());
       }
