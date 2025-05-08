@@ -5,7 +5,7 @@ import "./DetailDoctor.scss";
 import * as actions from "../../../../store/actions";
 import { LANGUAGES } from "../../../../utils/constant";
 import DoctorsApointmentSchedule from "./Doctor'sApoitmentSchedule";
-
+import DoctorInfo from "./DoctorInfo";
 class DetailDoctor extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +13,7 @@ class DetailDoctor extends Component {
       doctor: null,
       label: "",
       schedulesDoctor: [],
+      currentDoctor: "",
     };
   }
   componentDidMount() {
@@ -22,6 +23,9 @@ class DetailDoctor extends Component {
       this.props.match.params.id
     ) {
       let id = this.props.match.params.id;
+      this.setState({
+        currentDoctor: id,
+      });
       this.props.getDetailInfoDoctorById(id);
       this.props.handleGetScheduleByDate(id);
     }
@@ -55,6 +59,7 @@ class DetailDoctor extends Component {
   };
   render() {
     let { doctor, label, schedulesDoctor } = this.state;
+    console.log("check state: ", this.state);
     return (
       <React.Fragment>
         <HomeHeader isShowBanner={false} />
@@ -76,6 +81,7 @@ class DetailDoctor extends Component {
           </div>
           <div className="detail-doctor-schedule">
             <DoctorsApointmentSchedule schedulesDoctor={schedulesDoctor} />
+            <DoctorInfo currentDoctor={this.state.currentDoctor} />
           </div>
           <div className="detail-doctor-info">
             <div

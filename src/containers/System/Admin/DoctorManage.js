@@ -108,14 +108,44 @@ class DoctorManage extends Component {
 
   handleChangeSelected = async (selectedDoctor) => {
     this.setState({ selectedDoctor });
-    let content = await this.props.getContentMarkdown(selectedDoctor.value);
-    if (content && content.data) {
+    let content = await this.props.getDetailInfoDoctorById(
+      selectedDoctor.value
+    );
+    let { prices, paymentMethods, provinces } = this.state;
+    let nameClinic = "",
+      addressClinic = "",
+      note = "",
+      selectedPayment = "",
+      selectedPrice = "",
+      selectedProvince = "";
+    if (content && content.Markdown) {
+      if (content.Doctor_Info) {
+        nameClinic = content.Doctor_Info.nameClinic;
+        addressClinic = content.Doctor_Info.addressClinic;
+        note = content.Doctor_Info.note;
+        selectedPayment = paymentMethods.find((item) => {
+          return item.value === content.Doctor_Info.paymentData.key;
+        });
+        selectedPrice = prices.find((item) => {
+          return item.value === content.Doctor_Info.priceData.key;
+        });
+        selectedProvince = provinces.find((item) => {
+          return item.value === content.Doctor_Info.provinceData.key;
+        });
+      }
       this.setState({
         action: CRUD_ACTIONS.EDIT,
-        contentMarkdown: content.data.contentMarkdown,
-        contentHTML: content.data.contentHTML,
-        description: content.data.description,
-        contentId: content.data.id,
+        contentMarkdown: content.Markdown.contentMarkdown,
+        contentHTML: content.Markdown.contentHTML,
+        description: content.Markdown.description,
+        contentId: content.id,
+
+        nameClinic: nameClinic,
+        addressClinic: addressClinic,
+        note: note,
+        selectedPrice: selectedPrice,
+        selectedPayment: selectedPayment,
+        selectedProvince: selectedProvince,
       });
     } else {
       this.setState({
@@ -491,7 +521,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllDoctors: () => dispatch(actions.getAllDoctors()),
     createInfoDoctor: (data) => dispatch(actions.createInfoDoctor(data)),
-    getContentMarkdown: (id) => dispatch(actions.getContentMarkdown(id)),
+    getDetailInfoDoctorById: (id) =>
+      dispatch(actions.getDetailInfoDoctorById(id)),
     handleUpdateContentMarkdown: (data) =>
       dispatch(actions.handleUpdateContentMarkdown(data)),
     getPriceMedicalExamination: () =>

@@ -1,0 +1,129 @@
+.doctor-info-container {
+    flex        : 1;
+    margin      : 80px 10px;
+    width       : 40%;
+    border-left : 1px solid rgba(174, 174, 174, 0.3);
+    padding-left: 15px;
+
+    .content-top {
+        border-bottom: 1px solid rgba(174, 174, 174, 0.3);
+        padding      : 8px;
+
+        .title {
+            color         : #666;
+            font-size     : 14px;
+            text-transform: uppercase;
+            font-weight   : 600;
+        }
+
+        .name-clinic {
+            font-size     : 13px;
+            text-transform: uppercase;
+            color         : rgb(69, 195, 210);
+            font-weight   : 500;
+        }
+
+        .detail-address {
+            font-size: 13px;
+
+        }
+    }
+
+    .content-down {
+        padding: 8px;
+
+        .price {
+            padding-bottom: 8px;
+            text-transform: uppercase;
+
+            span {
+                color         : rgb(69, 195, 210);
+                text-transform: none;
+                font-weight   : 600;
+                cursor        : pointer;
+                font-size     : 13px;
+
+            }
+        }
+
+        .price-detail {
+            padding-bottom: 8px;
+            text-transform: uppercase;
+            border-bottom : 1px solid rgba(174, 174, 174, 0.3);
+
+            span {
+                color         : rgb(69, 195, 210);
+                text-transform: none;
+                font-weight   : 600;
+                cursor        : pointer;
+                font-size     : 13px;
+            }
+        }
+
+        .insurance {
+            padding-bottom: 8px;
+            text-transform: uppercase;
+
+            span {
+                color         : rgb(69, 195, 210);
+                text-transform: none;
+                font-weight   : 600;
+                cursor        : pointer;
+
+                font-size: 13px;
+            }
+        }
+
+        .insurance-detail {
+            padding   : 3px;
+            border    : 1px solid rgba(174, 174, 174, 0.3);
+            margin-top: 5px;
+            background: rgb(248, 248, 248);
+            font-size : 14px;
+
+            .detail-top {
+                border-bottom: 1px solid rgba(174, 174, 174, 0.3);
+                padding      : 3px;
+
+                .title {
+                    padding    : 3px;
+                    font-weight: 300;
+                    color      : rgba(0, 0, 0, 1.00);
+                }
+
+                .content {
+                    padding: 3px;
+
+                }
+            }
+
+            .detail-down {
+                padding: 3px;
+
+                .title {
+                    padding    : 3px;
+                    font-weight: 300;
+                    color      : rgba(0, 0, 0, 1.00);
+
+                }
+
+                .content {
+                    padding: 3px;
+
+                }
+
+
+            }
+
+            .show {
+                position      : absolute;
+                margin-top    : 10px;
+                color         : #45c3d2;
+                text-transform: none;
+                font-weight   : 600;
+                font-size     : 13px;
+                cursor        : pointer;
+            }
+        }
+    }
+}

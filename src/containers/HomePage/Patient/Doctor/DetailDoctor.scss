@@ -42,7 +42,9 @@
   }
 
   .detail-doctor-schedule {
-    padding: 20px 0;
+    padding    : 20px 40px;
+    display    : flex;
+    align-items: flex-start;
   }
 
   .detail-doctor-info {
