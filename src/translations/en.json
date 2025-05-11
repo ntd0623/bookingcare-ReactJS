@@ -93,5 +93,28 @@
         "choose-doctor": "Select Doctor",
         "choose-date": "Date",
         "choose-time": "Appointment Time"
+    },
+    "detail-doctor": {
+        "examination-address": "Medical Examination Address",
+        "appoint-schedule": "Appointment Schedule",
+        "examination-fee": "Examination Fee: ",
+        "applicable-insurance-type":"Applicable Insurance Type",
+        "click": "Click",
+        "free-booking": "and free booking",
+        "appoitment-information":"Medical Appointment Information",
+        "paitient-information": "Patient Infomation",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "gender": "Gender",
+        "phoneNumber": "Phone Number",
+        "address": "Address",
+        "reason": "Reason for Medical Visit",
+        "reason-examination": "Reason for Examination",
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "more-detail": "More detail",
+        "hide": "Hide"
+
+
     }
 }

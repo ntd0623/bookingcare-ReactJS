@@ -86,5 +86,27 @@
         "choose-doctor": "Chọn bác sĩ",
         "choose-date": "Chọn ngày khám",
         "choose-time": "Chọn khung giờ khám"
+    },
+    "detail-doctor": {
+        "examination-address": "Địa Chỉ Khám",
+        "appoint-schedule": "Lịch Khám",
+        "examination-fee": "Giá Khám: ",
+        "applicable-insurance-type":"Loại Bảo Hiểm Áp Dụng",
+        "click": "Chọn",
+        "free-booking": "và đặt lịch miễn phí (Phí đặt lịch 0đ)",
+        "appoitment-information":"Thông tin đặt lịch khám bệnh",
+        "paitient-information": "Thông tin bệnh nhân",
+        "firstName": "Họ",
+        "lastName": "Tên",
+        "gender": "Giới tính",
+        "phoneNumber": "Số điện thoại",
+        "address": "Địa chỉ liên hệ",
+        "reason": "Nguyên Nhân khám bệnh",
+        "reason-examination": "Lý do khám",
+        "confirm": "Xác Nhận",
+        "cancel": "Hủy",
+        "more-detail": "Xem chi tiết",
+        "hide": "Ẩn bảng giá"
+
     }
 }

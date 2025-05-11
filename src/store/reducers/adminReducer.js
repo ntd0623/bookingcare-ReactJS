@@ -18,6 +18,7 @@ const initialState = {
   prices: [],
   paymentMethods: [],
   provinces: [],
+  listDoctorInfo: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -194,6 +195,18 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         provinces: [],
+      };
+
+    case actionTypes.GET_DOCTOR_INFO_SUCCESS:
+      return {
+        ...state,
+        listDoctorInfo: action.data,
+      };
+
+    case actionTypes.GET_DOCTOR_INFO_FAILED:
+      return {
+        ...state,
+        listDoctorInfo: [],
       };
     default:
       return state;

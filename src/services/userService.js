@@ -57,6 +57,18 @@ const createSchedules = (data) => {
 const getScheduleByDate = (doctorID, date) => {
   return axios.get(`api/get-schedule-by-date?id=${doctorID}`);
 };
+
+const getDoctorInfo = (doctorID) => {
+  return axios.get(`api/get-doctor-info-by-id?id=${doctorID}`);
+};
+
+const getProfileDoctor = (doctorID) => {
+  return axios.get(`api/get-profile-doctor-by-id?id=${doctorID}`);
+};
+
+const createPatientInfo = (data) => {
+  return axios.post(`/api/create-info-patient`, data);
+};
 export {
   handleLoginAPI,
   getAllUsers,
@@ -72,4 +84,7 @@ export {
   updateContentMarkdown,
   createSchedules,
   getScheduleByDate,
+  getDoctorInfo,
+  getProfileDoctor,
+  createPatientInfo,
 };
