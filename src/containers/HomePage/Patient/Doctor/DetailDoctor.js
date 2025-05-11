@@ -14,6 +14,7 @@ class DetailDoctor extends Component {
       label: "",
       schedulesDoctor: [],
       currentDoctor: "",
+      listDoctorInfo: [],
     };
   }
   componentDidMount() {
@@ -28,6 +29,7 @@ class DetailDoctor extends Component {
       });
       this.props.getDetailInfoDoctorById(id);
       this.props.handleGetScheduleByDate(id);
+      this.props.getDoctorInfoByID(id);
     }
   }
 
@@ -56,9 +58,18 @@ class DetailDoctor extends Component {
       let schedulesDoctor = this.props.schedulesDoctor;
       this.setState({ schedulesDoctor: schedulesDoctor });
     }
+    if (
+      prevProp.listDoctorInfo !== this.props.listDoctorInfo ||
+      prevProp.language !== this.props.language
+    ) {
+      let listDoctorInfo = this.props.listDoctorInfo;
+      this.setState({
+        listDoctorInfo,
+      });
+    }
   };
   render() {
-    let { doctor, label, schedulesDoctor } = this.state;
+    let { doctor, label, schedulesDoctor, listDoctorInfo } = this.state;
     console.log("check state: ", this.state);
     return (
       <React.Fragment>
@@ -81,7 +92,10 @@ class DetailDoctor extends Component {
           </div>
           <div className="detail-doctor-schedule">
             <DoctorsApointmentSchedule schedulesDoctor={schedulesDoctor} />
-            <DoctorInfo currentDoctor={this.state.currentDoctor} />
+            <DoctorInfo
+              currentDoctor={this.state.currentDoctor}
+              listDoctorInfo={listDoctorInfo}
+            />
           </div>
           <div className="detail-doctor-info">
             <div
@@ -104,6 +118,7 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     doctor: state.admin.doctor,
     schedulesDoctor: state.admin.schedulesDoctor,
+    listDoctorInfo: state.admin.listDoctorInfo,
   };
 };
 
@@ -113,6 +128,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getDetailInfoDoctorById(id)),
     handleGetScheduleByDate: (doctorID) =>
       dispatch(actions.handleGetScheduleByDate(doctorID)),
+    getDoctorInfoByID: (doctorID) =>
+      dispatch(actions.getDoctorInfoByID(doctorID)),
   };
 };
 

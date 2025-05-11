@@ -13,6 +13,7 @@ import {
   updateContentMarkdown,
   createSchedules,
   getScheduleByDate,
+  getDoctorInfo,
 } from "../../services/userService";
 import { act } from "react";
 import { toast } from "react-hot-toast";
@@ -512,4 +513,30 @@ export const getProvinceSuccess = (data) => ({
 
 export const getProvinceFailed = () => ({
   type: actionTypes.GET_PROVINCE_FAILED,
+});
+
+export const getDoctorInfoByID = (doctorID) => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getDoctorInfo(doctorID);
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(getDoctorInfoByIDSuccess(response.data));
+      } else {
+        dispatch(getProvinceFailed());
+      }
+    } catch (e) {
+      dispatch(getDoctorInfoByIDFailed());
+      console.log("get doctor-info by id: ", e);
+    }
+  };
+};
+
+export const getDoctorInfoByIDSuccess = (data) => ({
+  type: actionTypes.GET_DOCTOR_INFO_SUCCESS,
+  data: data,
+});
+
+export const getDoctorInfoByIDFailed = () => ({
+  type: actionTypes.GET_DOCTOR_INFO_FAILED,
 });
