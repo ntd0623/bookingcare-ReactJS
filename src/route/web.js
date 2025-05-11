@@ -2,6 +2,7 @@ import express from "express";
 const homeController = require("../controller/homeController");
 const userController = require("../controller/userController");
 const doctorController = require("../controller/doctorController");
+const patientCotroller = require("../controller/patientController");
 let router = express.Router();
 let initWebRoutes = (app) => {
   router.get("/", homeController.getHomePage);
@@ -54,6 +55,16 @@ let initWebRoutes = (app) => {
   router.post("/api/bulk-create-schedules", doctorController.createSchedules);
 
   router.get("/api/get-schedule-by-date", doctorController.getScheduleByDate);
+
+  router.get("/api/get-doctor-info-by-id", doctorController.getDoctorInfoByID);
+
+  router.get(
+    "/api/get-profile-doctor-by-id",
+    doctorController.getProfileDoctorByID
+  );
+
+  router.post("/api/create-info-patient", patientCotroller.createInfoPatient);
+
   return app.use("/", router);
 };
 module.exports = initWebRoutes;

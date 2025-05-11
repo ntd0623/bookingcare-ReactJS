@@ -1,7 +1,7 @@
 const { where } = require("sequelize");
 const db = require("../models/index");
 const { raw } = require("body-parser");
-import _ from "lodash";
+import _, { includes } from "lodash";
 let getTopDoctorHome = (limit) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -180,17 +180,17 @@ let getInfoDoctor = (id) => {
                 {
                   model: db.Allcodes,
                   as: "priceData",
-                  attributes: ["key","value_VI", "value_EN"],
+                  attributes: ["key", "value_VI", "value_EN"],
                 },
                 {
                   model: db.Allcodes,
                   as: "paymentData",
-                  attributes: ["key","value_VI", "value_EN"],
+                  attributes: ["key", "value_VI", "value_EN"],
                 },
                 {
                   model: db.Allcodes,
                   as: "provinceData",
-                  attributes: ["key","value_VI", "value_EN"],
+                  attributes: ["key", "value_VI", "value_EN"],
                 },
               ],
             },
@@ -385,6 +385,125 @@ let handleGetScheduleByDate = (doctorID) => {
   });
 };
 
+let handleGetDoctorInfo = (doctorID) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!doctorID) {
+        reject({
+          errCode: -1,
+          message: "Missing parameter !",
+        });
+      }
+      let doctorInfo = await db.Doctor_Info.findOne({
+        where: { doctorID: doctorID },
+        attributes: [
+          "priceID",
+          "provinceID",
+          "paymentID",
+          "addressClinic",
+          "nameClinic",
+          "note",
+        ],
+        include: [
+          {
+            model: db.Allcodes,
+            as: "priceData",
+            attributes: ["key", "value_VI", "value_EN"],
+          },
+          {
+            model: db.Allcodes,
+            as: "paymentData",
+            attributes: ["key", "value_VI", "value_EN"],
+          },
+          {
+            model: db.Allcodes,
+            as: "provinceData",
+            attributes: ["key", "value_VI", "value_EN"],
+          },
+        ],
+      });
+      resolve({
+        errCode: 0,
+        data: doctorInfo,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+let handleGetProfileDoctor = (doctorID) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!doctorID) {
+        reject({
+          errCode: 2,
+          message: "ID doctor is not exists !",
+        });
+      } else {
+        let info = await db.User.findOne({
+          where: { id: doctorID },
+          attributes: {
+            exclude: ["password"],
+          },
+          include: [
+            {
+              model: db.Markdown,
+              attributes: ["contentHTML", "contentMarkdown", "description"],
+            },
+            {
+              model: db.Allcodes,
+              as: "roleData",
+              attributes: ["value_VI", "value_EN"],
+            },
+            {
+              model: db.Allcodes,
+              as: "positionData",
+              attributes: ["value_VI", "value_EN"],
+            },
+            {
+              model: db.Allcodes,
+              as: "genderData",
+              attributes: ["value_VI", "value_EN"],
+            },
+            {
+              model: db.Doctor_Info,
+              attributes: {
+                exclude: ["id", "doctorID", "count", "updatedAt", "createdAt"],
+              },
+              include: [
+                {
+                  model: db.Allcodes,
+                  as: "priceData",
+                  attributes: ["key", "value_VI", "value_EN"],
+                },
+                {
+                  model: db.Allcodes,
+                  as: "paymentData",
+                  attributes: ["key", "value_VI", "value_EN"],
+                },
+                {
+                  model: db.Allcodes,
+                  as: "provinceData",
+                  attributes: ["key", "value_VI", "value_EN"],
+                },
+              ],
+            },
+          ],
+        });
+        if (info && info.image) {
+          info.image = new Buffer(info.image, "base64").toString("binary");
+        }
+        resolve({
+          errCode: 0,
+          data: info,
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctorService: getAllDoctorService,
@@ -394,4 +513,6 @@ module.exports = {
   handleUpdateContentMarkdown: handleUpdateContentMarkdown,
   handleCreateSchedules: handleCreateSchedules,
   handleGetScheduleByDate: handleGetScheduleByDate,
+  handleGetDoctorInfo: handleGetDoctorInfo,
+  handleGetProfileDoctor: handleGetProfileDoctor,
 };
