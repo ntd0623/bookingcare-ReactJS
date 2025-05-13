@@ -2,19 +2,18 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../../store/actions";
 import { LANGUAGES } from "../../../../utils/constant";
-import _, { isObject } from "lodash";
+import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import ProfileDoctor from "./ProfileDoctor";
-import DatePicker from "../../../../components/Input/DatePicker";
 import "./BookingModal.scss";
 import CustomScrollbars from "../../../../components/CustomScrollbars";
 import { createPatientInfo } from "../../../../services/userService";
 import Select from "react-select";
-import { data } from "autoprefixer";
 import toast from "react-hot-toast";
 import { FormattedMessage } from "react-intl";
-
+import moment from "moment/moment";
+import localization from "moment/locale/vi";
 class BookingModal extends Component {
   constructor(props) {
     super(props);
@@ -83,11 +82,37 @@ class BookingModal extends Component {
     });
   };
 
+  builDataBooking = (dataTime) => {
+    console.log("Check data time: ", dataTime)
+    if (
+      dataTime &&
+      !_.isEmpty(dataTime)
+    ) {
+      let { language } = this.props;
+      let doctorName = language === LANGUAGES.VI ? `${dataTime.doctorData.firstName} ${dataTime.doctorData.lastName}` :
+        `${dataTime.doctorData.lastName} ${dataTime.doctorData.firstName}`
+      let time =
+        language === LANGUAGES.VI
+          ? moment(dataTime.date)
+            .format("dddd - DD/MM/YYYY")
+            .toLocaleUpperCase()
+          : moment(dataTime.date).locale("en").format("ddd - DD/MM/YYYY");
+      return {
+        time: time,
+        doctorName: doctorName
+      }
+    }
+    return "";
+  };
+
   handleSubmit = async () => {
+    let { dataTime } = this.state;
+    let { language } = this.props;
+    let data = this.builDataBooking(dataTime);
     let res = await createPatientInfo({
-      doctorID: this.state.dataTime.id,
-      date: this.state.dataTime.date,
-      timeType: this.state.dataTime.timeType,
+      doctorID: dataTime.id,
+      date: dataTime.date,
+      timeType: dataTime.timeType,
       email: this.state.email,
       firstName: this.state.patientFirstName,
       lastName: this.state.patientLastName,
@@ -95,6 +120,9 @@ class BookingModal extends Component {
       address: this.state.address,
       phoneNumber: this.state.phoneNumber,
       reason: this.state.reason,
+      time: data.time,
+      doctorName: data.doctorName,
+      language: language
     });
     if (res && res.errCode === 0) {
       toast.success("Thêm Thông Tin Bệnh Nhân Thành Công");
@@ -119,7 +147,6 @@ class BookingModal extends Component {
     if (dataTime && !_.isEmpty(dataTime)) {
       doctorID = dataTime.id;
     }
-    console.log("Check datatime: ", this.state);
     return (
       <>
         {isOpen === true && (
@@ -207,10 +234,9 @@ class BookingModal extends Component {
                             menu: () =>
                               "mt-1 border border-gray-200 rounded-lg shadow-md",
                             option: ({ isFocused, isSelected }) =>
-                              `px-4 py-2 cursor-pointer ${
-                                isSelected
-                                  ? "bg-blue-500 text-white"
-                                  : isFocused
+                              `px-4 py-2 cursor-pointer ${isSelected
+                                ? "bg-blue-500 text-white"
+                                : isFocused
                                   ? "bg-blue-100"
                                   : ""
                               }`,

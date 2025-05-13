@@ -20,6 +20,7 @@ import { Toaster } from "react-hot-toast";
 import CustomScrollbars from "../components/CustomScrollbars";
 import DetailDoctor from "../containers/HomePage/Patient/Doctor/DetailDoctor";
 import Doctor from "../routes/Doctor";
+import VerifyAppoiment from "./HomePage/Patient/VerifyEmail/VerifyAppoiment";
 class App extends Component {
   handlePersistorState = () => {
     const { persistor } = this.props;
@@ -62,6 +63,7 @@ class App extends Component {
                   />
                   <Route path={path.HOMEPAGE} component={HomePage} />
                   <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
+                  <Route path={path.BOOKING_APPOINTMENT} component={VerifyAppoiment}></Route>
                 </Switch>
               </CustomScrollbars>
             </div>

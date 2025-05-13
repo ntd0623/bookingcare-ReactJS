@@ -23,26 +23,26 @@ class DoctorsApointmentSchedule extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
   componentDidUpdate(prevProps) {
     if (
       prevProps.schedulesDoctor !== this.props.schedulesDoctor ||
       prevProps.language !== this.props.language
     ) {
-      const { language, schedulesDoctor } = this.props;
-      const allDays = this.getDateOfWeek(schedulesDoctor, language);
-      const prevSelected = this.state.selectedDate;
+      let { language, schedulesDoctor } = this.props;
+      let allDays = this.getDateOfWeek(schedulesDoctor, language);
+      let prevSelected = this.state.selectedDate;
 
       // Giữ lại selectedDate nếu nó còn tồn tại trong allDays
-      const isStillValid = allDays.some((day) => day.value === prevSelected);
-      const selectedDate =
+      let isStillValid = allDays.some((day) => day.value === prevSelected);
+      let selectedDate =
         isStillValid && prevSelected
           ? prevSelected
           : allDays.length > 0
-          ? allDays[0].value
-          : "";
+            ? allDays[0].value
+            : "";
 
-      const allTimes = this.getTimeOfDoctor(
+      let allTimes = this.getTimeOfDoctor(
         schedulesDoctor,
         language,
         selectedDate
@@ -91,6 +91,7 @@ class DoctorsApointmentSchedule extends Component {
       .map((schedule) => {
         return {
           id: schedule.doctorID,
+          doctorData: schedule.doctorData,
           date: schedule.date,
           timeType: schedule.timeType,
           value:
