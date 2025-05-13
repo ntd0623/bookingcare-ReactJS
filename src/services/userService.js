@@ -69,6 +69,10 @@ const getProfileDoctor = (doctorID) => {
 const createPatientInfo = (data) => {
   return axios.post(`/api/create-info-patient`, data);
 };
+
+const veryfyBookingAppoitment = (data) => {
+  return axios.post(`/api/verify-booking-appointment`, data);
+};
 export {
   handleLoginAPI,
   getAllUsers,
@@ -87,4 +91,5 @@ export {
   getDoctorInfo,
   getProfileDoctor,
   createPatientInfo,
+  veryfyBookingAppoitment
 };
