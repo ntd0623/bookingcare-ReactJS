@@ -367,6 +367,11 @@ let handleGetScheduleByDate = (doctorID) => {
               as: "timeTypeData",
               attributes: ["value_VI", "value_EN"],
             },
+            {
+              model: db.User,
+              as: "doctorData",
+              attributes: ["firstName", "lastName"],
+            },
           ],
           raw: true,
           nest: true,

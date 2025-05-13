@@ -64,6 +64,7 @@ let initWebRoutes = (app) => {
   );
 
   router.post("/api/create-info-patient", patientCotroller.createInfoPatient);
+  router.post("/api/verify-booking-appointment", patientCotroller.verifyBookingPatient);
 
   return app.use("/", router);
 };

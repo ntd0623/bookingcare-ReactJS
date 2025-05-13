@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       date: DataTypes.DATE,
       timeType: DataTypes.STRING,
       reason: DataTypes.STRING,
+      access_token: DataTypes.STRING,
     },
     {
       sequelize,
