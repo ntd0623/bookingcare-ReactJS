@@ -116,5 +116,21 @@
         "hide": "Hide"
 
 
+    },
+    "manage-specialty": {
+        "title":"Manage Specialty",
+        "form-title":"Specialty Information",
+        "profile-image":"Profile Image ",
+        "change-image":"Change",
+        "image-desc": "Image description",
+        "cover-image": "Cover Change",
+        "cover-desc": "PNG, JPG, GIF up to 10MB",
+        "basic-info": "Basic Information",
+        "name": "Name Specialty",
+        "description": "Description Specialty",
+        "save": "Save",
+        "upload-cover": "Up load a file",
+        "upload-cover-support": "or drag and drop"
+        
     }
 }
