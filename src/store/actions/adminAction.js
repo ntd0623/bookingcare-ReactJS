@@ -14,6 +14,7 @@ import {
   createSchedules,
   getScheduleByDate,
   getDoctorInfo,
+  createInfoSpecialty
 } from "../../services/userService";
 import { act } from "react";
 import { toast } from "react-hot-toast";
@@ -540,3 +541,32 @@ export const getDoctorInfoByIDSuccess = (data) => ({
 export const getDoctorInfoByIDFailed = () => ({
   type: actionTypes.GET_DOCTOR_INFO_FAILED,
 });
+
+
+export const handleCreateInforSpecialty = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await createInfoSpecialty(data);
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(handleCreateInforSpecialtySuccess());
+        toast.success("Add Information Specialty Success");
+
+      } else {
+        dispatch(handleCreateInforSpecialtyFailed());
+      }
+    } catch (e) {
+      dispatch(handleCreateInforSpecialtyFailed());
+      console.log("create infor specialty: ", e);
+    }
+  };
+}
+
+export const handleCreateInforSpecialtySuccess = () => ({
+  type: actionTypes.CREATE_INFOR_SPECIALTY_SUCCESS
+});
+
+export const handleCreateInforSpecialtyFailed = () => ({
+  type: actionTypes.CREATE_INFOR_SPECIALTY_FAILED
+
+})

@@ -7,10 +7,12 @@ export const adminMenu = [
         name: "menu.admin.crud-redux",
         link: "/system/user-redux",
       },
+      // Quản lý bác sĩ
       {
         name: "menu.admin.doctor-manage",
         link: "/system/doctor-manage",
       },
+      // Quản lý lịch trình 
       {
         name: "menu.doctor.manage-schedule",
         link: "/doctor/manage-schedule",

@@ -73,6 +73,11 @@ const createPatientInfo = (data) => {
 const veryfyBookingAppoitment = (data) => {
   return axios.post(`/api/verify-booking-appointment`, data);
 };
+
+const createInfoSpecialty = (data) => {
+  return axios.post(`api/create-infor-specialty`, data);
+
+}
 export {
   handleLoginAPI,
   getAllUsers,
@@ -91,5 +96,6 @@ export {
   getDoctorInfo,
   getProfileDoctor,
   createPatientInfo,
-  veryfyBookingAppoitment
+  veryfyBookingAppoitment,
+  createInfoSpecialty
 };

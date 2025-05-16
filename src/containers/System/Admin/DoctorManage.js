@@ -10,7 +10,6 @@ import "react-markdown-editor-lite/lib/index.css";
 import "./DoctorManage.scss";
 import _ from "lodash";
 import Select from "react-select";
-import { act } from "react";
 const mdParser = new MarkdownIt();
 
 class DoctorManage extends Component {
@@ -298,10 +297,9 @@ class DoctorManage extends Component {
                 input: () => "text-base",
                 menu: () => "mt-1 border border-gray-200 rounded-lg shadow-md",
                 option: ({ isFocused, isSelected }) =>
-                  `px-4 py-2 cursor-pointer ${
-                    isSelected
-                      ? "bg-blue-500 text-white"
-                      : isFocused
+                  `px-4 py-2 cursor-pointer ${isSelected
+                    ? "bg-blue-500 text-white"
+                    : isFocused
                       ? "bg-blue-100"
                       : ""
                   }`,
@@ -346,10 +344,9 @@ class DoctorManage extends Component {
                 input: () => "text-base",
                 menu: () => "mt-1 border border-gray-200 rounded-lg shadow-md",
                 option: ({ isFocused, isSelected }) =>
-                  `px-4 py-2 cursor-pointer ${
-                    isSelected
-                      ? "bg-blue-500 text-white"
-                      : isFocused
+                  `px-4 py-2 cursor-pointer ${isSelected
+                    ? "bg-blue-500 text-white"
+                    : isFocused
                       ? "bg-blue-100"
                       : ""
                   }`,
@@ -378,10 +375,9 @@ class DoctorManage extends Component {
                 input: () => "text-base",
                 menu: () => "mt-1 border border-gray-200 rounded-lg shadow-md",
                 option: ({ isFocused, isSelected }) =>
-                  `px-4 py-2 cursor-pointer ${
-                    isSelected
-                      ? "bg-blue-500 text-white"
-                      : isFocused
+                  `px-4 py-2 cursor-pointer ${isSelected
+                    ? "bg-blue-500 text-white"
+                    : isFocused
                       ? "bg-blue-100"
                       : ""
                   }`,
@@ -410,10 +406,9 @@ class DoctorManage extends Component {
                 input: () => "text-base",
                 menu: () => "mt-1 border border-gray-200 rounded-lg shadow-md",
                 option: ({ isFocused, isSelected }) =>
-                  `px-4 py-2 cursor-pointer ${
-                    isSelected
-                      ? "bg-blue-500 text-white"
-                      : isFocused
+                  `px-4 py-2 cursor-pointer ${isSelected
+                    ? "bg-blue-500 text-white"
+                    : isFocused
                       ? "bg-blue-100"
                       : ""
                   }`,
