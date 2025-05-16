@@ -3,6 +3,7 @@ const homeController = require("../controller/homeController");
 const userController = require("../controller/userController");
 const doctorController = require("../controller/doctorController");
 const patientCotroller = require("../controller/patientController");
+const specialtyController = require("../controller/specialtyController");
 let router = express.Router();
 let initWebRoutes = (app) => {
   router.get("/", homeController.getHomePage);
@@ -65,6 +66,8 @@ let initWebRoutes = (app) => {
 
   router.post("/api/create-info-patient", patientCotroller.createInfoPatient);
   router.post("/api/verify-booking-appointment", patientCotroller.verifyBookingPatient);
+
+  router.post("/api/create-infor-specialty", specialtyController.createInforSpecialty)
 
   return app.use("/", router);
 };
