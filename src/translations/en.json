@@ -18,7 +18,9 @@
     },
     "homePage":{
         "outStandingDoctor": "OutStanding Of The Past Week",
-        "seeMore": "See More"
+        "seeMore": "See More",
+        "popular-specialties":"Popular Specialties"
+
 
     },
     "check-up-package":{

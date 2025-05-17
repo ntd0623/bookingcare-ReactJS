@@ -14,7 +14,9 @@ import {
   createSchedules,
   getScheduleByDate,
   getDoctorInfo,
-  createInfoSpecialty
+  createInfoSpecialty,
+  getAllSpecialty
+
 } from "../../services/userService";
 import { act } from "react";
 import { toast } from "react-hot-toast";
@@ -570,3 +572,31 @@ export const handleCreateInforSpecialtyFailed = () => ({
   type: actionTypes.CREATE_INFOR_SPECIALTY_FAILED
 
 })
+
+
+export const handleGetAllSpecialty = () => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await getAllSpecialty();
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(handleGetAllSpecialtySuccess(response.data));
+      } else {
+        dispatch(handleGetAllSpecialtyFailed());
+      }
+    } catch (e) {
+      dispatch(handleGetAllSpecialtyFailed());
+      console.log("get all  specialty: ", e);
+    }
+  };
+}
+
+export const handleGetAllSpecialtySuccess = (data) => ({
+  type: actionTypes.GET_ALL_SPECIALTY_SUCCESS,
+  data: data
+})
+
+export const handleGetAllSpecialtyFailed = () => ({
+  type: actionTypes.GET_ALL_SPECIALTY_FAILED
+})
+

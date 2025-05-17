@@ -19,6 +19,7 @@ const initialState = {
   paymentMethods: [],
   provinces: [],
   listDoctorInfo: [],
+  listSpecialty: []
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -208,6 +209,17 @@ const adminReducer = (state = initialState, action) => {
         ...state,
         listDoctorInfo: [],
       };
+
+    case actionTypes.GET_ALL_SPECIALTY_SUCCESS:
+      return {
+        ...state,
+        listSpecialty: action.data
+      }
+    case actionTypes.GET_ALL_SPECIALTY_FAILED:
+      return {
+        ...state,
+        listSpecialty: []
+      }
     default:
       return state;
   }
