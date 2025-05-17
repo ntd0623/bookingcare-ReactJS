@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import HomeHeader from "./HomeHeader";
-import Specialty from "./Section/Specialty ";
+import Specialty from "./Section/Specialty";
 import MedicalFacility from "./Section/MedicalFacility";
 import OutstandingDoctor from "./Section/OutStandingDoctor";
 import HandBook from "./Section/HandBook";
@@ -11,7 +11,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./HomePage.scss";
 class HomePage extends Component {
-  handleAfterChange = (current) => {};
+  handleAfterChange = (current) => { };
   render() {
     let settings = {
       dots: false,

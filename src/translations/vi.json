@@ -18,7 +18,8 @@
     },
     "homePage":{
         "outStandingDoctor": "Bác Sĩ Nổi Bật Tuần Qua",
-        "seeMore": "Xem Thêm"
+        "seeMore": "Xem Thêm",
+        "popular-specialties":"Chuyên Khoa Phổ Biến"
     },
     "check-up-package":{
         "telemedicine":"Khám\ntừ xa",
