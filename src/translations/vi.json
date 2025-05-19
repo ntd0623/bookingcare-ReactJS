@@ -80,7 +80,11 @@
         "price": "Giá",
         "nameClinic": "Tên Phòng Khám",
         "addressClinic": "Địa chỉ phòng khám",
-        "note": "Ghi Chú"
+        "note": "Ghi Chú",
+        "specialty": "Chuyên khoa",
+        "choose-specialty": "Chọn chuyên khoa",
+        "clinic": "Phòng khám",
+        "choose-clinic": "Chọn phòng khám"
     },
     "manage-schedule": {
         "title": "Quản Lý Lịch Khám Bệnh",

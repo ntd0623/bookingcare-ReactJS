@@ -88,7 +88,11 @@
         "price": "Price",
         "nameClinic": "Name Clinic",
         "addressClinic": "Address Clinic",
-        "note": "Note"
+        "note": "Note",
+        "specialty": "Specialty",
+        "choose-specialty": "Choose specialty",
+        "clinic": "Clinic",
+        "choose-clinic": "Choose clinic"
     },
     "manage-schedule": {
         "title": " Managing Medical Appointments",

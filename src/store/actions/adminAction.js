@@ -346,6 +346,7 @@ export const handleUpdateContentMarkdown = (data) => {
         return response;
       } else {
         dispatch(updateContentMarkdownFailed());
+        toast.error("Lỗi Cập Nhập Bác Sĩ !");
       }
     } catch (e) {
       dispatch(updateContentMarkdownFailed());
