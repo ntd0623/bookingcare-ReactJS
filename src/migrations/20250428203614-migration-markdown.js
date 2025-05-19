@@ -27,7 +27,6 @@ module.exports = {
       },
       specialtyID: {
         allowNull: true,
-
         type: Sequelize.INTEGER,
       },
       clinicID: {

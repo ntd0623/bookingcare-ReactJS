@@ -70,24 +70,39 @@ let getAllDoctorService = () => {
   });
 };
 
+let checkRequiredFields = (dataInput) => {
+  let requiredFields = [
+    "id",
+    "contentMarkdown",
+    "contentHTML",
+    "priceID",
+    "provinceID",
+    "paymentID",
+    "nameClinic",
+    "addressClinic",
+    "doctorID",
+    "specialtyID"
+  ];
+  for (let field of requiredFields) {
+    if (!dataInput[field] || dataInput[field] === "") {
+      return {
+        isValid: false,
+        missing: field
+      }
+    }
+  }
+  return { isValid: true }
+}
+
 let createInfoDoctor = (dataInput) => {
   return new Promise(async (resolve, reject) => {
     try {
       console.log("Check dataInput creaate: ", dataInput);
-      if (
-        !dataInput.id ||
-        !dataInput.contentMarkdown ||
-        !dataInput.contentHTML ||
-        !dataInput.priceID ||
-        !dataInput.provinceID ||
-        !dataInput.paymentID ||
-        !dataInput.nameClinic ||
-        !dataInput.addressClinic ||
-        !dataInput.doctorID
-      ) {
+      let isValid = checkRequiredFields(dataInput)
+      if (!isValid.isValid) {
         resolve({
           errCode: 1,
-          message: "Missing parameter !",
+          message: `Missing ${isValid.missing}!`,
         });
       } else {
         await db.Markdown.create({
@@ -109,6 +124,7 @@ let createInfoDoctor = (dataInput) => {
             paymentID: dataInput.paymentID,
             addressClinic: dataInput.addressClinic,
             nameClinic: dataInput.nameClinic,
+            specialtyID: dataInput.specialtyID,
             note: dataInput.note,
           });
         } else {
@@ -119,6 +135,7 @@ let createInfoDoctor = (dataInput) => {
               paymentID: dataInput.paymentID,
               addressClinic: dataInput.addressClinic,
               nameClinic: dataInput.nameClinic,
+              specialtyID: dataInput.specialtyID,
               note: dataInput.note,
             },
             {
@@ -154,7 +171,7 @@ let getInfoDoctor = (id) => {
           include: [
             {
               model: db.Markdown,
-              attributes: ["contentHTML", "contentMarkdown", "description"],
+              attributes: ["id", "contentHTML", "contentMarkdown", "description"],
             },
             {
               model: db.Allcodes,
@@ -241,24 +258,17 @@ let handleUpdateContentMarkdown = (dataInput) => {
     try {
       console.log("Check dataInput Update: ", dataInput);
 
-      if (
-        !dataInput.id ||
-        !dataInput.contentMarkdown ||
-        !dataInput.contentHTML ||
-        !dataInput.priceID ||
-        !dataInput.provinceID ||
-        !dataInput.paymentID ||
-        !dataInput.nameClinic ||
-        !dataInput.addressClinic ||
-        !dataInput.doctorID
-      ) {
-        reject({
-          errCode: -1,
-          message: "Missing parameter !",
+      let isValid = checkRequiredFields(dataInput)
+      if (!isValid.isValid) {
+        resolve({
+          errCode: 1,
+          message: `Missing ${isValid.missing}!`,
         });
       } else {
-        let content = db.Markdown.findOne({
-          where: { id: dataInput.id },
+        let content = await db.Markdown.findOne({
+          where: [{ id: dataInput.id },
+          { doctorID: dataInput.doctorID }
+          ]
         });
         if (content) {
           await db.Markdown.update(
@@ -267,6 +277,7 @@ let handleUpdateContentMarkdown = (dataInput) => {
               contentMarkdown: dataInput.contentMarkdown,
               description: dataInput.description,
               doctorID: dataInput.doctorID,
+              specialtyID: dataInput.specialtyID,
             },
             {
               where: { id: dataInput.id },
@@ -282,6 +293,7 @@ let handleUpdateContentMarkdown = (dataInput) => {
             priceID: dataInput.priceID,
             provinceID: dataInput.provinceID,
             paymentID: dataInput.paymentID,
+            specialtyID: dataInput.specialtyID,
             addressClinic: dataInput.addressClinic,
             nameClinic: dataInput.nameClinic,
             note: dataInput.note,
@@ -293,6 +305,7 @@ let handleUpdateContentMarkdown = (dataInput) => {
               provinceID: dataInput.provinceID,
               paymentID: dataInput.paymentID,
               addressClinic: dataInput.addressClinic,
+              specialtyID: dataInput.specialtyID,
               nameClinic: dataInput.nameClinic,
               note: dataInput.note,
             },
