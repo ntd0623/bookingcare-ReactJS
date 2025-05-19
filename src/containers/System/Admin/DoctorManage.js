@@ -30,6 +30,10 @@ class DoctorManage extends Component {
       selectedPayment: "",
       provinces: [],
       selectedProvince: "",
+      specialties: [],
+      selectedSepcialty: "",
+      clinics: [],
+      selectedClinic: "",
       nameClinic: "",
       addressClinic: "",
       note: "",
@@ -54,6 +58,8 @@ class DoctorManage extends Component {
         priceID: this.state.selectedPrice.value,
         provinceID: this.state.selectedProvince.value,
         paymentID: this.state.selectedPayment.value,
+        specialtyID: this.state.selectedSepcialty.value,
+        clinicID: this.state.selectedClinic,
         addressClinic: this.state.addressClinic,
         nameClinic: this.state.nameClinic,
         note: this.state.note,
@@ -68,6 +74,8 @@ class DoctorManage extends Component {
         selectedPrice: "",
         selectedPayment: "",
         selectedProvince: "",
+        selectedSepcialty: "",
+        selectedClinic: "",
         nameClinic: "",
         addressClinic: "",
         note: "",
@@ -84,6 +92,8 @@ class DoctorManage extends Component {
         priceID: this.state.selectedPrice.value,
         provinceID: this.state.selectedProvince.value,
         paymentID: this.state.selectedPayment.value,
+        specialtyID: this.state.selectedSepcialty.value,
+        clinicID: this.state.selectedClinic,
         addressClinic: this.state.addressClinic,
         nameClinic: this.state.nameClinic,
         note: this.state.note,
@@ -98,6 +108,8 @@ class DoctorManage extends Component {
         selectedPrice: "",
         selectedPayment: "",
         selectedProvince: "",
+        selectedSepcialty: "",
+        selectedClinic: "",
         nameClinic: "",
         addressClinic: "",
         note: "",
@@ -110,18 +122,21 @@ class DoctorManage extends Component {
     let content = await this.props.getDetailInfoDoctorById(
       selectedDoctor.value
     );
-    let { prices, paymentMethods, provinces } = this.state;
+    let { prices, paymentMethods, provinces, specialties } = this.state;
     let nameClinic = "",
       addressClinic = "",
       note = "",
       selectedPayment = "",
       selectedPrice = "",
-      selectedProvince = "";
+      selectedProvince = "",
+      selectedClinic = "",
+      selectedSepcialty = "";
     if (content && content.Markdown) {
       if (content.Doctor_Info) {
         nameClinic = content.Doctor_Info.nameClinic;
         addressClinic = content.Doctor_Info.addressClinic;
         note = content.Doctor_Info.note;
+        // Find INFO input below database and set value input
         selectedPayment = paymentMethods.find((item) => {
           return item.value === content.Doctor_Info.paymentData.key;
         });
@@ -131,20 +146,23 @@ class DoctorManage extends Component {
         selectedProvince = provinces.find((item) => {
           return item.value === content.Doctor_Info.provinceData.key;
         });
+        // selectedSepcialty = specialties.find((item) => {
+        //   return item.value === content.Doctor_Info.specialtyID;
+        // });
       }
       this.setState({
         action: CRUD_ACTIONS.EDIT,
         contentMarkdown: content.Markdown.contentMarkdown,
         contentHTML: content.Markdown.contentHTML,
         description: content.Markdown.description,
-        contentId: content.id,
-
+        contentId: content.Markdown.id,
         nameClinic: nameClinic,
         addressClinic: addressClinic,
         note: note,
         selectedPrice: selectedPrice,
         selectedPayment: selectedPayment,
         selectedProvince: selectedProvince,
+        selectedSepcialty: selectedSepcialty
       });
     } else {
       this.setState({
@@ -178,6 +196,7 @@ class DoctorManage extends Component {
     this.props.getPriceMedicalExamination();
     this.props.getPaymentMedthod();
     this.props.getProvince();
+    this.props.getAllSpecialty();
     this.setState({
       action: CRUD_ACTIONS.ADD,
       selectedDoctor: "",
@@ -221,6 +240,14 @@ class DoctorManage extends Component {
           obj.value = item.key;
           lisItemArr.push(obj);
         });
+      }
+      if (type === "SPECIALTIES") {
+        listItem.map((item, index) => {
+          let obj = {};
+          obj.label = item.name;
+          obj.value = item.id;
+          lisItemArr.push(obj);
+        })
       }
     }
     return lisItemArr;
@@ -271,10 +298,23 @@ class DoctorManage extends Component {
         provinces: provinces,
       });
     }
+
+    if (
+      prevProps.specialties !== this.props.specialties ||
+      prevProps.language !== this.props.language
+    ) {
+      let specialties = this.buildChangeLanguage(
+        this.props.specialties,
+        "SPECIALTIES"
+      );
+      this.setState({
+        specialties: specialties,
+      });
+    }
   };
 
   render() {
-    let { selectedDoctor, selectedPrice, selectedPayment, selectedProvince } =
+    let { selectedDoctor, selectedPrice, selectedPayment, selectedProvince, selectedSepcialty, selectedClinic } =
       this.state;
     console.log("Check state: ", this.state);
     return (
@@ -322,7 +362,7 @@ class DoctorManage extends Component {
             <textarea
               value={this.state.description}
               onChange={(e) => this.handleOnChangeDescription(e, "description")}
-              class="w-full h-32 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              class="w-full h-30 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
               placeholder="Nhập nội dung tại đây..."
             ></textarea>
           </div>
@@ -422,6 +462,68 @@ class DoctorManage extends Component {
               name="selectedProvince"
             />
           </div>
+          {/* Specialty */}
+          <div className="content-left mb-4 p-4">
+            <label
+              for="message"
+              class="block text-xl font-medium text-gray-700 mb-4"
+            >
+              <FormattedMessage id="manage-doctor.specialty"></FormattedMessage>
+
+            </label>
+            <Select
+              classNames={{
+                control: () =>
+                  "border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500",
+                input: () => "text-base",
+                menu: () => "mt-1 border border-gray-200 rounded-lg shadow-md",
+                option: ({ isFocused, isSelected }) =>
+                  `px-4 py-2 cursor-pointer ${isSelected
+                    ? "bg-blue-500 text-white"
+                    : isFocused
+                      ? "bg-blue-100"
+                      : ""
+                  }`,
+              }}
+              placeholder={<FormattedMessage id="manage-doctor.choose-specialty"></FormattedMessage>
+              }
+              value={selectedSepcialty}
+              onChange={this.handleChangeSelectedInput}
+              options={this.state.specialties}
+              name="selectedSepcialty"
+            />
+          </div>
+          {/* Clinic */}
+          <div className="content-left mb-4 p-4">
+            <label
+              for="message"
+              class="block text-xl font-medium text-gray-700 mb-4"
+            >
+              <FormattedMessage id="manage-doctor.clinic"></FormattedMessage>
+
+            </label>
+            <Select
+              classNames={{
+                control: () =>
+                  "border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500",
+                input: () => "text-base",
+                menu: () => "mt-1 border border-gray-200 rounded-lg shadow-md",
+                option: ({ isFocused, isSelected }) =>
+                  `px-4 py-2 cursor-pointer ${isSelected
+                    ? "bg-blue-500 text-white"
+                    : isFocused
+                      ? "bg-blue-100"
+                      : ""
+                  }`,
+              }}
+              placeholder={<FormattedMessage id="manage-doctor.choose-clinic"></FormattedMessage>
+              }
+              value={selectedClinic}
+              onChange={this.handleChangeSelectedInput}
+              options={this.state.clinics}
+              name="selectedClinic"
+            />
+          </div>
           {/* Name Clinic */}
           <div className="content-left mb-4 p-4">
             <label
@@ -509,6 +611,7 @@ const mapStateToProps = (state) => {
     prices: state.admin.prices,
     paymentMethods: state.admin.paymentMethods,
     provinces: state.admin.provinces,
+    specialties: state.admin.listSpecialty
   };
 };
 
@@ -524,6 +627,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getPriceMedicalExamination()),
     getPaymentMedthod: () => dispatch(actions.getPaymentMedthod()),
     getProvince: () => dispatch(actions.getProvince()),
+    getAllSpecialty: () => dispatch(actions.handleGetAllSpecialty())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorManage);
