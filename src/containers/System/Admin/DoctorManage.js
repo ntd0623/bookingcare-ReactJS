@@ -146,9 +146,9 @@ class DoctorManage extends Component {
         selectedProvince = provinces.find((item) => {
           return item.value === content.Doctor_Info.provinceData.key;
         });
-        // selectedSepcialty = specialties.find((item) => {
-        //   return item.value === content.Doctor_Info.specialtyID;
-        // });
+        selectedSepcialty = specialties.find((item) => {
+          return item.value === content.Doctor_Info.specialtyID;
+        });
       }
       this.setState({
         action: CRUD_ACTIONS.EDIT,

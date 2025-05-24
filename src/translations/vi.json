@@ -129,5 +129,21 @@
         "upload-cover": "Chọn tệp để tải lên",
         "upload-cover-support": "hoặc kéo và thả"
         
+    },
+    "manage-clinic": {
+        "title":"Quản Lý Phòng Khám",
+        "form-title":"Thông tin phòng khám",
+        "profile-image":"Ảnh phòng khám",
+        "change-image":"Thay đổi ảnh",
+        "image-desc": "Chi tiết ảnh",
+        "cover-image": "Kéo thả ảnh tại đây",
+        "cover-desc": "Hỗ trợ định dạng PNG, JPG, GIF dung lượng tối đa 10MB",
+        "basic-info": "Thông tin phòng khám",
+        "name": "Tên Phòng Khám",
+        "description": "Chi tiết phòng khám",
+        "save": "Lưu",
+        "upload-cover": "Chọn tệp để tải lên",
+        "upload-cover-support": "hoặc kéo và thả"
+        
     }
 }

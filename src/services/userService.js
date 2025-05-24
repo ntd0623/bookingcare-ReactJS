@@ -55,15 +55,15 @@ const createSchedules = (data) => {
 };
 
 const getScheduleByDate = (doctorID, date) => {
-  return axios.get(`api/get-schedule-by-date?id=${doctorID}`);
+  return axios.get(`/api/get-schedule-by-date?id=${doctorID}`);
 };
 
 const getDoctorInfo = (doctorID) => {
-  return axios.get(`api/get-doctor-info-by-id?id=${doctorID}`);
+  return axios.get(`/api/get-doctor-info-by-id?id=${doctorID}`);
 };
 
 const getProfileDoctor = (doctorID) => {
-  return axios.get(`api/get-profile-doctor-by-id?id=${doctorID}`);
+  return axios.get(`/api/get-profile-doctor-by-id?id=${doctorID}`);
 };
 
 const createPatientInfo = (data) => {
@@ -75,12 +75,16 @@ const veryfyBookingAppoitment = (data) => {
 };
 
 const createInfoSpecialty = (data) => {
-  return axios.post(`api/create-infor-specialty`, data);
+  return axios.post(`/api/create-infor-specialty`, data);
 
 }
 
 const getAllSpecialty = () => {
-  return axios.get(`api/get-all-specialty`);
+  return axios.get(`/api/get-all-specialty`);
+}
+
+const getSpecialtyByID = (data) => {
+  return axios.get(`/api/get-specialty-by-id?id=${data.id}&location=${data.location}`);
 }
 export {
   handleLoginAPI,
@@ -102,5 +106,6 @@ export {
   createPatientInfo,
   veryfyBookingAppoitment,
   createInfoSpecialty,
-  getAllSpecialty
+  getAllSpecialty,
+  getSpecialtyByID
 };

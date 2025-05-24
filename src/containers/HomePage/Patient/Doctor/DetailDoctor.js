@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import HomeHeader from "../../HomeHeader";
 import "./DetailDoctor.scss";
@@ -6,6 +6,7 @@ import * as actions from "../../../../store/actions";
 import { LANGUAGES } from "../../../../utils/constant";
 import DoctorsApointmentSchedule from "./Doctor'sApoitmentSchedule";
 import DoctorInfo from "./DoctorInfo";
+
 class DetailDoctor extends Component {
   constructor(props) {
     super(props);
@@ -14,9 +15,9 @@ class DetailDoctor extends Component {
       label: "",
       schedulesDoctor: [],
       currentDoctor: "",
-      listDoctorInfo: [],
     };
   }
+
   componentDidMount() {
     if (
       this.props.match &&
@@ -24,12 +25,9 @@ class DetailDoctor extends Component {
       this.props.match.params.id
     ) {
       let id = this.props.match.params.id;
-      this.setState({
-        currentDoctor: id,
-      });
+      this.setState({ currentDoctor: id });
       this.props.getDetailInfoDoctorById(id);
       this.props.handleGetScheduleByDate(id);
-      this.props.getDoctorInfoByID(id);
     }
   }
 
@@ -37,15 +35,13 @@ class DetailDoctor extends Component {
     let { language } = this.props;
     let labelVI = `${infoDoctor.positionData.value_VI}, ${infoDoctor.roleData.value_VI} ${infoDoctor.firstName} ${infoDoctor.lastName}`;
     let labelEN = `${infoDoctor.positionData.value_EN}, ${infoDoctor.roleData.value_EN} ${infoDoctor.lastName} ${infoDoctor.firstName}`;
-
-    let label = language === LANGUAGES.VI ? labelVI : labelEN;
-    return label;
+    return language === LANGUAGES.VI ? labelVI : labelEN;
   };
 
-  componentDidUpdate = (prevProp, prevState) => {
+  componentDidUpdate(prevProps) {
     if (
-      prevProp.doctor !== this.props.doctor ||
-      prevProp.language !== this.props.language
+      prevProps.doctor !== this.props.doctor ||
+      prevProps.language !== this.props.language
     ) {
       let infoDoctor = this.props.doctor;
       let label = this.getNameByLanguage(infoDoctor);
@@ -54,25 +50,17 @@ class DetailDoctor extends Component {
         label: label,
       });
     }
-    if (prevProp.schedulesDoctor !== this.props.schedulesDoctor) {
-      let schedulesDoctor = this.props.schedulesDoctor;
-      this.setState({ schedulesDoctor: schedulesDoctor });
+
+    if (prevProps.schedulesDoctor !== this.props.schedulesDoctor) {
+      this.setState({ schedulesDoctor: this.props.schedulesDoctor });
     }
-    if (
-      prevProp.listDoctorInfo !== this.props.listDoctorInfo ||
-      prevProp.language !== this.props.language
-    ) {
-      let listDoctorInfo = this.props.listDoctorInfo;
-      this.setState({
-        listDoctorInfo,
-      });
-    }
-  };
+  }
+
   render() {
-    let { doctor, label, schedulesDoctor, listDoctorInfo } = this.state;
-    console.log("check state: ", this.state);
+    let { doctor, label, schedulesDoctor, currentDoctor } = this.state;
+
     return (
-      <React.Fragment>
+      <>
         <HomeHeader isShowBanner={false} />
         <div className="detail-doctor-container">
           <div className="detail-doctor-intro">
@@ -92,9 +80,8 @@ class DetailDoctor extends Component {
           </div>
           <div className="detail-doctor-schedule">
             <DoctorsApointmentSchedule schedulesDoctor={schedulesDoctor} />
-            <DoctorInfo
-              currentDoctor={this.state.currentDoctor}
-              listDoctorInfo={listDoctorInfo}
+            <DoctorInfo doctorId={currentDoctor}
+              language={this.props.language}
             />
           </div>
           <div className="detail-doctor-info">
@@ -108,7 +95,7 @@ class DetailDoctor extends Component {
           </div>
           <div className="detail-doctor-comment"></div>
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }
@@ -118,7 +105,6 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     doctor: state.admin.doctor,
     schedulesDoctor: state.admin.schedulesDoctor,
-    listDoctorInfo: state.admin.listDoctorInfo,
   };
 };
 
@@ -128,8 +114,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getDetailInfoDoctorById(id)),
     handleGetScheduleByDate: (doctorID) =>
       dispatch(actions.handleGetScheduleByDate(doctorID)),
-    getDoctorInfoByID: (doctorID) =>
-      dispatch(actions.getDoctorInfoByID(doctorID)),
   };
 };
 

@@ -4,8 +4,9 @@ import Slider from "react-slick";
 import "./Specialty.scss";
 import * as action from "../../../store/actions";
 import { FormattedMessage } from "react-intl";
+import { withRouter } from "react-router-dom";
 
-class Speacialty extends Component {
+class Specialty extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,8 +18,13 @@ class Speacialty extends Component {
     await this.props.handleGetAllSpecialty()
   }
 
-  componentDidUpdate = (prevState, prevProp) => {
-    if (prevProp.listSpecialty !== this.props.listSpecialty) {
+  handleDetailSpecialty = (specialty) => {
+    if (this.props.history) {
+      this.props.history.push(`/detail-specialty/${specialty.id}`);
+    }
+  };
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.listSpecialty !== this.props.listSpecialty) {
       let listSpecialty = this.props.listSpecialty;
       this.setState({
         listSpecialty
@@ -41,8 +47,8 @@ class Speacialty extends Component {
               {listSpecialty && listSpecialty.length > 0 && listSpecialty.map((item, index) => {
                 return (
 
-                  <div className="section-content" key={item.index}>
-                    <div className="img section-specialty" style={{ backgroundImage: `url(${item.image})` }}></div>
+                  <div className="section-content" key={item.id} onClick={() => this.handleDetailSpecialty(item)}>
+                    <div className="img section-specialty" style={{ backgroundImage: `url(${item.image})`, cursor: "pointer" }}></div>
                     <span>{item.name}</span>
                   </div>
                 )
@@ -69,4 +75,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Speacialty);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Specialty));

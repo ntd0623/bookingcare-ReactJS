@@ -1,4 +1,5 @@
 .profile-doctor {
+
     .detail-doctor-intro {
         padding: 0 !important;
         margin : 0 !important;
@@ -7,12 +8,11 @@
 
         .content-right {
             width     : 100%;
-            /* padding: 5px; */
             text-align: justify;
 
             .time-doctor {
                 padding: 5px 10px;
-                margin : 5px 0;
+                margin : 5px 25px !important;
 
                 i {
                     font-size   : 16px;
@@ -21,18 +21,20 @@
                 }
 
                 span {
-                    margin: 0 5px !important;
+                    margin: 0 3px !important;
                 }
 
             }
         }
 
-        .title {}
-
-        .content {}
-
+        .title {
+            font-size  : 27px;
+            font-weight: bold;
+            padding    : 5px 10px;
+            margin     : 5px 25px;
+        }
 
     }
-
-
 }
+
+.content {}

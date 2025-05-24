@@ -12,12 +12,15 @@ import { FormattedMessage } from "react-intl";
 import { NumericFormat } from "react-number-format";
 import moment from "moment/moment";
 import localization from "moment/locale/vi";
+import { Link } from "react-router-dom";
 import _ from "lodash";
 class ProfileDoctor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       doctorProfile: {},
+      isShowPrice: true,
+      isShowLink: true
     };
   }
   async componentDidMount() {
@@ -56,8 +59,8 @@ class ProfileDoctor extends Component {
       let time =
         language === LANGUAGES.VI
           ? moment(dataTime.date)
-              .format("dddd - DD/MM/YYYY")
-              .toLocaleUpperCase()
+            .format("dddd - DD/MM/YYYY")
+            .toLocaleUpperCase()
           : moment(dataTime.date).locale("en").format("ddd - DD/MM/YYYY");
       return (
         <div className="time-doctor">
@@ -79,10 +82,21 @@ class ProfileDoctor extends Component {
     }
   };
 
-  componentDidUpdate = (prevProp, prevState) => {};
+  componentDidUpdate = (prevProp, prevState) => {
+    if (this.props.isShowPrice !== this.state.isShowPrice) {
+      this.setState({
+        isShowPrice: false
+      })
+    }
+    // if (this.props.isShowLink !== this.state.isShowPrice) {
+    //   this.setState({
+    //     isShowLink: true
+    //   })
+    // }
+  };
   render() {
-    let { doctorProfile } = this.state;
-    let { language, isShowDescription, dataTime } = this.props;
+    let { doctorProfile, isShowPrice, isShowLink } = this.state;
+    let { language, isShowDescription, dataTime, doctorID } = this.props;
     console.log("Check state profileDoctor: ", this.state);
     let label = "";
     let price = "";
@@ -106,23 +120,27 @@ class ProfileDoctor extends Component {
 
     return (
       <div className="profile-doctor">
-        <div className="detail-doctor-intro">
+        <div className="detail-doctor-intro flex">
           <div
             className="content-left"
             style={{
-              height: 100,
-              marginTop: 15,
+              height: "120px",
+              width: "120px",
+              marginTop: "15px",
               backgroundImage:
                 doctorProfile && doctorProfile.image
                   ? `url(${doctorProfile.image})`
                   : "none",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              borderRadius: "50%",
             }}
           ></div>
-          <div className="content-right">
-            <div className="title">{label}</div>
+          <div className="content-right flex flex-col justify-center h-[100px] mt-[15px] gap-[5px]">
+            <div className="title font-semibold text-lg">{label}</div>
             {isShowDescription === true ? (
               <React.Fragment>
-                <div className="content">
+                <div className="content text-sm text-gray-600">
                   {doctorProfile?.Markdown?.description ||
                     "No description available"}
                 </div>
@@ -132,8 +150,14 @@ class ProfileDoctor extends Component {
             )}
           </div>
         </div>
+        {/* {LINK} */}
+        {
+          isShowLink === true ? <div className="mt-3 mx-10 cursor-pointer " style={{ color: "#8DCFDB" }}>
+            <Link to={`/detail-doctor/${doctorID}`}>Xem thêm</Link>
+          </div> : ""
+        }
         {/* Giá khám */}
-        <div className="pt-3">
+        {isShowPrice === true ? <div className="pt-3">
           <div className="flex justify-between items-center">
             <h3 className="font-semibold text-lg">
               <FormattedMessage id="detail-doctor.examination-fee"></FormattedMessage>
@@ -158,7 +182,7 @@ class ProfileDoctor extends Component {
               )}
             </span>
           </div>
-        </div>
+        </div> : ""}
       </div>
     );
   }
