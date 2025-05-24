@@ -1,26 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../../store/actions";
-import "./DetailSpecialty.scss";
+import "./DetailClinic.scss";
 import HomeHeader from "../../HomeHeader";
 import DoctorsApointmentSchedule from "../Doctor/Doctor'sApoitmentSchedule";
 import DoctorInfo from "../Doctor/DoctorInfo";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
-import { getSpecialtyByID } from "../../../../services/userService"
+import { getClinicByID } from "../../../../services/userService"
 import _ from "lodash"
 import { LANGUAGES } from "../../../../utils/constant";
 import { FormattedMessage } from "react-intl";
-
-class DetailSpecialty extends Component {
+class DetailClinic extends Component {
     constructor(props) {
         super(props);
         this.state = {
             listSchedule: {},
-            detailSpecialty: "",
+            detailClinic: "",
             isShowContent: false,
             doctorID: [],
-            listProvince: [],
-            selectedProvince: "ALL"
         };
     }
 
@@ -28,35 +25,25 @@ class DetailSpecialty extends Component {
         console.log("Check param: ", this.props.match.params)
         if (this.props && this.props.match.params && this.props.match.params.id) {
             let id = this.props.match.params.id
-            let res = await getSpecialtyByID({
+            let res = await getClinicByID({
                 id: id,
-                location: "ALL"
             });
 
-            if (res && res.data && !_.isEmpty(res.data[0].specialtyData)) {
-                let data = res.data[0].specialtyData;
-                let provinceData = data.map(item => item.provinceData);
-                let listProvince = provinceData.reduce((acc, province) => {
-                    if (!acc.find(p => p.key === province.key)) {
-                        acc.push(province);
-                    }
-                    return acc;
-                }, []);
+            if (res && res.data && !_.isEmpty(res.data[0].clinicData)) {
+                let data = res.data[0].clinicData;
                 this.setState({
                     doctorID: data.map((item, index) => {
                         return item.doctorID;
                     }),
-                    listProvince: listProvince
                 })
             }
-
             if (res && res.errCode === 0) {
                 this.setState({
-                    detailSpecialty: res.data[0]
+                    detailClinic: res.data[0]
                 })
             }
         }
-        this.fetchDoctorSchedules();
+        this.fetchDoctorSchedules()
     }
 
     componentDidUpdate(prevProps) {
@@ -84,7 +71,6 @@ class DetailSpecialty extends Component {
             }
         }
 
-        // Gán toàn bộ vào state cục bộ, KHÔNG qua Redux
         this.setState({ listSchedule: schedulesByDoctor });
     };
 
@@ -144,28 +130,8 @@ class DetailSpecialty extends Component {
         })
     }
 
-    handleOnChangeSelect = async (e) => {
-        let selectedProvince = e.target.value
-        this.setState({
-            selectedProvince: e.target.selectedProvince
-        })
-        let res = await getSpecialtyByID({
-            id: this.props.match.params.id,
-            location: selectedProvince
-        });
-        if (res && res.data && !_.isEmpty(res.data[0].specialtyData)) {
-            let data = res.data[0].specialtyData;
-            this.setState({
-                doctorID: data.map((item, index) => {
-                    return item.doctorID;
-                }),
-            })
-        }
-        this.fetchDoctorSchedules();
-    }
-
     render() {
-        let { detailSpecialty, isShowContent, listProvince, selectedProvince } = this.state
+        let { detailClinic, isShowContent } = this.state
         let { language } = this.props
         console.log("Check state: ", this.state)
         return (
@@ -174,11 +140,12 @@ class DetailSpecialty extends Component {
                 <div className="detail-specialty-container">
 
                     <div className="description max-w-full mx-auto px-4 py-8 relative">
+                        <h1>{detailClinic.name}</h1>
                         <div
                             className={`text-gray-700 transition-all duration-200 ease-in-out ${isShowContent ? "max-h-full" : "max-h-32 overflow-hidden relative"
                                 }`}
                             dangerouslySetInnerHTML={{
-                                __html: detailSpecialty?.descriptionHTML || "No available content!",
+                                __html: detailClinic?.descriptionHTML || "No available content!",
                             }}
                         />
 
@@ -195,35 +162,15 @@ class DetailSpecialty extends Component {
                             }}
 
                         >
+
                             <FormattedMessage id={isShowContent ? "detail-clinic.hide" : "detail-clinic.more-detail"} />
+
 
                         </button>
                     </div>
 
                     <div className="schedule-section pt-5" style={{ backgroundColor: "rgb(238,238,238)" }}>
-                        <div className="relative inline-block w-fit" style={{
-                            marginLeft: "160px",
-                            paddingTop: ".375rem",
-                            paddingBottom: ".375rem"
-                        }}>
-                            <select
-                                value={selectedProvince}
-                                onChange={(event) => this.handleOnChangeSelect(event)}
-                                className="text-black border border-gray-300 rounded-md bg-white pr-8 pl-3 py-2 appearance-none outline-none cursor-pointer shadow-sm hover:border-gray-400">
-                                <option value="ALL">Toàn Quốc</option>
-                                {listProvince && listProvince.length > 0 && listProvince.map((item, index) => {
-                                    return <option key={index} value={item.key}>
-                                        {language === LANGUAGES.EN ? item.value_EN : item.value_VI}
-                                    </option>
-                                })}
-                            </select>
-                            <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-black">
-                                ▼
-                            </div>
-
-                        </div>
                         {this.renderDoctorApointment()}
-
                     </div>
                 </div >
             </>
@@ -240,4 +187,4 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(actions.handleGetScheduleByDate(doctorID)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailSpecialty);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailClinic);

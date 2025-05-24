@@ -123,6 +123,10 @@
 
 
     },
+    "detail-clinic": {
+        "more-detail": "See More",
+        "hide":"Hide"
+    },
     "manage-specialty": {
         "title":"Manage Specialty",
         "form-title":"Specialty Information",

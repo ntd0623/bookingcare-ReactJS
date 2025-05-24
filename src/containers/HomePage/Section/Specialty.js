@@ -48,8 +48,8 @@ class Specialty extends Component {
                 return (
 
                   <div className="section-content" key={item.id} onClick={() => this.handleDetailSpecialty(item)}>
-                    <div className="img section-specialty" style={{ backgroundImage: `url(${item.image})`, cursor: "pointer" }}></div>
-                    <span>{item.name}</span>
+                    <div className="img section-specialty" style={{ backgroundImage: `url(${item.image})`, cursor: "pointer", marginBottom: "5px" }}></div>
+                    <span style={{ marginTop: "5px" }}>{item.name}</span>
                   </div>
                 )
               })}

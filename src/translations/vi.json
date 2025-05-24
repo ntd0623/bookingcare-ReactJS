@@ -114,6 +114,10 @@
         "hide": "Ẩn bảng giá"
 
     },
+    "detail-clinic": {
+        "more-detail": "Xem chi tiết",
+        "hide":"Ẩn"
+    },
     "manage-specialty": {
         "title":"Quản Lý Chuyên Khoa",
         "form-title":"Thông tin chuyên khoa",
