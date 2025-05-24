@@ -72,7 +72,6 @@ let getAllDoctorService = () => {
 
 let checkRequiredFields = (dataInput) => {
   let requiredFields = [
-    "id",
     "contentMarkdown",
     "contentHTML",
     "priceID",
