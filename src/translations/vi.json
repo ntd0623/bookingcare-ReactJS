@@ -143,7 +143,8 @@
         "description": "Chi tiết phòng khám",
         "save": "Lưu",
         "upload-cover": "Chọn tệp để tải lên",
-        "upload-cover-support": "hoặc kéo và thả"
+        "upload-cover-support": "hoặc kéo và thả",
+        "address": "Địa chỉ phòng khám"
         
     }
 }

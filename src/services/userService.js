@@ -86,6 +86,12 @@ const getAllSpecialty = () => {
 const getSpecialtyByID = (data) => {
   return axios.get(`/api/get-specialty-by-id?id=${data.id}&location=${data.location}`);
 }
+
+
+const createInfoClinic = (data) => {
+  return axios.post(`/api/create-info-clinic`, data);
+
+}
 export {
   handleLoginAPI,
   getAllUsers,
@@ -107,5 +113,6 @@ export {
   veryfyBookingAppoitment,
   createInfoSpecialty,
   getAllSpecialty,
-  getSpecialtyByID
+  getSpecialtyByID,
+  createInfoClinic
 };

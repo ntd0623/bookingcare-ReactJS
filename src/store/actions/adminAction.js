@@ -15,7 +15,8 @@ import {
   getScheduleByDate,
   getDoctorInfo,
   createInfoSpecialty,
-  getAllSpecialty
+  getAllSpecialty,
+  createInfoClinic
 
 } from "../../services/userService";
 import { act } from "react";
@@ -600,5 +601,35 @@ export const handleGetAllSpecialtySuccess = (data) => ({
 
 export const handleGetAllSpecialtyFailed = () => ({
   type: actionTypes.GET_ALL_SPECIALTY_FAILED
+})
+
+
+
+export const handleCreateInforClinic = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let response = await createInfoClinic(data);
+      console.log("Check response: ", response);
+      if (response && response.errCode === 0) {
+        dispatch(handleCreateInforClinicSuccess());
+        toast.success("Add Information Clinic Success");
+
+      } else {
+        dispatch(handleCreateInforClinicFailed());
+      }
+    } catch (e) {
+      dispatch(handleCreateInforClinicFailed());
+      console.log("create infor Clinic: ", e);
+    }
+  };
+}
+
+export const handleCreateInforClinicSuccess = () => ({
+  type: actionTypes.CREATE_INFOR_CLINIC_SUCCESS
+});
+
+export const handleCreateInforClinicFailed = () => ({
+  type: actionTypes.CREATE_INFOR_CLINIC_FAILED
+
 })
 

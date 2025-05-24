@@ -19,7 +19,8 @@ class ClinicManage extends Component {
         this.fileInputRef = React.createRef();
         this.coverInputRef = React.createRef();
         this.state = {
-            nameSpecialty: "",
+            nameClinic: "",
+            addressClinic: "",
             previewImgURL: "",
             isOpenPreview: false,
             avatar: "",
@@ -91,7 +92,7 @@ class ClinicManage extends Component {
 
     checkValidateInput = () => {
         let isValid = true;
-        const requiredFields = ["nameSpecialty", "contentMarkdown"];
+        const requiredFields = ["nameClinic", "contentMarkdown", "addressClinic"];
 
         for (let i = 0; i < requiredFields.length; i++) {
             if (!this.state[requiredFields[i]]) {
@@ -108,14 +109,16 @@ class ClinicManage extends Component {
         const isValid = this.checkValidateInput();
         if (isValid) {
             console.log("Check state: ", this.state)
-            await this.props.handleCreateInforSpecialty({
-                nameSpecialty: this.state.nameSpecialty,
+            await this.props.handleCreateInforClinic({
+                nameClinic: this.state.nameClinic,
+                addressClinic: this.state.addressClinic,
                 contentHTML: this.state.contentHTML,
                 contentMarkdown: this.state.contentMarkdown,
                 avatar: this.state.avatar
             })
             this.setState({
-                nameSpecialty: "",
+                nameClinic: "",
+                addressClinic: "",
                 previewImgURL: "",
                 contentMarkdown: "",
                 contentHTML: ""
@@ -143,7 +146,7 @@ class ClinicManage extends Component {
     };
 
     render() {
-        let { previewImgURL, nameSpecialty, contentMarkdown } = this.state;
+        let { previewImgURL, nameClinic, contentMarkdown, addressClinic } = this.state;
         const { language } = this.props;
 
         return (
@@ -307,11 +310,25 @@ class ClinicManage extends Component {
                                             </label>
                                             <input
                                                 type="text"
-                                                name="nameSpecialty"
+                                                name="nameClinic"
                                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
-                                                placeholder="Enter specialty name"
-                                                value={nameSpecialty}
-                                                onChange={(event) => this.handleOnChangeInput(event, "nameSpecialty")}
+                                                placeholder="Enter name clinic"
+                                                value={nameClinic}
+                                                onChange={(event) => this.handleOnChangeInput(event, "nameClinic")}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                <FormattedMessage id="manage-clinic.address" />
+                                                <span className="text-red-500">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="addressClinic"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                                                placeholder="Enter address clinic"
+                                                value={addressClinic}
+                                                onChange={(event) => this.handleOnChangeInput(event, "addressClinic")}
                                             />
                                         </div>
                                     </div>
@@ -331,7 +348,7 @@ class ClinicManage extends Component {
                                         renderHTML={text => mdParser.render(text)}
                                         onChange={this.handleEditorChange}
                                         value={contentMarkdown}
-                                        placeholder="Enter detailed description about this specialty..."
+                                        placeholder="Enter detailed description about this clinic..."
                                     />
                                 </div>
                             </div>
@@ -371,7 +388,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleCreateInforSpecialty: (data) => dispatch(actions.handleCreateInforSpecialty(data))
+        handleCreateInforClinic: (data) => dispatch(actions.handleCreateInforClinic(data))
     };
 };
 
