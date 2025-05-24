@@ -415,13 +415,14 @@ export const handleCreateSchedulesFailed = () => ({
   type: actionTypes.CREATE_SCHEDULES_FAILED,
 });
 
-export const handleGetScheduleByDate = (doctorID, date) => {
+export const handleGetScheduleByDate = (doctorID) => {
   return async (dispatch, getState) => {
     try {
-      let response = await getScheduleByDate(doctorID, date);
+      let response = await getScheduleByDate(doctorID);
       console.log("Check response: ", response);
       if (response && response.errCode === 0) {
         dispatch(hanleGetScheduleByDateSuccess(response.data));
+        return response.data;
       } else {
         dispatch(hanleGetScheduleByDateFailed());
       }
