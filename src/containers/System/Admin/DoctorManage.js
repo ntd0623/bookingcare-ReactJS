@@ -59,7 +59,7 @@ class DoctorManage extends Component {
         provinceID: this.state.selectedProvince.value,
         paymentID: this.state.selectedPayment.value,
         specialtyID: this.state.selectedSepcialty.value,
-        clinicID: this.state.selectedClinic,
+        clinicID: this.state.selectedClinic.value,
         addressClinic: this.state.addressClinic,
         nameClinic: this.state.nameClinic,
         note: this.state.note,
@@ -93,7 +93,7 @@ class DoctorManage extends Component {
         provinceID: this.state.selectedProvince.value,
         paymentID: this.state.selectedPayment.value,
         specialtyID: this.state.selectedSepcialty.value,
-        clinicID: this.state.selectedClinic,
+        clinicID: this.state.selectedClinic.value,
         addressClinic: this.state.addressClinic,
         nameClinic: this.state.nameClinic,
         note: this.state.note,
@@ -122,7 +122,7 @@ class DoctorManage extends Component {
     let content = await this.props.getDetailInfoDoctorById(
       selectedDoctor.value
     );
-    let { prices, paymentMethods, provinces, specialties } = this.state;
+    let { prices, paymentMethods, provinces, specialties, clinics } = this.state;
     let nameClinic = "",
       addressClinic = "",
       note = "",
@@ -149,6 +149,9 @@ class DoctorManage extends Component {
         selectedSepcialty = specialties.find((item) => {
           return item.value === content.Doctor_Info.specialtyID;
         });
+        selectedClinic = clinics.find((item) => {
+          return item.value === content.Doctor_Info.clinicID;
+        });
       }
       this.setState({
         action: CRUD_ACTIONS.EDIT,
@@ -162,7 +165,8 @@ class DoctorManage extends Component {
         selectedPrice: selectedPrice,
         selectedPayment: selectedPayment,
         selectedProvince: selectedProvince,
-        selectedSepcialty: selectedSepcialty
+        selectedSepcialty: selectedSepcialty,
+        selectedClinic: selectedClinic
       });
     } else {
       this.setState({
@@ -170,6 +174,7 @@ class DoctorManage extends Component {
         contentMarkdown: "",
         contentHTML: "",
         description: "",
+
       });
     }
   };
@@ -177,7 +182,7 @@ class DoctorManage extends Component {
   handleChangeSelectedInput = async (selectedInput, name) => {
     let stateName = name.name;
     let coppyState = { ...this.state };
-    coppyState[stateName] = selectedInput;
+    coppyState[stateName] = selectedInput || null;
     this.setState({
       ...coppyState,
     });
@@ -197,6 +202,7 @@ class DoctorManage extends Component {
     this.props.getPaymentMedthod();
     this.props.getProvince();
     this.props.getAllSpecialty();
+    this.props.getAllClinic();
     this.setState({
       action: CRUD_ACTIONS.ADD,
       selectedDoctor: "",
@@ -242,6 +248,14 @@ class DoctorManage extends Component {
         });
       }
       if (type === "SPECIALTIES") {
+        listItem.map((item, index) => {
+          let obj = {};
+          obj.label = item.name;
+          obj.value = item.id;
+          lisItemArr.push(obj);
+        })
+      }
+      if (type === "CLINICS") {
         listItem.map((item, index) => {
           let obj = {};
           obj.label = item.name;
@@ -309,6 +323,19 @@ class DoctorManage extends Component {
       );
       this.setState({
         specialties: specialties,
+      });
+    }
+
+    if (
+      prevProps.clinics !== this.props.clinics ||
+      prevProps.language !== this.props.language
+    ) {
+      let clinics = this.buildChangeLanguage(
+        this.props.clinics,
+        "CLINICS"
+      );
+      this.setState({
+        clinics: clinics,
       });
     }
   };
@@ -611,7 +638,8 @@ const mapStateToProps = (state) => {
     prices: state.admin.prices,
     paymentMethods: state.admin.paymentMethods,
     provinces: state.admin.provinces,
-    specialties: state.admin.listSpecialty
+    specialties: state.admin.listSpecialty,
+    clinics: state.admin.clinics
   };
 };
 
@@ -627,7 +655,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getPriceMedicalExamination()),
     getPaymentMedthod: () => dispatch(actions.getPaymentMedthod()),
     getProvince: () => dispatch(actions.getProvince()),
-    getAllSpecialty: () => dispatch(actions.handleGetAllSpecialty())
+    getAllSpecialty: () => dispatch(actions.handleGetAllSpecialty()),
+    getAllClinic: () => dispatch(actions.handleGetAllClinic())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorManage);
