@@ -225,7 +225,7 @@ class DoctorsApointmentSchedule extends Component {
             isOpen={this.state.isOpen}
             closeModal={this.handleOnClose}
             dataTime={dataTime}
-            loading={this.state.isLoading}
+            loading={this.loading}
           />
         </LoadingOverlay>
       </React.Fragment>
