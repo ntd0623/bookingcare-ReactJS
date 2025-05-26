@@ -221,7 +221,6 @@ class DoctorsApointmentSchedule extends Component {
           spinner
           text='Loading...'
         >
-
           <BookingModal
             isOpen={this.state.isOpen}
             closeModal={this.handleOnClose}
