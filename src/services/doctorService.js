@@ -1,6 +1,7 @@
 const { where } = require("sequelize");
 const db = require("../models/index");
 const { raw } = require("body-parser");
+import { sendEmailInvoice } from "./emailService";
 import _, { includes } from "lodash";
 let getTopDoctorHome = (limit) => {
   return new Promise(async (resolve, reject) => {
@@ -124,6 +125,7 @@ let createInfoDoctor = (dataInput) => {
             addressClinic: dataInput.addressClinic,
             nameClinic: dataInput.nameClinic,
             specialtyID: dataInput.specialtyID,
+            clinicID: dataInput.clinicID,
             note: dataInput.note,
           });
         } else {
@@ -135,6 +137,7 @@ let createInfoDoctor = (dataInput) => {
               addressClinic: dataInput.addressClinic,
               nameClinic: dataInput.nameClinic,
               specialtyID: dataInput.specialtyID,
+              clinicID: dataInput.clinicID,
               note: dataInput.note,
             },
             {
@@ -277,6 +280,7 @@ let handleUpdateContentMarkdown = (dataInput) => {
               description: dataInput.description,
               doctorID: dataInput.doctorID,
               specialtyID: dataInput.specialtyID,
+              clinicID: dataInput.clinicID,
             },
             {
               where: { id: dataInput.id },
@@ -293,6 +297,7 @@ let handleUpdateContentMarkdown = (dataInput) => {
             provinceID: dataInput.provinceID,
             paymentID: dataInput.paymentID,
             specialtyID: dataInput.specialtyID,
+            clinicID: dataInput.clinicID,
             addressClinic: dataInput.addressClinic,
             nameClinic: dataInput.nameClinic,
             note: dataInput.note,
@@ -305,6 +310,7 @@ let handleUpdateContentMarkdown = (dataInput) => {
               paymentID: dataInput.paymentID,
               addressClinic: dataInput.addressClinic,
               specialtyID: dataInput.specialtyID,
+              clinicID: dataInput.clinicID,
               nameClinic: dataInput.nameClinic,
               note: dataInput.note,
             },
@@ -521,6 +527,109 @@ let handleGetProfileDoctor = (doctorID) => {
     }
   });
 };
+
+let getInfoPatient = (doctorID, date) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!doctorID || !date) {
+        resolve({
+          errCode: -2,
+          message: "Missing parameter !"
+        })
+      } else {
+        let data = await db.Bookings.findAll({
+          where: {
+            doctorID: doctorID,
+            statusID: "S2",
+            date: date
+          },
+          attributes: {
+            exclude: ["access_token"]
+          },
+          include: [
+            {
+              model: db.User,
+              as: "patientData",
+              attributes: ["email", "firstName", "lastName", "address", "gender", "phoneNumber"],
+              include: [
+                {
+                  model: db.Allcodes,
+                  as: "genderData",
+                  attributes: ['value_VI', 'value_EN']
+                }
+              ]
+            },
+            {
+              model: db.Allcodes,
+              as: "timetypeData",
+              attributes: ['value_VI', 'value_EN']
+            },
+            {
+              model: db.Allcodes,
+              as: "timetypeData",
+              attributes: ["value_VI", "value_EN"],
+            },
+            {
+              model: db.Doctor_Info,
+              as: "priceData",
+              attributes: ["priceID"], // Lấy priceID
+              include: [
+                {
+                  model: db.Allcodes,
+                  as: "priceData",
+                  attributes: ["value_VI", "value_EN"], // Giá trị tiền khám
+                },
+              ],
+            },
+          ]
+        })
+        resolve({
+          errCode: 0,
+          data
+        })
+      }
+
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+let handleSendInvoice = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+
+      if (!data.doctorID || !data.patientID || !data.timeType) {
+        resolve({
+          errCode: 2,
+          message: "Missing parameter !"
+        })
+      } else {
+        let appointment = await db.Bookings.findOne({
+          where: {
+            doctorID: data.doctorID,
+            patientID: data.patientID,
+            timeType: data.timeType,
+            statusID: "S2"
+          },
+          raw: false
+        })
+        if (appointment) {
+          appointment.statusID = "S3";
+          await appointment.save();
+          sendEmailInvoice(data)
+          resolve({
+            errCode: 0,
+            message: "Update status booking successfully!"
+          });
+        }
+      }
+
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctorService: getAllDoctorService,
@@ -532,4 +641,6 @@ module.exports = {
   handleGetScheduleByDate: handleGetScheduleByDate,
   handleGetDoctorInfo: handleGetDoctorInfo,
   handleGetProfileDoctor: handleGetProfileDoctor,
+  getInfoPatient: getInfoPatient,
+  handleSendInvoice: handleSendInvoice
 };

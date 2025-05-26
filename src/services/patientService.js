@@ -86,7 +86,7 @@ let handleVerifyBookingPatient = (data) => {
         })
         if (appoiment) {
           await appoiment.update({
-            statusID: "R2"
+            statusID: "S2"
           })
           resolve({
             errCode: 0,
