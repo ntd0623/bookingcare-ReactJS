@@ -47,30 +47,32 @@ class Header extends Component {
           <Navigator menus={this.state.menu} />
         </div>
 
-        <div className="languages">
+        <div className="flex items-center justify-end gap-4 text-white pr-4 h-full">
           <span className="welcome">
-            <FormattedMessage id="home-header.welcome"></FormattedMessage>{" "}
-            {userInfo && userInfo.firstName ? userInfo.firstName : ""}
+            <FormattedMessage id="home-header.welcome" />{" "}
+            {userInfo && userInfo.firstName && userInfo.lastName ? (
+              language === 'vi'
+                ? `${userInfo.firstName} ${userInfo.lastName}`
+                : `${userInfo.lastName} ${userInfo.firstName}`
+            ) : ""} !
           </span>
+
           <span
-            className={
-              language === LANGUAGES.VI ? "language-VI active" : "language-VI"
-            }
+            className={`cursor-pointer ${language === LANGUAGES.VI ? "font-bold underline" : "opacity-70"}`}
             onClick={() => this.handleChangeLanguage(LANGUAGES.VI)}
           >
             VN
           </span>
+
           <span
-            className={
-              language === LANGUAGES.EN ? "language-EN active" : "language-EN"
-            }
+            className={`cursor-pointer ${language === LANGUAGES.EN ? "font-bold underline" : "opacity-70"}`}
             onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}
           >
             EN
           </span>
-          {/* nút logout */}
+
           <div
-            className="btn btn-logout"
+            className="ml-2 cursor-pointer hover:text-gray-200"
             onClick={processLogout}
             title="Log out"
           >
