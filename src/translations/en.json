@@ -47,7 +47,9 @@
             "handbook-manage": "Manage HandBook"
         },
         "doctor": {
-            "manage-schedule": "Manage Schedule"
+            "manage-schedule": "Manage Schedule",
+            "manage-patient": "Manage Patient"
+
         }
     },
     "manage-user": {
@@ -158,5 +160,20 @@
         "upload-cover": "Up load a file",
         "upload-cover-support": "or drag and drop",
         "address": "Address Clinic"
+    },
+    "manage-patient":{
+        "title": "Manage Patient",
+        "no": "No",
+        "time":"Time",
+        "name": "Full Name",
+        "gender":"Gender",
+        "phone": "Phone Number",
+        "reason":"Reason",
+        "action":"Action",
+        "address":"Address",
+        "confirm":"Confirm",
+        "send":"Send",
+        "cancel": "Cancel"
+
     }
 }

@@ -100,6 +100,17 @@ const getAllClinic = () => {
 const getClinicByID = (data) => {
   return axios.get(`/api/get-clinic-by-id?id=${data.id}`);
 }
+
+
+const getInfoPatient = (doctorID, date) => {
+  const encodedDate = date.replace(' ', '%20');;
+  return axios.get(`/api/get-patient-for-doctor?doctorID=${doctorID}&date=${encodedDate}`);
+}
+
+const sendInvoicePrescription = (data) => {
+  return axios.post(`/api/send-invoice-perscription`, data);
+
+}
 export {
   handleLoginAPI,
   getAllUsers,
@@ -124,5 +135,7 @@ export {
   getSpecialtyByID,
   createInfoClinic,
   getAllClinic,
-  getClinicByID
+  getClinicByID,
+  getInfoPatient,
+  sendInvoicePrescription
 };

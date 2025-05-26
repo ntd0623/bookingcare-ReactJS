@@ -8,6 +8,7 @@ import moment from "moment/moment";
 import localization from "moment/locale/vi";
 import { LANGUAGES } from "../../../../utils/constant";
 import BookingModal from "./BookingModal";
+import LoadingOverlay from 'react-loading-overlay';
 
 class DoctorsApointmentSchedule extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class DoctorsApointmentSchedule extends Component {
       allTimes: [],
       isOpen: false,
       dataTime: {},
+      isLoading: false
     };
   }
 
@@ -146,6 +148,11 @@ class DoctorsApointmentSchedule extends Component {
     });
   };
 
+  loading = () => {
+    this.setState({
+      isLoading: !this.state.isLoading
+    })
+  }
   render() {
     let { allDays, selectedDate, allTimes, dataTime } = this.state;
     let { language } = this.props;
@@ -209,11 +216,19 @@ class DoctorsApointmentSchedule extends Component {
             </span>
           </div>
         </div>
-        <BookingModal
-          isOpen={this.state.isOpen}
-          closeModal={this.handleOnClose}
-          dataTime={dataTime}
-        />
+        <LoadingOverlay
+          active={this.state.isLoading}
+          spinner
+          text='Loading...'
+        >
+
+          <BookingModal
+            isOpen={this.state.isOpen}
+            closeModal={this.handleOnClose}
+            dataTime={dataTime}
+            loading={this.loading}
+          />
+        </LoadingOverlay>
       </React.Fragment>
     );
   }

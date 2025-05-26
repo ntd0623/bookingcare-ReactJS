@@ -45,7 +45,8 @@
             "handbook-manage": "Quản lý cẩm nang"
         },
         "doctor": {
-            "manage-schedule": "Quản lý lịch khám bệnh"
+            "manage-schedule": "Quản lý lịch khám bệnh",
+            "manage-patient": "Quản lý bệnh nhân"
         }
     },
     "manage-user": {
@@ -150,5 +151,19 @@
         "upload-cover-support": "hoặc kéo và thả",
         "address": "Địa chỉ phòng khám"
         
+    },
+    "manage-patient":{
+        "title": "Quản Lý Bệnh Nhân",
+        "no": "Số thứ tự",
+        "name": "Họ và tên",
+        "time":"Giờ khám",
+        "gender":"Giới tính",
+        "phone": "Số điện thoại",
+        "reason":"Lý do khám",
+        "action":"Hành động",
+        "address":"Địa chỉ",
+        "confirm":"Xác Nhận",
+        "send":"Gửi",
+        "cancel":"Hủy"
     }
 }

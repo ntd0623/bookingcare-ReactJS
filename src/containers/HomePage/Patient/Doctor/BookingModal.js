@@ -109,6 +109,7 @@ class BookingModal extends Component {
     let { dataTime } = this.state;
     let { language } = this.props;
     let data = this.builDataBooking(dataTime);
+    this.props.loading();
     let res = await createPatientInfo({
       doctorID: dataTime.id,
       date: dataTime.date,
@@ -125,6 +126,7 @@ class BookingModal extends Component {
       language: language
     });
     if (res && res.errCode === 0) {
+      this.props.loading();
       toast.success("Thêm Thông Tin Bệnh Nhân Thành Công");
       this.props.closeModal();
     } else {
