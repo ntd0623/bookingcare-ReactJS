@@ -1,8 +1,9 @@
 div._loading_overlay_wrapper {
     position: unset;
     z-index : 10000;
-    width   : 100vh !important;
+    width   : 100vw !important;
     height  : 100vh !important;
+    display : contents;
 }
 
 .schedule-container {

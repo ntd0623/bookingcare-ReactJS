@@ -221,12 +221,11 @@ class DoctorsApointmentSchedule extends Component {
           spinner
           text='Loading...'
         >
-
           <BookingModal
             isOpen={this.state.isOpen}
             closeModal={this.handleOnClose}
             dataTime={dataTime}
-            loading={this.loading}
+            loading={this.state.isLoading}
           />
         </LoadingOverlay>
       </React.Fragment>
