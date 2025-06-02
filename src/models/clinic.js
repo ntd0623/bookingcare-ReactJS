@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Clinics",
+      freezeTableName: true,           // không để Sequelize tự đổi tên
+      tableName: "clinics",
     }
   );
   return Clinics;

@@ -77,15 +77,17 @@ let handleVerifyBookingPatient = (data) => {
           message: "Missing parameter !",
         });
       } else {
-        let appoiment = await db.Bookings.findOne({
+        let appointment = await db.Bookings.findOne({
           where: {
             doctorID: data.doctorID,
             access_token: data.access_token,
             statusID: "S1"
           },
+          raw: false
         })
-        if (appoiment) {
-          await appoiment.update({
+        console.log("Check appointment: ", appointment)
+        if (appointment) {
+          await appointment.update({
             statusID: "S2"
           })
           resolve({

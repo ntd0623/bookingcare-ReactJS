@@ -87,7 +87,9 @@ let handleGetSpecialtyByID = (inputID, location) => {
                                 }
                             ]
                         }
-                    ]
+                    ],
+                    raw: false
+
                 });
             } else {
                 data = await db.Specialty.findAll({
@@ -103,7 +105,9 @@ let handleGetSpecialtyByID = (inputID, location) => {
                             where: { provinceID: location },
                             required: false,
                         }
-                    ]
+                    ],
+                    raw: false
+
                 });
             }
             resolve({

@@ -74,6 +74,7 @@ let getAllUsers = (userId) => {
           attributes: {
             exclude: ["password"],
           },
+          raw: false
         });
       }
       if (userId && userId !== "ALL") {
@@ -199,6 +200,7 @@ let getAllCodeService = (typeInput) => {
       let res = {};
       let allcode = await db.Allcodes.findAll({
         where: { type: typeInput },
+        raw: false
       });
 
       res.errCode = 0;

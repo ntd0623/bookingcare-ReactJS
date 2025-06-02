@@ -39,6 +39,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Bookings",
+      freezeTableName: true,   // Không đổi tên bảng
+      tableName: "bookings",   // Trùng khớp với bảng thật trong DB
     }
   );
   return Bookings;

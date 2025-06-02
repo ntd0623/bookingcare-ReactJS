@@ -64,6 +64,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Allcodes",
+      freezeTableName: true,     // Giữ nguyên tên bảng
+      tableName: "allcodes",     // Đúng với tên bảng trong MySQL
     }
   );
   return Allcodes;

@@ -29,7 +29,19 @@ let getTopDoctorHome = (limit) => {
             as: "genderData",
             attributes: ["value_VI", "value_EN"],
           },
+          {
+            model: db.Doctor_Info,
+            attributes: ["specialtyID"],
+            include: [
+              {
+                model: db.Specialty,
+                as: "specialtyData"
+              }
+            ]
+          },
+
         ],
+        raw: false,
       });
       resolve(doctor);
     } catch (e) {
@@ -51,18 +63,22 @@ let getAllDoctorService = () => {
             model: db.Allcodes,
             as: "roleData",
             attributes: ["value_VI", "value_EN"],
+
           },
           {
             model: db.Allcodes,
             as: "positionData",
             attributes: ["value_VI", "value_EN"],
+
           },
           {
             model: db.Allcodes,
             as: "genderData",
             attributes: ["value_VI", "value_EN"],
+
           },
         ],
+        raw: false
       });
       resolve(doctors);
     } catch (e) {
@@ -212,9 +228,18 @@ let getInfoDoctor = (id) => {
                   attributes: ["key", "value_VI", "value_EN"],
                 },
               ],
+              raw: false
+
             },
           ],
+          raw: false,
         });
+        if (!info) {
+          resolve({
+            errCode: 3,
+            message: "Doctor not found",
+          });
+        }
         if (info && info.image) {
           info.image = new Buffer(info.image, "base64").toString("binary");
         }
@@ -342,7 +367,7 @@ let handleCreateSchedules = (data) => {
         let existingTime = await db.Schedule.findAll({
           where: { doctorID: data[0].doctorID, date: data[0].date },
           attributes: ["maxNumber", "date", "timeType", "doctorID"],
-          raw: true,
+          raw: false,
         });
         if (existingTime && existingTime.length > 0) {
           existingTime = existingTime.map((item) => {
@@ -379,6 +404,7 @@ let handleGetScheduleByDate = (doctorID) => {
       } else {
         let schedule = await db.Schedule.findAll({
           where: { doctorID: doctorID },
+          raw: false,
           include: [
             {
               model: db.Allcodes,
@@ -444,6 +470,7 @@ let handleGetDoctorInfo = (doctorID) => {
             attributes: ["key", "value_VI", "value_EN"],
           },
         ],
+        raw: false
       });
       resolve({
         errCode: 0,
@@ -513,6 +540,7 @@ let handleGetProfileDoctor = (doctorID) => {
               ],
             },
           ],
+          raw: false
         });
         if (info && info.image) {
           info.image = new Buffer(info.image, "base64").toString("binary");
@@ -543,6 +571,7 @@ let getInfoPatient = (doctorID, date) => {
             statusID: "S2",
             date: date
           },
+          raw: false,
           attributes: {
             exclude: ["access_token"]
           },
@@ -581,7 +610,9 @@ let getInfoPatient = (doctorID, date) => {
                 },
               ],
             },
-          ]
+          ],
+          raw: false
+
         })
         resolve({
           errCode: 0,

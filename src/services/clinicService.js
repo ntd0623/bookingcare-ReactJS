@@ -40,7 +40,8 @@ let handleCreateInfo = (data) => {
 let handleGetAllClinic = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let data = await db.Clinics.findAll();
+            let data = await db.Clinics.findAll({
+            });
             if (data && data.length > 0) {
                 data.map((item, index) => {
                     item.image = new Buffer(item.image, "base64").toString("binary");
@@ -79,7 +80,8 @@ let handleGetClinicByID = (inputID) => {
                         as: "clinicData",
                         attributes: ["doctorID"],
                     }
-                ]
+                ],
+                raw: false
             });
             resolve({
                 errCode: 0,

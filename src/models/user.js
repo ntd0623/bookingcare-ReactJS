@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: "id",
         as: "patientData",
       });
+      
     }
   }
   User.init(
@@ -58,6 +59,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "User",
+      freezeTableName: true,
+      tableName: "users",
     }
   );
 

@@ -1,10 +1,32 @@
 const { Sequelize } = require("sequelize");
+require('dotenv').config();
 
-const sequelize = new Sequelize("dohocit", "root", null, {
-  host: "localhost",
-  dialect: "mysql",
-  logging: false,
-});
+const sequelize = new Sequelize(
+  process.env.DB_DATABASE_NAME,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
+
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT,
+    logging: false,
+    query: {
+      "raw": true
+    },
+    timezone: "+07:00",
+    dialectOptions: {
+      charset: 'utf8mb4',
+      // Đôi khi thêm đây để ép chuẩn mã hóa
+      supportBigNumbers: true,
+      bigNumberStrings: true
+    },
+    define: {
+      charset: 'utf8mb4',
+      collate: 'utf8mb4_unicode_ci',
+    },
+
+  });
 
 let connectDB = async () => {
   try {
