@@ -6,6 +6,8 @@ import { LANGUAGES, USER_ROLE } from "../../utils/constant";
 import { changeLanguage } from "../../store/actions";
 import { adminMenu, doctorMenu } from "./menuApp";
 import { FormattedMessage } from "react-intl";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import "./Header.scss";
 import _ from "lodash";
 
@@ -76,7 +78,7 @@ class Header extends Component {
             onClick={processLogout}
             title="Log out"
           >
-            <i className="fas fa-sign-out-alt"></i>
+            <FontAwesomeIcon icon={faRightFromBracket} /> Đăng xuất
           </div>
         </div>
       </div>

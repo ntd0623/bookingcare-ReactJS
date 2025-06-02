@@ -1,18 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "react-toastify/dist/ReactToastify.css";
-
-import "./styles/tailwind.css";
-import "./containers/App.scss";
-
 import App from "./containers/App";
 import * as serviceWorker from "./serviceWorker";
 import IntlProviderWrapper from "./hoc/IntlProviderWrapper";
-
 import { Provider } from "react-redux";
 import reduxStore, { persistor } from "./redux";
 import * as actions from "./store/actions";
-
+import './styles/tailwind.css';
+import './styles/common.scss';
 window.addEventListener("storage", (event) => {
   if (event.key === "language") {
     const newLanguage = event.newValue;

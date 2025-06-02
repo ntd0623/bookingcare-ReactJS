@@ -19,7 +19,8 @@
     "homePage":{
         "outStandingDoctor": "Bác Sĩ Nổi Bật Tuần Qua",
         "seeMore": "Xem Thêm",
-        "popular-specialties":"Chuyên Khoa Phổ Biến"
+        "popular-specialties":"Chuyên Khoa Phổ Biến",
+        "facility-outstanding":"Cơ Sơ Y Tế Nổi Bật"
     },
     "check-up-package":{
         "telemedicine":"Khám\ntừ xa",
