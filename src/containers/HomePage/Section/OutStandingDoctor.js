@@ -79,7 +79,7 @@ class OutStandingDoctor extends Component {
                             )}
                             , {item.firstName} {item.lastName}
                           </div>
-                          <div>{item.Doctor_Info.specialtyData.name}</div>
+                          <div>{item.Doctor_Info?.specialtyData?.name}</div>
                         </div>
                       </div>
                     </div>
